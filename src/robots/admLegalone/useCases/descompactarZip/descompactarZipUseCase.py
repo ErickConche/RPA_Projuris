@@ -1,4 +1,5 @@
 
+import os
 from random import randint
 from typing import List
 import zipfile
@@ -28,7 +29,7 @@ class DescompactarZipUseCase:
                     with open(nome_arquivo, 'wb') as arquivo_destino:
                         arquivo_destino.write(conteudo_arquivo)
                     list_names.append(nome_arquivo)
-
+            os.remove(self.name_file_zip)
             return list_names
         except Exception as error:
             message = f"Erro ao descompactar arquivos secundarios"
