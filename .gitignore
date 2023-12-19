@@ -1,0 +1,16 @@
+arquivos/
+
+.env
+__pycache__
+.vscode
+
+Orator.py
+sheets_cache/*
+certificates_cache/*
+*.pdf
+*.png
+*.jpg
+*.zip
+venv/*
+env/*
+log.txt
