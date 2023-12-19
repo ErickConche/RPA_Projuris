@@ -17,17 +17,17 @@ from typing import List
 from threading import Thread
 
 def main(
-    json_recebido,
-    task_id,
-    identifier_tenant,
-    queue
+    json_recebido:str,
+    task_id:str,
+    identifier_tenant:str,
+    queue:str
 ):
     con_rd = create_con_pg(
-                host=os.getenv("HOSTRD"),
-                port=os.getenv("PORTRD"),
-                database=os.getenv("DBRD"),
-                user=os.getenv("USERRD"),
-                password=os.getenv("PASSRD")
+        host=os.getenv("HOSTRD"),
+        port=os.getenv("PORTRD"),
+        database=os.getenv("DBRD"),
+        user=os.getenv("USERRD"),
+        password=os.getenv("PASSRD")
     ).get_connect()
     try:
         class_cliente = Cliente(con=con_rd)

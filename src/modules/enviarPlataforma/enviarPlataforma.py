@@ -26,9 +26,9 @@ class EnviarPlataforma:
     def execute(self):
         data_return = {
             'TaskId':self.task_id,
-            'Tenant': self.tenant ,
+            'Tenant': self.tenant,
             'ResultsFields': self.data,
-            'Error':error
+            'Error':self.error
         }
         server_address = os.environ.get('RABBIT_CONNECTION')
         connection = pika.BlockingConnection(pika.URLParameters(server_address))

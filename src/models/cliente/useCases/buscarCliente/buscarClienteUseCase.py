@@ -23,7 +23,7 @@ class BuscarClienteUseCase:
             df.replace({numpy.NaN: None}, inplace=True)
             df = df.to_dict(orient='records')
             return_sistem: ClienteModel = ClienteModel(
-                nomeconfig_add=df[0]['nomecliente'],
+                nome=df[0]['nome'],
                 tenant=df[0]['tenant'],
                 config_add=df[0]['config_add']
             )
