@@ -3,6 +3,7 @@ import time
 from typing import List
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 from modules.logger.Logger import Logger
+from robots.admLegalone.useCases.acessarPaginaUpload.acessarPaginaUploadUseCase import AcessarPaginaUploadUseCase
 
 class UploadArquivoUseCase:
     def __init__(
@@ -21,6 +22,10 @@ class UploadArquivoUseCase:
 
     def execute(self):
         try:
+            AcessarPaginaUploadUseCase(
+                page=self.page,
+                classLogger=self.classLogger
+            ).execute()
             if len(self.list_files)<=0:
                 with self.page.expect_file_chooser() as fc_info:
                     self.page.locator('input[title="file input"]').click()
