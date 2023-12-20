@@ -27,6 +27,8 @@ class InserirArquivosUseCase:
 
     def execute(self):
         try:
+            message = "Salvando arquivo principal"
+            self.classLogger.message(message)
             url_file_main = self.arquivo_principal
             name_file_main = DownloadS3(url=url_file_main).execute()
             UploadArquivoUseCase(
@@ -36,7 +38,11 @@ class InserirArquivosUseCase:
                 file_main=True,
                 list_files=[]
             ).execute()
-            if self.arquivos_secundarios != "" and self.arquivos_secundarios != None:
+            message = "Arquivo principal salvo"
+            self.classLogger.message(message)
+            if self.arquivos_secundarios != "" and self.arquivos_secundarios != "nada" and self.arquivos_secundarios != None:
+                message = "Salvando arquivos secundarios"
+                self.classLogger.message(message)
                 self.page.goto(self.url_pasta)
                 url_file_secundary = self.arquivos_secundarios
                 name_file_secundary = DownloadS3(url=url_file_secundary).execute()
@@ -60,6 +66,8 @@ class InserirArquivosUseCase:
                         file_main=False,
                         list_files=[]
                     ).execute()
+                message = "Arquivos secundarios salvos"
+                self.classLogger.message(message)
 
         except Exception as error:
             raise Exception("Erro ao realizar o upload dos arquivos")

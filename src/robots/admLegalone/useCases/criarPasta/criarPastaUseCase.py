@@ -75,16 +75,19 @@ class CriarPastaUseCase:
                 classLogger=self.classLogger
             ).execute()
 
+            ## Salvando formulario
+            self.page.click('button[name="ButtonSave"][value="0"]')
+            time.sleep(15)
+
+            message = "Pasta inserida. Aguarde enquanto buscamos o número gerado e fazemos o upload dos arquivos."
+            self.classLogger.message(message)
+
             response = ValidarPastaUseCase(
                 page=self.page,
                 nome_envolvido=self.data_input.nome_envolvido,
                 numero_reclamacao=self.data_input.numero_reclamacao,
                 classLogger=self.classLogger
             ).execute()
-
-            ## Salvando formulario
-            self.page.click('button[name="ButtonSave"][value="0"]')
-            time.sleep(15)
 
             ###Inserir arquivos
             InserirArquivosUseCase(
@@ -96,6 +99,10 @@ class CriarPastaUseCase:
                 url_pasta=response.url_pasta,
                 classLogger=self.classLogger
             ).execute()
+
+            message = "Fim da execução da criação da pasta e upload dos arquivos"
+            self.classLogger.message(message)
+
             
             return response
         except Exception as error:

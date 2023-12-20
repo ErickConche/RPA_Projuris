@@ -97,6 +97,8 @@ class AdmLegalone:
                         classLogger=self.classLogger
                     ).execute()
                     raise error
+                
+                browser.close()
 
         except Exception as error:
             message = f"Erro: {error}"

@@ -24,7 +24,9 @@ class DownloadS3:
         response = requests.get(url=self.url,headers=headers)
         infos_split = self.url.split("/")
         name_file = infos_split[len(infos_split)-1]
-        extension_file = name_file.split(".")[1]
-        name_file = f'{name_file.split(".")[0]}_{randint(10000,5000000)}.{extension_file}'
+        posicao_do_ultimo_ponto = name_file.rfind('.')
+        nome_arquivo_sem_extensao= name_file[:posicao_do_ultimo_ponto]
+        extensao = name_file[posicao_do_ultimo_ponto + 1:]
+        name_file = f"{nome_arquivo_sem_extensao}_{randint(50000,1000000)}.{extensao}"
         open(name_file, "wb").write(response.content)
         return name_file

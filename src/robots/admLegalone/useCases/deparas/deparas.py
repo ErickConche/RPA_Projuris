@@ -21,6 +21,7 @@ class Deparas:
     def depara_tipo_processo(tipoprocesso):
         depara = {
             "C.I.P.":"3",
+            "C.I.P":"3",
             "F.A.":"4",
             "Processo Administrativo":"6",
             "Reclamação":"5",

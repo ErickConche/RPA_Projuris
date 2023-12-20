@@ -1,5 +1,6 @@
 import json
 import time
+from unidecode import unidecode
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
 
@@ -37,7 +38,7 @@ class BuscarDadosUfUseCase:
             ### Insere os resultados no banco
 
             for row in json_response.get('Rows'):
-                if row.get("Value") == self.uf:
+                if unidecode(row.get("Value")) == unidecode(self.uf):
                     return row
 
             raise Exception ("UF não encontrada")

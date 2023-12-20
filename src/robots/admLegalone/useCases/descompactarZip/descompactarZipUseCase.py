@@ -24,7 +24,10 @@ class DescompactarZipUseCase:
                 for nome_arquivo in nomes_arquivos:
                     # Lê o conteúdo do arquivo
                     conteudo_arquivo = zip_ref.read(nome_arquivo)
-                    nome_arquivo = f"{nome_arquivo.split('.')[0]}_{randint(50000,1000000)}.{nome_arquivo.split('.')[1]}"
+                    posicao_do_ultimo_ponto = nome_arquivo.rfind('.')
+                    nome_arquivo_sem_extensao= nome_arquivo[:posicao_do_ultimo_ponto]
+                    extensao = nome_arquivo[posicao_do_ultimo_ponto + 1:]
+                    nome_arquivo = f"{nome_arquivo_sem_extensao}_{randint(50000,1000000)}.{extensao}"
                     # Salva o arquivo
                     with open(nome_arquivo, 'wb') as arquivo_destino:
                         arquivo_destino.write(conteudo_arquivo)

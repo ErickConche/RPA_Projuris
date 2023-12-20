@@ -2,6 +2,7 @@ import json
 import time
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
+from unidecode import unidecode
 
 from modules.logger.Logger import Logger
 
@@ -58,7 +59,7 @@ class BuscarDadosCidadeUseCase:
                 ### Insere os resultados no banco
 
                 for row in json_response.get('Rows'):
-                    if row.get("Value") == self.cidade:
+                    if unidecode(row.get("Value")) == unidecode(self.cidade):
                         return row
 
                 time.sleep(0.5)
