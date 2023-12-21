@@ -31,22 +31,22 @@ class CriarPastaUseCase:
             time.sleep(15)
 
             ## Inserindo dados no formulario
-            InserirDadosPrincipaisUseCase(
-                page=self.page,
-                tipo_sistema=self.data_input.tipo_sistema,
-                data_solicitacao=self.data_input.data_solicitacao,
-                uf=self.data_input.uf,
-                cidade=self.data_input.cidade,
-                classLogger=self.classLogger,
-                context=self.context
-            ).execute()
-
             InserirDadosEnvolvidosUseCase(
                 page=self.page,
                 nome_envolvido=self.data_input.nome_envolvido,
                 cpf_cnpj_envolvido=self.data_input.cpf_cnpj_envolvido,
                 tipo_envolvido=self.data_input.tipo_envolvido,
                 posicao_envolvido=self.data_input.posicao_envolvido,
+                classLogger=self.classLogger,
+                context=self.context
+            ).execute()
+
+            InserirDadosPrincipaisUseCase(
+                page=self.page,
+                tipo_sistema=self.data_input.tipo_sistema,
+                data_solicitacao=self.data_input.data_solicitacao,
+                uf=self.data_input.uf,
+                cidade=self.data_input.cidade,
                 classLogger=self.classLogger,
                 context=self.context
             ).execute()
@@ -88,6 +88,11 @@ class CriarPastaUseCase:
                 numero_reclamacao=self.data_input.numero_reclamacao,
                 classLogger=self.classLogger
             ).execute()
+            
+            if not response.pasta:
+                message = "Erro ao criar pasta"
+                self.classLogger.message(message)
+                raise Exception("Erro ao criar pasta")
 
             ###Inserir arquivos
             InserirArquivosUseCase(

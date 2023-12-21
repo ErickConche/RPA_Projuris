@@ -29,18 +29,18 @@ class InserirDadosPrincipaisUseCase:
     def execute(self):
         try:
             self.page.query_selector('#TipoText').click()
-            time.sleep(5)
+            time.sleep(1)
             self.page.query_selector('#TipoText').type(self.tipo_sistema)
-            time.sleep(5)
+            time.sleep(1)
             self.page.locator('#lookupTipo .lookup-button.lookup-filter').click()
             time.sleep(5)
-            self.page.locator(f'tr[data-val-id="{Deparas.depara_sistema(self.tipo_sistema)}"]').click()
+            self.page.locator(f'tr[data-val-id="{Deparas.depara_sistema(self.tipo_sistema)}"] td[data-val-field="Value"]:text("{self.tipo_sistema}")').click()
             time.sleep(5)
 
             self.page.query_selector('#DtSolicitacao').click()
-            time.sleep(5)
+            time.sleep(1)
             self.page.evaluate(f'document.querySelector("#DtSolicitacao").value = "{self.data_solicitacao}";')
-            time.sleep(5)
+            time.sleep(1)
 
             info_uf = BuscarDadosUfUseCase(
                 uf=self.uf,
@@ -48,12 +48,12 @@ class InserirDadosPrincipaisUseCase:
                 context=self.context
             ).execute()
             self.page.query_selector('#UFText').click()
-            time.sleep(5)
+            time.sleep(1)
             self.page.query_selector('#UFText').type(self.uf)
-            time.sleep(5)
+            time.sleep(1)
             self.page.locator('#lookup_uf .lookup-button.lookup-filter').click()
             time.sleep(5)
-            self.page.locator(f'tr[data-val-id="{info_uf.get("Id")}"]').click()
+            self.page.locator(f'tr[data-val-id="{info_uf.get("Id")}"] td[data-val-field="UFText"]:text("{self.uf}")').click()
             time.sleep(5)
 
             info_cidade = BuscarDadosCidadeUseCase(
@@ -63,12 +63,12 @@ class InserirDadosPrincipaisUseCase:
                 context=self.context
             ).execute()
             self.page.query_selector('#CidadeText').click()
-            time.sleep(5)
+            time.sleep(1)
             self.page.query_selector('#CidadeText').type(self.cidade)
-            time.sleep(5)
+            time.sleep(1)
             self.page.locator('#LookupCidade .lookup-button.lookup-filter').click()
             time.sleep(5)
-            self.page.locator(f'tr[data-val-id="{info_cidade.get("Id")}"]').click()
+            self.page.locator(f'tr[data-val-id="{info_cidade.get("Id")}"] td[data-val-field="Value"]:text("{self.cidade}")').click()
             time.sleep(5)
 
         except Exception as error:

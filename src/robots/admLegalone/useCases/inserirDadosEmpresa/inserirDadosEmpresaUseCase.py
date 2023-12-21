@@ -25,7 +25,7 @@ class InserirDadosEmpresaUseCase:
             elemento_envolvido = self.page.locator(f'#Clientes_{id_do_cliente_envolvido}__lookup_envolvido')
             elemento_envolvido.locator('.lookup-button.lookup-filter').click()
             time.sleep(14)
-            self.page.locator(f'tr[data-val-id="4036"]').click() ### Criar depara
+            self.page.locator(f'tr[data-val-id="4036"] td[data-val-field="ContatoNome"]:text("{self.empresa}")').click()
             time.sleep(5)
         except Exception as error:
             raise Exception("Erro ao inserir dados da empresa no formulario de criação")

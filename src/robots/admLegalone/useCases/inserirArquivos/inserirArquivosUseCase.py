@@ -40,34 +40,41 @@ class InserirArquivosUseCase:
             ).execute()
             message = "Arquivo principal salvo"
             self.classLogger.message(message)
-            if self.arquivos_secundarios != "" and self.arquivos_secundarios != "nada" and self.arquivos_secundarios != None:
+            if self.arquivos_secundarios != "" and self.arquivos_secundarios != "Nenhum arquivo anexado" and self.arquivos_secundarios != None:
                 message = "Salvando arquivos secundarios"
                 self.classLogger.message(message)
                 self.page.goto(self.url_pasta)
                 url_file_secundary = self.arquivos_secundarios
-                name_file_secundary = DownloadS3(url=url_file_secundary).execute()
-                if '.zip' in name_file_secundary:
-                    list_files = DescompactarZipUseCase(
-                        name_file_zip=name_file_secundary,
-                        classLogger=self.classLogger
-                    ).execute()
-                    UploadArquivoUseCase(
-                        page=self.page,
-                        nome_arquivo=name_file_secundary,
-                        classLogger=self.classLogger,
-                        file_main=False,
-                        list_files=list_files
-                    ).execute()
-                else:
-                    UploadArquivoUseCase(
-                        page=self.page,
-                        nome_arquivo=name_file_secundary,
-                        classLogger=self.classLogger,
-                        file_main=False,
-                        list_files=[]
-                    ).execute()
-                message = "Arquivos secundarios salvos"
-                self.classLogger.message(message)
+                download_success = False
+                try:
+                    name_file_secundary = DownloadS3(url=url_file_secundary).execute()
+                    download_success = True
+                except Exception as error:
+                    message = "Erro ao fazer o download do arquivo secundario, porém o fluxo não foi interrompido."
+                    self.classLogger.message(message)
+                if download_success:
+                    if '.zip' in name_file_secundary:
+                        list_files = DescompactarZipUseCase(
+                            name_file_zip=name_file_secundary,
+                            classLogger=self.classLogger
+                        ).execute()
+                        UploadArquivoUseCase(
+                            page=self.page,
+                            nome_arquivo=name_file_secundary,
+                            classLogger=self.classLogger,
+                            file_main=False,
+                            list_files=list_files
+                        ).execute()
+                    else:
+                        UploadArquivoUseCase(
+                            page=self.page,
+                            nome_arquivo=name_file_secundary,
+                            classLogger=self.classLogger,
+                            file_main=False,
+                            list_files=[]
+                        ).execute()
+                    message = "Arquivos secundarios salvos"
+                    self.classLogger.message(message)
 
         except Exception as error:
             raise Exception("Erro ao realizar o upload dos arquivos")

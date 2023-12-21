@@ -52,9 +52,6 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("CpfCnpjEnvolvido") or fields.get("CpfCnpjEnvolvido") is None:
             raise Exception("Informe o cpf ou cnpj do envolvido")
         
-        if not fields.get("TipoEnvolvido") or fields.get("TipoEnvolvido") is None:
-            raise Exception("Informe o tipo do envolvido")
-        
         if not fields.get("Observacao") or fields.get("Observacao") is None:
             raise Exception("Informe a observação")
         
@@ -99,7 +96,7 @@ class ValidarEFormatarEntradaUseCase:
             posicao_envolvido=fields.get("PosicaoEnvolvido") if fields.get("PosicaoEnvolvido") and fields.get("PosicaoEnvolvido") is not None else 'Reclamante',
             nome_envolvido=fields.get("NomeEnvolvido"),
             cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido"),
-            tipo_envolvido=fields.get("TipoEnvolvido"),
+            tipo_envolvido=fields.get("TipoEnvolvido") if fields.get("TipoEnvolvido") and fields.get("TipoEnvolvido") is not None else 'Fisico',
             observacoes=fields.get("Observacao"),
             id_acomodacao=fields.get("IdAcomodacao") if fields.get("IdAcomodacao") and fields.get("IdAcomodacao") is not None else '0000',
             numero_reserva=fields.get("NumeroReserva") if fields.get("NumeroReserva") and fields.get("NumeroReserva") is not None else '0000',
@@ -111,6 +108,9 @@ class ValidarEFormatarEntradaUseCase:
             arquivo_principal=fields.get("ArquivoPrincipal"),
             arquivos_secundarios=fields.get("ArquivosSecundarios")
         )
+
+        if data_input.tipo_processo == 'C.I.P':
+            data_input.tipo_processo = 'C.I.P.'
         
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)

@@ -48,4 +48,4 @@ def initServer(list_queues: List[str]):
         channel.start_consuming()
 
     except Exception as error:
-        initServer()
+        initServer(list_queues)

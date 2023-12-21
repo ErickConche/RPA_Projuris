@@ -33,6 +33,8 @@ def main(
         class_cliente = Cliente(con=con_rd)
         cliente = class_cliente.buscarCliente(tenant=identifier_tenant)
         classLogger = Logger(hiring_id=task_id)
+        message = "Inicio da aplicação "+str(datetime.now())
+        classLogger.message(message=message)
         data = RobotCore(
             con_rd=con_rd,
             classLogger=classLogger,
@@ -72,9 +74,6 @@ def initApp(queue:str):
             )
             if len(requisicoes)>0:
                 json_recebido = json.loads(requisicoes[0]['json_recebido'])
-                class_logger = Logger(hiring_id=json_recebido['TaskId'])
-                message = "Inicio da aplicação "+str(datetime.now())
-                class_logger.message(message=message)
                 try:
                     main(
                         json_recebido=requisicoes[0]['json_recebido'],
@@ -85,11 +84,10 @@ def initApp(queue:str):
                 except Exception as error:
                     pass
                 finally:
-                    message = "Fim da aplicação "+str(datetime.now())
-                    class_logger.message(message=message)
                     class_queue_execucao.finalizarExecQueue(requisicoes[0]['id'])
+            else:
+                time.sleep(60)
             con_rd.close()
-            time.sleep(60)
     except Exception as error:
         initApp(queue)
 

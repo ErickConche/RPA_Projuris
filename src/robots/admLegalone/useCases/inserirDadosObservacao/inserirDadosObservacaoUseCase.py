@@ -19,7 +19,7 @@ class InserirDadosObservacaoUseCase:
             self.page.locator('p[class="panel-title"] >> text=Observações').click()
             time.sleep(5)
             self.page.query_selector('#Observacao').click()
-            time.sleep(5)
+            time.sleep(1)
             self.page.query_selector('#Observacao').type(self.observacoes)
             time.sleep(20)
         except Exception as error:

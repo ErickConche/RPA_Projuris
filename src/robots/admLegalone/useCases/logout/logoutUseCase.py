@@ -17,9 +17,9 @@ class LogoutUseCase:
             message = "Deslogando do Legalone"
             self.classLogger.message(message)
             self.page.query_selector('[data-title="User Info"]').click()
-            time.sleep(5)
+            time.sleep(1)
             self.page.query_selector('[href="/ca/authentication/logout"]').click()
-            time.sleep(5)
+            time.sleep(1)
             message = "A aplicação deslogou do Legalone"
             self.classLogger.message(message)
         except Exception as error:

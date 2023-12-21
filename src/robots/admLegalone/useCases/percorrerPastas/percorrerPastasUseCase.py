@@ -22,12 +22,13 @@ class PercorrerPastasUseCase:
     def execute(self)->PastaModel:
         try:
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
-            tr_values_html = site_html.select_one('.webgrid.grid-view-column-active').select(".webgrid-row-style")
+            tr_values_html = site_html.select_one('.webgrid.grid-view-column-active').select("tr")
             list_urls = []
             for tr in tr_values_html:
-                href = tr.select("td")[2].select_one("a").attrs.get('href')
-                url = f"https://booking.nextlegalone.com.br{href}"
-                list_urls.append(url)
+                if tr.attrs.get('class')[0] != 'webgrid-header':
+                    href = tr.select("td")[2].select_one("a").attrs.get('href')
+                    url = f"https://booking.nextlegalone.com.br{href}"
+                    list_urls.append(url)
 
             for url in list_urls:
                 self.page.goto(url)

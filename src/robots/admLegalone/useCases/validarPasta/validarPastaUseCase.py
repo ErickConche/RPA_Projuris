@@ -27,7 +27,7 @@ class ValidarPastaUseCase:
             self.page.query_selector('#Search').click()
             time.sleep(10)
             self.page.query_selector('#Search').type(self.nome_envolvido)
-            time.sleep(10)
+            time.sleep(1)
             self.page.query_selector('#search-box-input-submit').click()
             time.sleep(10)
             qtde_pastas = self.page.query_selector('[class="legalone-grid-counter result-header"]').inner_text().split("Pastas de consultivo encontradas: ")[1]

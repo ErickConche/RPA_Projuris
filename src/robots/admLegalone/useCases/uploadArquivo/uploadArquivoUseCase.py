@@ -31,7 +31,7 @@ class UploadArquivoUseCase:
                     self.page.locator('input[title="file input"]').click()
                 file_chooser = fc_info.value
                 file_chooser.set_files(self.nome_arquivo)
-                time.sleep(300)
+                time.sleep(180)
                 if self.file_main:
                     self.page.locator("#TipoText").click()
                     time.sleep(5)
@@ -43,13 +43,15 @@ class UploadArquivoUseCase:
                     time.sleep(5)
                 os.remove(self.nome_arquivo)
             else:
+                cont = 0
                 for file in self.list_files:
-                    with self.page.expect_file_chooser() as fc_info:
-                        self.page.locator('input[title="file input"]').click()
-                    file_chooser = fc_info.value
-                    file_chooser.set_files(file)
-                    time.sleep(300)
-                    os.remove(file)
+                    if cont < 5:
+                        with self.page.expect_file_chooser() as fc_info:
+                            self.page.locator('input[title="file input"]').click()
+                        file_chooser = fc_info.value
+                        file_chooser.set_files(file)
+                        time.sleep(180)
+                        os.remove(file)
             self.page.click('button[name="ButtonSave"][value="0"]')
             time.sleep(15)
         except Exception as error:
