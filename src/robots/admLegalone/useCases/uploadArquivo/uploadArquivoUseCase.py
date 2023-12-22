@@ -31,12 +31,12 @@ class UploadArquivoUseCase:
                     self.page.locator('input[title="file input"]').click()
                 file_chooser = fc_info.value
                 file_chooser.set_files(self.nome_arquivo)
-                time.sleep(180)
+                time.sleep(60)
                 if self.file_main:
                     self.page.locator("#TipoText").click()
-                    time.sleep(5)
+                    time.sleep(1)
                     self.page.locator("#TipoText").type("Administrativo / Notificação")
-                    time.sleep(5)
+                    time.sleep(1)
                     self.page.locator('#lookup_tipo .lookup-button.lookup-filter').click()
                     time.sleep(8)
                     self.page.locator('#subtipo_55').click()
@@ -50,7 +50,7 @@ class UploadArquivoUseCase:
                             self.page.locator('input[title="file input"]').click()
                         file_chooser = fc_info.value
                         file_chooser.set_files(file)
-                        time.sleep(180)
+                        time.sleep(60)
                         os.remove(file)
             self.page.click('button[name="ButtonSave"][value="0"]')
             time.sleep(15)

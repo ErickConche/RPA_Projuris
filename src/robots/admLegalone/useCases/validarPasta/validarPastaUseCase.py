@@ -1,4 +1,5 @@
 import time
+from bs4 import BeautifulSoup
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 
 from modules.logger.Logger import Logger
@@ -21,6 +22,10 @@ class ValidarPastaUseCase:
     def execute(self)->PastaModel:
         try:
             message = "Iniciando processo de verificação se a pasta já existe para o protocolo do envolvido"
+            site_html = BeautifulSoup(self.page.content(), 'html.parser')
+            if site_html.select_one(".wm-visual-design-button"):
+                self.page.query_selector(".wm-visual-design-button").click()
+                time.sleep(1)
             self.classLogger.message(message)
             self.page.query_selector('#menuservicos').click()
             time.sleep(15)
