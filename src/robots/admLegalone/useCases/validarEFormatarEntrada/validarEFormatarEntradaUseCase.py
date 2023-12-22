@@ -84,6 +84,8 @@ class ValidarEFormatarEntradaUseCase:
             usuario = "BazLegalOne"
             senha = "@Baz1978"
 
+        message = (f"Usando o usuário {usuario} para login")
+        self.classLogger.message(message)
         
         data_input: DadosEntradaFormatadosModel = DadosEntradaFormatadosModel(
             username=usuario,

@@ -47,7 +47,7 @@ class AdmLegalone:
                 page = context.new_page()
                 page.on("request", lambda response: response_data.append(response))
                 page.goto('https://signon.thomsonreuters.com/?productId=L1LC&returnto=https%3a%2f%2fwww.nextlegalone.com.br%2fOnePass%2fLoginOnePass%2f&bhcp=1')
-                page.set_default_timeout(0)
+                page.set_default_timeout(300000)
                 time.sleep(8)      
                 LoginAdmLegaloneUseCase(
                     page=page,

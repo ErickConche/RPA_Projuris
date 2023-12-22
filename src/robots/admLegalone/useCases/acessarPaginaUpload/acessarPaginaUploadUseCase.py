@@ -15,10 +15,22 @@ class AcessarPaginaUploadUseCase:
 
     def execute(self):
         try:
-            self.page.query_selector('#aTab-ecm').click()
-            time.sleep(10)
-            self.page.query_selector('.add-popover-menu.popover-menu-button.main-popover-menu-button.tooltipMenu').hover()
-            time.sleep(10)
+            success = False
+            attemp = 0
+            max_attemp = 3
+            while attemp < max_attemp:
+                try:
+                    self.page.query_selector('#aTab-ecm').click()
+                    time.sleep(25)
+                    self.page.query_selector('.add-popover-menu.popover-menu-button.main-popover-menu-button.tooltipMenu').hover()
+                    time.sleep(10)
+                    attemp = max_attemp
+                    success = True
+                except Exception as error:
+                    attemp +=1
+                    time.sleep(5)
+            if not success:
+                raise Exception("Erro ao acessar GED")
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             lis = site_html.select_one("#popovermenus").select("li")
             url = ""

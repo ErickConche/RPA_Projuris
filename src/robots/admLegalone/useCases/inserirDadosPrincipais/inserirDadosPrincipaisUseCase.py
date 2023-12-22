@@ -56,20 +56,25 @@ class InserirDadosPrincipaisUseCase:
             self.page.locator(f'tr[data-val-id="{info_uf.get("Id")}"] td[data-val-field="UFText"]:text("{self.uf}")').click()
             time.sleep(5)
 
-            info_cidade = BuscarDadosCidadeUseCase(
-                id_uf=info_uf.get("Id"),
-                cidade=self.cidade,
-                classLogger=self.classLogger,
-                context=self.context
-            ).execute()
-            self.page.query_selector('#CidadeText').click()
-            time.sleep(1)
-            self.page.query_selector('#CidadeText').type(self.cidade)
-            time.sleep(1)
-            self.page.locator('#LookupCidade .lookup-button.lookup-filter').click()
-            time.sleep(5)
-            self.page.locator(f'tr[data-val-id="{info_cidade.get("Id")}"] td[data-val-field="Value"]:text("{self.cidade}")').click()
-            time.sleep(5)
+
+            try:
+                info_cidade = BuscarDadosCidadeUseCase(
+                    id_uf=info_uf.get("Id"),
+                    cidade=self.cidade,
+                    classLogger=self.classLogger,
+                    context=self.context
+                ).execute()
+                self.page.query_selector('#CidadeText').click()
+                time.sleep(1)
+                self.page.query_selector('#CidadeText').type(self.cidade)
+                time.sleep(1)
+                self.page.locator('#LookupCidade .lookup-button.lookup-filter').click()
+                time.sleep(5)
+                self.page.locator(f'tr[data-val-id="{info_cidade.get("Id")}"] td[data-val-field="Value"]:text("{self.cidade}")').click()
+                time.sleep(5)
+            except Exception as error:
+                message = "Erro ao buscar cidade. Continuará a execução porém sem a informação da cidade"
+                self.classLogger.message(message)
 
         except Exception as error:
             raise Exception("Erro ao inserir dados principais no formulario de criação")
