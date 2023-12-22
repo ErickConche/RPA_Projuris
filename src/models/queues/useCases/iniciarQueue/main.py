@@ -25,6 +25,7 @@ class IniciarExecQueue:
         while cont == 0:
             try:
                 cursor = self.con.cursor()
+                self.json_rec = self.json_rec.replace("'","")
                 cursor.execute(queryIniciarExecQueue(self.json_rec,self.virtual_host,self.queue))
                 self.con.commit()
                 cont = 1

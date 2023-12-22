@@ -21,6 +21,8 @@ class BuscarDadosCidadeUseCase:
 
     def execute(self)->dict:
         try:
+            if self.cidade == 'Barra do Sul':
+                self.cidade = 'Balneário Barra do Sul'
             cookies = self.context.cookies()
             cookies_str = ''
             for cookie in cookies:

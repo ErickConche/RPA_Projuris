@@ -54,6 +54,8 @@ def main(
     except Exception as error:
         pass
     finally:
+        message = "Fim da aplicação "+str(datetime.now())
+        classLogger.message(message=message)
         con_rd.close()
 
 def initApp(queue:str):
