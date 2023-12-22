@@ -81,8 +81,8 @@ class ValidarEFormatarEntradaUseCase:
             senha = "@BazConsumidor"
         
         else:
-            usuario = "BazLegalOne"
-            senha = "@Baz1978"
+            usuario = "ConsumidorBaz"
+            senha = "@BazConsumidor"
 
         message = (f"Usando o usuário {usuario} para login")
         self.classLogger.message(message)
