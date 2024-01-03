@@ -12,6 +12,7 @@ class UploadArquivoUseCase:
         nome_arquivo:str,
         classLogger: Logger,
         list_files: List[str],
+        url_pasta:str,
         file_main: bool = True
     ) -> None:
         self.page = page
@@ -19,6 +20,7 @@ class UploadArquivoUseCase:
         self.file_main = file_main
         self.classLogger = classLogger
         self.list_files = list_files
+        self.url_pasta = url_pasta
 
     def execute(self):
         try:
@@ -42,17 +44,28 @@ class UploadArquivoUseCase:
                     self.page.locator('#subtipo_55').click()
                     time.sleep(5)
                 os.remove(self.nome_arquivo)
+                self.page.click('button[name="ButtonSave"][value="0"]')
             else:
-                cont = 0
+                files_updated = 0
                 for file in self.list_files:
-                    if cont < 5:
-                        with self.page.expect_file_chooser() as fc_info:
-                            self.page.locator('input[title="file input"]').click()
-                        file_chooser = fc_info.value
-                        file_chooser.set_files(file)
-                        time.sleep(60)
-                        os.remove(file)
-            self.page.click('button[name="ButtonSave"][value="0"]')
+                    with self.page.expect_file_chooser() as fc_info:
+                        self.page.locator('input[title="file input"]').click()
+                    file_chooser = fc_info.value
+                    file_chooser.set_files(file)
+                    time.sleep(60)
+                    os.remove(file)
+                    files_updated += 1
+                    if files_updated == 5:
+                        self.page.click('button[name="ButtonSave"][value="0"]')
+                        time.sleep(15)
+                        AcessarPaginaUploadUseCase(
+                            page=self.page,
+                            classLogger=self.classLogger
+                        ).execute()
+                        files_updated = 0
+
+                if files_updated != 0:
+                    self.page.click('button[name="ButtonSave"][value="0"]')
             time.sleep(15)
         except Exception as error:
             message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}"
