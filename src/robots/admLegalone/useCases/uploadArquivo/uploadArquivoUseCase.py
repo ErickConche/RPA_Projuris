@@ -12,7 +12,6 @@ class UploadArquivoUseCase:
         nome_arquivo:str,
         classLogger: Logger,
         list_files: List[str],
-        url_pasta:str,
         file_main: bool = True
     ) -> None:
         self.page = page
@@ -20,7 +19,6 @@ class UploadArquivoUseCase:
         self.file_main = file_main
         self.classLogger = classLogger
         self.list_files = list_files
-        self.url_pasta = url_pasta
 
     def execute(self):
         try:

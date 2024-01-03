@@ -59,7 +59,7 @@ class VerificarExistenciaArquivoSecundario:
                             file_found = True
                             break
                     if not file_found:
-                        list_updates.append(list_downloads.get("novo_nome_arquivo"))
+                        list_updates.append(downloads.get("novo_nome_arquivo"))
                 if len(list_updates)<=0:
                     list_updates = None
                 return list_updates

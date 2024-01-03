@@ -53,11 +53,14 @@ class VerificandoExistenciaArquivosUseCase:
                 raise Exception("Erro ao acessar GED")
             
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
-            trs = site_html.select_one(".search-result-bar-compact").select_one("tbody").select("tr")
-            list_files_legalone = []
-            for tr in trs:
-                list_files_legalone.append(tr.select("td")[2].select_one("a").text)
             
+            list_files_legalone = []
+
+            if len(site_html.select_one(".search-result-bar-compact").select("tbody")) > 0:
+                trs = site_html.select_one(".search-result-bar-compact").select_one("tbody").select("tr")
+                for tr in trs:
+                    list_files_legalone.append(tr.select("td")[2].select_one("a").text)
+                
             name_file_main_download = VerificarExistenciaArquivoPrincipal(
                 page=self.page,
                 arquivo_principal=self.arquivo_principal,
