@@ -30,7 +30,7 @@ class RobotCore:
             ####TODO jud
             pass
 
-        elif self.queue == 'app-adm-legalone':
+        elif 'app-adm-legalone' in self.queue:
             return AdmLegalone(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,

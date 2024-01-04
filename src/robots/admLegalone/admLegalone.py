@@ -6,6 +6,7 @@ from modules.logger.Logger import Logger
 from modules.robotCore.__model__.RobotModel import RobotModel
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 from robots.admLegalone.useCases.criarPasta.criarPastaUseCase import CriarPastaUseCase
+from robots.admLegalone.useCases.inserirArquivos.inserirArquivosUseCase import InserirArquivosUseCase
 from robots.admLegalone.useCases.login.login import LoginAdmLegaloneUseCase
 from robots.admLegalone.useCases.logout.logoutUseCase import LogoutUseCase
 from robots.admLegalone.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
@@ -63,6 +64,15 @@ class AdmLegalone:
                         classLogger=self.classLogger
                     ).execute()
                     if response.found:
+                        InserirArquivosUseCase(
+                            page=page,
+                            arquivo_principal=data_input.arquivo_principal,
+                            arquivos_secundarios=data_input.arquivos_secundarios,
+                            context=context,
+                            pasta=response.pasta,
+                            url_pasta=response.url_pasta,
+                            classLogger=self.classLogger
+                        ).execute()
                         data.error = False
                         data.data_return = [
                             {

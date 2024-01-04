@@ -27,7 +27,7 @@ class ValidarPastaUseCase:
             time.sleep(15)
             self.classLogger.message(message)
             self.page.query_selector('#menuservicos').click()
-            time.sleep(15)
+            time.sleep(15)  
             self.page.query_selector('#Search').click()
             time.sleep(10)
             self.page.query_selector('#Search').type(self.nome_envolvido)

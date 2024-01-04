@@ -16,7 +16,7 @@ class DescompactarZipUseCase:
         self.name_file_zip = name_file_zip
         self.classLogger = classLogger
 
-    def execute(self)->List[str]:
+    def execute(self)->dict:
         try:
             list_names = []
             with zipfile.ZipFile(self.name_file_zip, 'r') as zip_ref:
@@ -27,11 +27,15 @@ class DescompactarZipUseCase:
                     posicao_do_ultimo_ponto = nome_arquivo.rfind('.')
                     nome_arquivo_sem_extensao= nome_arquivo[:posicao_do_ultimo_ponto]
                     extensao = nome_arquivo[posicao_do_ultimo_ponto + 1:]
-                    nome_arquivo = f"{nome_arquivo_sem_extensao}_{randint(50000,1000000)}.{extensao}"
+                    novo_nome_arquivo = f"{nome_arquivo_sem_extensao}_{randint(50000,1000000)}.{extensao}"
                     # Salva o arquivo
-                    with open(nome_arquivo, 'wb') as arquivo_destino:
+                    with open(novo_nome_arquivo, 'wb') as arquivo_destino:
                         arquivo_destino.write(conteudo_arquivo)
-                    list_names.append(nome_arquivo)
+                    obj = {
+                        "nome_original":nome_arquivo_sem_extensao,
+                        "novo_nome_arquivo":novo_nome_arquivo
+                    }
+                    list_names.append(obj)
             os.remove(self.name_file_zip)
             return list_names
         except Exception as error:
