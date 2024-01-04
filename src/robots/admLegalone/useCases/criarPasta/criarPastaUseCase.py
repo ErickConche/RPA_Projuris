@@ -76,7 +76,10 @@ class CriarPastaUseCase:
             ).execute()
 
             ## Salvando formulario
-            self.page.query_selector('button[name="ButtonSave"][value="0"]').click()
+            try:
+                self.page.query_selector('button[name="ButtonSave"][value="0"]').click()
+            except Exception as error:
+                pass
             time.sleep(15)
 
             message = "Pasta inserida. Aguarde enquanto buscamos o número gerado e fazemos o upload dos arquivos."
