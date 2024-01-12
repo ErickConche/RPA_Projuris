@@ -4,6 +4,7 @@ from logging import Logger
 from models.cliente.cliente import Cliente
 
 from modules.robotCore.__model__.RobotModel import RobotModel
+from robots.admAutojur.admAutojur import AdmAutoJur
 from robots.admLegalone.admLegalone import AdmLegalone
 
 class RobotCore:
@@ -32,6 +33,16 @@ class RobotCore:
 
         elif 'app-adm-legalone' in self.queue:
             return AdmLegalone(
+                con_rd=self.con_rd,
+                classLogger=self.classLogger,
+                json_recebido=self.json_recebido,
+                task_id=self.task_id,
+                identifier_tenant=self.identifier_tenant,
+                cliente=self.cliente
+            ).execute()
+        
+        elif 'app-adm-autojur' in self.queue:
+            return AdmAutoJur(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,
