@@ -46,16 +46,22 @@ class UploadArquivoUseCase:
             else:
                 files_updated = 0
                 for file in self.list_files:
+                    message = f"Iniciando a inserção na caixa de seleção do arquivo secundario {file}"
+                    self.classLogger.message(message)
                     with self.page.expect_file_chooser() as fc_info:
                         self.page.locator('input[title="file input"]').click()
                     file_chooser = fc_info.value
                     file_chooser.set_files(file)
                     time.sleep(60)
                     os.remove(file)
+                    message = f"Arquivo secundario {file}, inserido na caixa de seleção"
+                    self.classLogger.message(message)
                     files_updated += 1
                     if files_updated == 5:
                         self.page.click('button[name="ButtonSave"][value="0"]')
                         time.sleep(15)
+                        message = f"Upload de arquivos realizado"
+                        self.classLogger.message(message)
                         AcessarPaginaUploadUseCase(
                             page=self.page,
                             classLogger=self.classLogger
@@ -64,8 +70,10 @@ class UploadArquivoUseCase:
 
                 if files_updated != 0:
                     self.page.click('button[name="ButtonSave"][value="0"]')
+                    message = f"Upload de arquivos realizado"
+                    self.classLogger.message(message)
             time.sleep(15)
         except Exception as error:
-            message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}"
+            message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}. Erro: {str(error)}"
             self.classLogger.message(message)
             raise error
