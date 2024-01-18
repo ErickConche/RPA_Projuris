@@ -12,6 +12,7 @@ class UploadArquivoUseCase:
         nome_arquivo:str,
         classLogger: Logger,
         list_files: List[str],
+        url_pasta: str,
         file_main: bool = True
     ) -> None:
         self.page = page
@@ -19,6 +20,7 @@ class UploadArquivoUseCase:
         self.file_main = file_main
         self.classLogger = classLogger
         self.list_files = list_files
+        self.url_pasta = url_pasta
 
     def execute(self):
         try:
@@ -44,34 +46,43 @@ class UploadArquivoUseCase:
                 os.remove(self.nome_arquivo)
                 self.page.click('button[name="ButtonSave"][value="0"]')
             else:
-                files_updated = 0
+                error_function = None
+                success = False
                 for file in self.list_files:
-                    message = f"Iniciando a inserção na caixa de seleção do arquivo secundario {file}"
-                    self.classLogger.message(message)
-                    with self.page.expect_file_chooser() as fc_info:
-                        self.page.locator('input[title="file input"]').click()
-                    file_chooser = fc_info.value
-                    file_chooser.set_files(file)
-                    time.sleep(60)
-                    os.remove(file)
-                    message = f"Arquivo secundario {file}, inserido na caixa de seleção"
-                    self.classLogger.message(message)
-                    files_updated += 1
-                    if files_updated == 5:
-                        self.page.click('button[name="ButtonSave"][value="0"]')
-                        time.sleep(15)
-                        message = f"Upload de arquivos realizado"
-                        self.classLogger.message(message)
-                        AcessarPaginaUploadUseCase(
-                            page=self.page,
-                            classLogger=self.classLogger
-                        ).execute()
-                        files_updated = 0
-
-                if files_updated != 0:
-                    self.page.click('button[name="ButtonSave"][value="0"]')
-                    message = f"Upload de arquivos realizado"
-                    self.classLogger.message(message)
+                    attemp = 0 
+                    max_attemp = 3
+                    while attemp < max_attemp:
+                        try:
+                            message = f"Iniciando a inserção na caixa de seleção do arquivo secundario {file}"
+                            self.classLogger.message(message)
+                            with self.page.expect_file_chooser() as fc_info:
+                                self.page.locator('input[title="file input"]').click()
+                            file_chooser = fc_info.value
+                            file_chooser.set_files(file)
+                            time.sleep(60)
+                            os.remove(file)
+                            self.page.click('button[name="ButtonSave"][value="0"]')
+                            message = f"Arquivo secundario {file}, inserido na caixa de seleção e persistido"
+                            self.classLogger.message(message)
+                            time.sleep(15)
+                            attemp = max_attemp
+                            AcessarPaginaUploadUseCase(
+                                page=self.page,
+                                classLogger=self.classLogger
+                            ).execute()
+                        except Exception as error:
+                            attemp +=1
+                            error_function = error
+                            self.page.goto(self.url_pasta)
+                            time.sleep(10)
+                            AcessarPaginaUploadUseCase(
+                                page=self.page,
+                                classLogger=self.classLogger
+                            ).execute()
+                
+                if not success and error_function:
+                    raise error_function
+                    
             time.sleep(15)
         except Exception as error:
             message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}. Erro: {str(error)}"

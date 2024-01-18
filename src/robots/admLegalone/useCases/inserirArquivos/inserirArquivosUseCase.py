@@ -43,7 +43,8 @@ class InserirArquivosUseCase:
                     nome_arquivo=checked_files.get("file_main"),
                     classLogger=self.classLogger,
                     file_main=True,
-                    list_files=[]
+                    list_files=[],
+                    url_pasta = self.url_pasta
                 ).execute()
 
             if checked_files.get("files_secundary"):
@@ -52,7 +53,8 @@ class InserirArquivosUseCase:
                     nome_arquivo=None,
                     classLogger=self.classLogger,
                     file_main=False,
-                    list_files=checked_files.get("files_secundary")
+                    list_files=checked_files.get("files_secundary"),
+                    url_pasta = self.url_pasta
                 ).execute()
 
         except Exception as error:
