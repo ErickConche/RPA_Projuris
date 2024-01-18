@@ -57,7 +57,7 @@ class InserirDadosParteUseCase:
             else:
                 for tr in trs:
                     tds = tr.select("td")
-                    if tds[3].previous == self.data_input.nome_envolvido and \
+                    if tds[3].previous == self.data_input.nome_envolvido or \
                        tds[7].text == self.data_input.cpf_cnpj_envolvido:
                         codigo = tds[1].text
                         break
