@@ -1,6 +1,7 @@
 import json
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
+from unidecode import unidecode
 
 from modules.logger.Logger import Logger
 from robots.admLegalone.useCases.cadastrarEnvolvido.cadastrarEnvolvidoUseCase import CadastrarEnvolvidoUseCase
@@ -46,7 +47,8 @@ class BuscarEnvolvidoUseCase:
                     context=self.context
                 ).execute()
             for row in json_response.get('Rows'):
-                if row.get("Value") == self.nome_envolvido and row.get("ContatoCPF_CNPJ") == self.cpf_cnpj_envolvido:
+                if unidecode(row.get("Value").upper()) == unidecode(self.nome_envolvido.upper()) \
+                or row.get("ContatoCPF_CNPJ") == self.cpf_cnpj_envolvido:
                     return row
                 
             return CadastrarEnvolvidoUseCase(
