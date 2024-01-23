@@ -42,7 +42,7 @@ class BuscarDadosCidadeUseCase:
             ### Insere os resultados no banco
 
             for row in json_response.get('Rows'):
-                if row.get("Value") == self.cidade:
+                if unidecode(row.get("Value").upper()) == unidecode(self.cidade.upper()):
                     return row
 
             qtde_cidades = json_response.get("Count")
@@ -61,7 +61,7 @@ class BuscarDadosCidadeUseCase:
                 ### Insere os resultados no banco
 
                 for row in json_response.get('Rows'):
-                    if unidecode(row.get("Value")) == unidecode(self.cidade):
+                    if unidecode(row.get("Value").upper()) == unidecode(self.cidade.upper()):
                         return row
 
                 time.sleep(0.5)
