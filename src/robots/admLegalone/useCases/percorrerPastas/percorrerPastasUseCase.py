@@ -12,16 +12,18 @@ class PercorrerPastasUseCase:
         page: Page,
         nome_envolvido:str, 
         numero_reclamacao:str,
-        classLogger: Logger
+        classLogger: Logger,
+        site_html
     ) -> None:
         self.page = page
         self.nome_envolvido = nome_envolvido
         self.numero_reclamacao = numero_reclamacao
         self.classLogger = classLogger
+        self.site_html = site_html
 
     def execute(self)->PastaModel:
         try:
-            site_html = BeautifulSoup(self.page.content(), 'html.parser')
+            site_html = self.site_html
             tr_values_html = site_html.select_one('.webgrid.grid-view-column-active').select("tr")
             list_urls = []
             for tr in tr_values_html:
@@ -36,6 +38,10 @@ class PercorrerPastasUseCase:
                 site_html = BeautifulSoup(self.page.content(), 'html.parser')
                 divs_person_html = site_html.select_one(".legalone-panel-content")
                 protocol_find = divs_person_html.select(".field")[3].text
+                if len(protocol_find) > 19:
+                    possible_protocol_find = protocol_find.split('.')[-1] + '/2024'
+                    if possible_protocol_find == self.numero_reclamacao:
+                        protocol_find = possible_protocol_find
                 if protocol_find == self.numero_reclamacao:
                     div_abstract_html = site_html.select_one(".cardview-responsive.collapse-panel").select(".row")
                     pasta = div_abstract_html[0].select(".span2")[0].select_one(".value.small-value.first").text

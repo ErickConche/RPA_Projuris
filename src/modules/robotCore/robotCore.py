@@ -16,7 +16,8 @@ class RobotCore:
         task_id:str,
         identifier_tenant:str,
         cliente:Cliente,
-        queue:str
+        queue:str,
+        id_queue: int
     ) -> None:
         self.con_rd = con_rd
         self.classLogger = classLogger
@@ -25,6 +26,7 @@ class RobotCore:
         self.identifier_tenant = identifier_tenant
         self.cliente = cliente
         self.queue = queue
+        self.id_queue = id_queue
 
     def execute(self)-> RobotModel:
         if self.queue == 'app-jud-legalone':
@@ -38,7 +40,8 @@ class RobotCore:
                 json_recebido=self.json_recebido,
                 task_id=self.task_id,
                 identifier_tenant=self.identifier_tenant,
-                cliente=self.cliente
+                cliente=self.cliente,
+                id_queue=self.id_queue
             ).execute()
         
         elif 'app-adm-autojur' in self.queue:
@@ -48,5 +51,6 @@ class RobotCore:
                 json_recebido=self.json_recebido,
                 task_id=self.task_id,
                 identifier_tenant=self.identifier_tenant,
-                cliente=self.cliente
+                cliente=self.cliente,
+                id_queue=self.id_queue
             ).execute()

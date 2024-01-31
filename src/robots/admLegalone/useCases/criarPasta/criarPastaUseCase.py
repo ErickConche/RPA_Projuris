@@ -89,7 +89,8 @@ class CriarPastaUseCase:
                 page=self.page,
                 nome_envolvido=self.data_input.nome_envolvido,
                 numero_reclamacao=self.data_input.numero_reclamacao,
-                classLogger=self.classLogger
+                classLogger=self.classLogger,
+                context=self.context
             ).execute()
             
             if not response.pasta:

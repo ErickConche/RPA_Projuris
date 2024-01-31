@@ -1,6 +1,7 @@
 import os
 import time
 from typing import List
+import global_variables.error_ged_legalone as error_ged_legalone
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 from modules.logger.Logger import Logger
 from robots.admLegalone.useCases.acessarPaginaUpload.acessarPaginaUploadUseCase import AcessarPaginaUploadUseCase
@@ -87,4 +88,5 @@ class UploadArquivoUseCase:
         except Exception as error:
             message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}. Erro: {str(error)}"
             self.classLogger.message(message)
+            error_ged_legalone.update_error_ged_legalone(True)
             raise error

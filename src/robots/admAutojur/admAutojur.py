@@ -21,7 +21,8 @@ class AdmAutoJur:
         json_recebido:str,
         task_id:str,
         identifier_tenant:str,
-        cliente:ClienteModel
+        cliente:ClienteModel,
+        id_queue: int
     ) -> None:
         self.con_rd = con_rd
         self.classLogger = classLogger
@@ -29,6 +30,7 @@ class AdmAutoJur:
         self.task_id = task_id
         self.identifier_tenant = identifier_tenant
         self.cliente = cliente
+        self.id_queue = id_queue
 
     def execute(self):
         data: RobotModel = RobotModel(

@@ -21,7 +21,8 @@ class AdmLegalone:
         json_recebido:str,
         task_id:str,
         identifier_tenant:str,
-        cliente:Cliente
+        cliente:Cliente,
+        id_queue: int
     ) -> None:
         self.con_rd = con_rd
         self.classLogger = classLogger
@@ -29,6 +30,7 @@ class AdmLegalone:
         self.task_id = task_id
         self.identifier_tenant = identifier_tenant
         self.cliente = cliente
+        self.id_queue = id_queue
 
     def execute(self):
         data: RobotModel = RobotModel(
@@ -61,7 +63,8 @@ class AdmLegalone:
                         page=page,
                         nome_envolvido=data_input.nome_envolvido,
                         numero_reclamacao=data_input.numero_reclamacao,
-                        classLogger=self.classLogger
+                        classLogger=self.classLogger,
+                        context=context
                     ).execute()
                     if response.found:
                         InserirArquivosUseCase(

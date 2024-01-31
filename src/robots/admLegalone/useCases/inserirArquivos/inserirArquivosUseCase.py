@@ -1,5 +1,6 @@
 import time
 from playwright.sync_api import Page, BrowserContext, sync_playwright
+import global_variables.error_ged_legalone as error_ged_legalone
 from modules.downloadS3.downloadS3 import DownloadS3
 
 from modules.logger.Logger import Logger
@@ -56,6 +57,6 @@ class InserirArquivosUseCase:
                     list_files=checked_files.get("files_secundary"),
                     url_pasta = self.url_pasta
                 ).execute()
-
+            error_ged_legalone.update_error_ged_legalone(False)
         except Exception as error:
             raise Exception("Erro ao realizar o upload dos arquivos")
