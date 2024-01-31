@@ -52,6 +52,9 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("CpfCnpjEnvolvido") or fields.get("CpfCnpjEnvolvido") is None:
             raise Exception("Informe o cpf ou cnpj do envolvido")
         
+        if len(fields.get("CpfCnpjEnvolvido"))!=14:
+            raise Exception("CPF invalido")
+        
         if not fields.get("Sistema") or fields.get("Sistema") is None:
             raise Exception("Informe o tipo do sistema")
         
