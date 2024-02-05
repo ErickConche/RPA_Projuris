@@ -58,7 +58,7 @@ class InserirDadosParteUseCase:
             else:
                 for tr in trs:
                     tds = tr.select("td")
-                    if unidecode(tds[3].previous.upper()) == unidecode(self.data_input.nome_envolvido.upper()) or \
+                    if unidecode(tds[3].previous.upper()) == unidecode(self.data_input.nome_envolvido.upper()) and \
                        tds[7].text == self.data_input.cpf_cnpj_envolvido:
                         codigo = tds[1].text
                         break

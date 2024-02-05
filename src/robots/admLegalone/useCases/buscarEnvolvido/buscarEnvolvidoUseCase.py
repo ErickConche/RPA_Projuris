@@ -48,7 +48,7 @@ class BuscarEnvolvidoUseCase:
                 ).execute()
             for row in json_response.get('Rows'):
                 if unidecode(row.get("Value").upper()) == unidecode(self.nome_envolvido.upper()) \
-                or row.get("ContatoCPF_CNPJ") == self.cpf_cnpj_envolvido:
+                and row.get("ContatoCPF_CNPJ") == self.cpf_cnpj_envolvido:
                     return row
                 
             return CadastrarEnvolvidoUseCase(
