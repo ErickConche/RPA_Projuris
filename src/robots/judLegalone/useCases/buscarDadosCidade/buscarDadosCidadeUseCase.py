@@ -28,6 +28,7 @@ class BuscarDadosCidadeUseCase:
             for cookie in cookies:
                 cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
             url = f"https://booking.nextlegalone.com.br/config/Cidades/LookupCidade?idUF={str(self.id_uf)}&pageSize=50&_=1702583024801"
+
             headers = {
                 "X-Requested-With":"XMLHttpRequest",
                 "Referer":"https://booking.nextlegalone.com.br/servicos/servicos/create?returnUrl=%2Fservicos%2Fservicos%2Fsearch%3Fajaxnavigation%3Dtrue",
