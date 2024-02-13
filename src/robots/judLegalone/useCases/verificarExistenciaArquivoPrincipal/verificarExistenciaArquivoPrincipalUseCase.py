@@ -35,7 +35,7 @@ class VerificarExistenciaArquivoPrincipal:
             file_main_found = False
             name_file_main_download = None
             for files_legalone in list_files_legalone:
-                if name_file_main in files_legalone:
+                if self.processo in files_legalone:
                     file_main_found = True
                     message = "Arquivo principal já existe"
                     self.classLogger.message(message)

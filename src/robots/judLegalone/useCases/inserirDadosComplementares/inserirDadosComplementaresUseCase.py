@@ -29,8 +29,9 @@ class InserirDadosComplementaresUseCase:
 
     def execute(self):
         try:
-            self.page.locator('p:has-text("Dados complementares")').click()
-            time.sleep(3)
+            if self.data_input.titulo == 'Indenizatória':
+                self.page.locator('p:has-text("Dados complementares")').click()
+                time.sleep(3)
 
             self.page.locator("#JusticaText").click()
             time.sleep(1)

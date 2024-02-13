@@ -6,6 +6,7 @@ class DadosEntradaFormatadosModel(BaseModel):
     password: str
     titulo: str
     processo: str
+    processo_originario: str
     data_distribuicao: str
     procedimento: str
     uf: str

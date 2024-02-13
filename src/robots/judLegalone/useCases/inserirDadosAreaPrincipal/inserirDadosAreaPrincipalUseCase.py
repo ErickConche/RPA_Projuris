@@ -23,8 +23,16 @@ class InserirDadosAreaPrincipalUseCase:
 
     def execute(self)->int:
         try:
-            id_titulo = 11
-            valor_titulo  = 'Indenizatória'
+            if self.data_input.titulo == 'Indenizatória':
+                id_titulo = 11
+                valor_titulo  = 'Indenizatória'
+            elif self.data_input.titulo == 'Cumprimento de Sentença':
+                id_titulo = 6
+                valor_titulo  = 'Cumprimento de Sentença'
+            else:
+                message = "Titulo invalido"
+                self.classLogger.message(message)
+                raise Exception(message)
             self.page.locator('#LookupTitulo .lookup-button.lookup-modal-button').click()
             time.sleep(5)
             elemento_modal = self.page.locator('.lookup-modal')
@@ -55,38 +63,41 @@ class InserirDadosAreaPrincipalUseCase:
             self.page.locator('#lookup_tipoacao .lookup-button.lookup-filter').click()
             time.sleep(5)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+            if valor_titulo == 'Cumprimento de Sentença':
+                valor_titulo = 'Cumprimento de Sentença.'
             elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_acao(valor_titulo)}"] td[data-val-field="Value"]:text("{valor_titulo}")').click()
             time.sleep(5)
 
-            self.page.query_selector('#NaturezaText').click()
-            time.sleep(1)
-            self.page.query_selector('#NaturezaText').type(self.data_input.natureza)
-            time.sleep(1)
-            self.page.locator('#lookup_natureza .lookup-button.lookup-filter').click()
-            time.sleep(5)
-            elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-            elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_natureza(self.data_input.natureza)}"] td[data-val-field="Value"]:text("{self.data_input.natureza}")').click()
-            time.sleep(5)
+            if id_titulo == 11:
+                self.page.query_selector('#NaturezaText').click()
+                time.sleep(1)
+                self.page.query_selector('#NaturezaText').type(self.data_input.natureza)
+                time.sleep(1)
+                self.page.locator('#lookup_natureza .lookup-button.lookup-filter').click()
+                time.sleep(5)
+                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+                elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_natureza(self.data_input.natureza)}"] td[data-val-field="Value"]:text("{self.data_input.natureza}")').click()
+                time.sleep(5)
 
-            self.page.query_selector('#FaseText').click()
-            time.sleep(1)
-            self.page.query_selector('#FaseText').type(self.data_input.fase)
-            time.sleep(1)
-            self.page.locator('#lookup_fase .lookup-button.lookup-filter').click()
-            time.sleep(5)
-            elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-            elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_fase(self.data_input.fase)}"] td[data-val-field="Value"]:text("{self.data_input.fase}")').click()
-            time.sleep(5)
+                self.page.query_selector('#FaseText').click()
+                time.sleep(1)
+                self.page.query_selector('#FaseText').type(self.data_input.fase)
+                time.sleep(1)
+                self.page.locator('#lookup_fase .lookup-button.lookup-filter').click()
+                time.sleep(5)
+                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+                elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_fase(self.data_input.fase)}"] td[data-val-field="Value"]:text("{self.data_input.fase}")').click()
+                time.sleep(5)
 
-            self.page.query_selector('#ProcedimentoText').click()
-            time.sleep(1)
-            self.page.query_selector('#ProcedimentoText').type(self.data_input.procedimento)
-            time.sleep(1)
-            self.page.locator('#lookup_Procedimento .lookup-button.lookup-filter').click()
-            time.sleep(5)
-            elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-            elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_procedimento(self.data_input.procedimento)}"] td[data-val-field="Value"]:text("{self.data_input.procedimento}")').click()
-            time.sleep(5)
+                self.page.query_selector('#ProcedimentoText').click()
+                time.sleep(1)
+                self.page.query_selector('#ProcedimentoText').type(self.data_input.procedimento)
+                time.sleep(1)
+                self.page.locator('#lookup_Procedimento .lookup-button.lookup-filter').click()
+                time.sleep(5)
+                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+                elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_procedimento(self.data_input.procedimento)}"] td[data-val-field="Value"]:text("{self.data_input.procedimento}")').click()
+                time.sleep(5)
 
             info_orgao = BuscarOrgaoUseCase(
                 orgao_julgador=self.data_input.orgao_julgador,

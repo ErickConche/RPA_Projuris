@@ -1,5 +1,7 @@
 import time
+from bs4 import BeautifulSoup
 from playwright.sync_api import Page, BrowserContext, sync_playwright
+import requests
 
 from modules.logger.Logger import Logger
 from robots.judLegalone.useCases.inserirDadosAreaPrincipal.inserirDadosAreaPrincipalUseCase import InserirDadosAreaPrincipalUseCase
@@ -12,22 +14,44 @@ from robots.judLegalone.useCases.validarEFormatarEntrada.__model__.DadosEntradaF
 from robots.judLegalone.useCases.validarPasta.__model__.PastaModel import PastaModel
 from robots.judLegalone.useCases.validarPasta.validarPastaUseCase import ValidarPastaJudUseCase
 
-class CriarPastaIndenizatoriaUseCase:
+class CriarPastaCumprimentoSentencaUseCase:
     def __init__(
         self,
         page: Page,
         data_input: DadosEntradaFormatadosModel,
         classLogger: Logger,
-        context: BrowserContext
+        context: BrowserContext,
+        url_pasta_originaria:str
     ) -> None:
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
         self.context = context
+        self.url_pasta_originaria = url_pasta_originaria
 
     def execute(self)->PastaModel:
         try:
-            self.page.goto("https://booking.nextlegalone.com.br/processos/processos/create?returnUrl=%2Fhome%2Findex")
+            cookies = self.context.cookies()
+            cookies_str = ''
+            for cookie in cookies:
+                cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
+            headers = {
+                "X-Requested-With":"XMLHttpRequest",
+                "Referer":self.url_pasta_originaria,
+                "Host":"booking.nextlegalone.com.br",
+                "Cookie":cookies_str
+            }
+            response = requests.get(url=self.url_pasta_originaria,headers=headers)
+            site_html = BeautifulSoup(response.text, 'html.parser')
+            commands = site_html.select(".command-add.command-link")
+            url_pasta = None
+            for command in commands:
+                if command.text == 'Novo incidente':
+                    link = command.attrs.get("href")
+                    url_pasta = f"https://booking.nextlegalone.com.br{link}"
+                    break
+
+            self.page.goto(url_pasta)
             time.sleep(15)
 
             InserirDadosOutrosEnvolvidosUseCase(

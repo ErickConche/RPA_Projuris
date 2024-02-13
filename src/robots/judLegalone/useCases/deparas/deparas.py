@@ -38,7 +38,8 @@ class Deparas:
     def depara_acao(acao):
         depara = {
             "Indenizatória":"17",
-            "Indenizatoria":"17"
+            "Indenizatoria":"17",
+            "Cumprimento de Sentença.":"74"
         }
         return depara.get(acao)
     

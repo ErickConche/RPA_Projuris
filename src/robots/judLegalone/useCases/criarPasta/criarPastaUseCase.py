@@ -1,7 +1,9 @@
 import time
+from typing import List, Optional
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 
 from modules.logger.Logger import Logger
+from robots.judLegalone.useCases.criarPastaCumprimentoSentenca.criarPastaCumprimentoSentencaUseCase import CriarPastaCumprimentoSentencaUseCase
 from robots.judLegalone.useCases.criarPastaIndenizatoria.criarPastaIndenizatoriaUseCase import CriarPastaIndenizatoriaUseCase
 from robots.judLegalone.useCases.inserirArquivos.inserirArquivosUseCase import InserirArquivosUseCase
 from robots.judLegalone.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
@@ -13,12 +15,14 @@ class CriarPastaUseCase:
         page: Page,
         data_input: DadosEntradaFormatadosModel,
         classLogger: Logger,
-        context: BrowserContext
+        context: BrowserContext,
+        url_pasta_originaria: Optional[str] = None
     ) -> None:
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
         self.context = context
+        self.url_pasta_originaria = url_pasta_originaria
 
     def execute(self)->PastaModel:
         try:
@@ -29,8 +33,16 @@ class CriarPastaUseCase:
                     classLogger=self.classLogger,
                     context=self.context
                 ).execute()
+
+            elif self.data_input.titulo == 'Cumprimento de Sentença':
+                response = CriarPastaCumprimentoSentencaUseCase(
+                    page=self.page,
+                    data_input=self.data_input,
+                    classLogger=self.classLogger,
+                    context=self.context,
+                    url_pasta_originaria=self.url_pasta_originaria
+                ).execute()
                 
-            
             InserirArquivosUseCase(
                 page=self.page,
                 arquivo_principal=self.data_input.arquivo_principal,

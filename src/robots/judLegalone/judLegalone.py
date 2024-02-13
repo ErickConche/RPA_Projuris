@@ -64,6 +64,7 @@ class judLegalone:
                         page=page,
                         nome_envolvido=data_input.nome_envolvido,
                         processo=data_input.processo,
+                        processo_originario=data_input.processo_originario,
                         classLogger=self.classLogger,
                         context=context
                     ).execute()
@@ -81,7 +82,8 @@ class judLegalone:
                         data.data_return = [
                             {
                                 "Pasta":response.pasta,
-                                "Protocolo":response.protocolo
+                                "Protocolo":response.protocolo,
+                                "DataCadastro":response.data_cadastro
                             }
                         ]
                         LogoutUseCase(
@@ -98,13 +100,15 @@ class judLegalone:
                             page=page,
                             data_input=data_input,
                             classLogger=self.classLogger,
-                            context=context
+                            context=context,
+                            url_pasta_originaria=response.url_pasta_originaria
                         ).execute()
                         data.error = False
                         data.data_return = [
                             {
                                 "Pasta":response.pasta,
-                                "Protocolo":response.protocolo
+                                "Protocolo":response.protocolo,
+                                "DataCadastro":response.data_cadastro
                             }
                         ]
                         LogoutUseCase(
@@ -125,7 +129,8 @@ class judLegalone:
             self.classLogger.message(message)
             data_error = [{
                 "Pasta":"SITE INDISPONÍVEL",
-                "Protocolo":""
+                "Protocolo":"",
+                "DataCadastro":""
             }]
             data.data_return = data_error
 
