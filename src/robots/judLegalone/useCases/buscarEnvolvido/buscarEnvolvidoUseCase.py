@@ -26,7 +26,7 @@ class BuscarEnvolvidoUseCase:
             cookies_str = ''
             for cookie in cookies:
                 cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
-            url = f"https://booking.nextlegalone.com.br/contatos/Contatos/LookupGridContato?positionId=1&term={nomereclamante_format}&pageSize=10&_=170"
+            url = f"https://booking.nextlegalone.com.br/contatos/Contatos/LookupGridContato?positionId=1&term={nomereclamante_format}&pageSize=100&_=170"
             headers = {
                 "X-Requested-With":"XMLHttpRequest",
                 "Referer":url,

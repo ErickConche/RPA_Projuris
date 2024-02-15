@@ -13,13 +13,15 @@ class PaginarElementoUseCase:
         classLogger: Logger,
         context: BrowserContext,
         id_elemento: int,
-        valor_elemento: str
+        valor_elemento: str,
+        data_val_field: str = 'Value'
     ) -> None:
         self.page = page
         self.classLogger = classLogger
         self.context = context
         self.id_elemento = id_elemento
         self.valor_elemento = valor_elemento
+        self.data_val_field = data_val_field
 
     def execute(self):
         try:
@@ -29,7 +31,7 @@ class PaginarElementoUseCase:
             qtde_paginas = int(site_html.select_one(".paginator-page-count").text)
             pagina_atual = 1
             while pagina_atual <= qtde_paginas:
-                if self.page.locator(f'tr[data-val-id="{self.id_elemento}"] td[data-val-field="Value"]:text("{self.valor_elemento}")').is_visible():
+                if self.page.locator(f'tr[data-val-id="{self.id_elemento}"] td[data-val-field="{self.data_val_field}"]:text("{self.valor_elemento}")').is_visible():
                     return True
                 pagina_atual +=1
                 elemento.locator(".paginator-next").click()

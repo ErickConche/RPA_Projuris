@@ -5,6 +5,7 @@ from playwright.sync_api import Page, BrowserContext, sync_playwright
 from modules.logger.Logger import Logger
 from robots.judLegalone.useCases.buscarEnvolvido.buscarEnvolvidoUseCase import BuscarEnvolvidoUseCase
 from robots.judLegalone.useCases.deparas.deparas import Deparas
+from robots.judLegalone.useCases.paginarElemento.paginarElementoUseCase import PaginarElementoUseCase
 from robots.judLegalone.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
 class InserirDadosOutrosEnvolvidosUseCase:
@@ -76,6 +77,14 @@ class InserirDadosOutrosEnvolvidosUseCase:
                     li_table.locator(id_elemento_nome).press("Enter")
                     time.sleep(3)
                     elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+                    PaginarElementoUseCase(
+                        page=self.page,
+                        classLogger=self.classLogger,
+                        context=self.context,
+                        id_elemento=usuario.get("Id"),
+                        valor_elemento=nome_usuario,
+                        data_val_field='ContatoNome'
+                    ).execute()
                     elemento_dropdown.locator(f'tr[data-val-id="{usuario.get("Id")}"] td[data-val-field="ContatoNome"]:text("{nome_usuario}")').click()
                     time.sleep(5)
                     

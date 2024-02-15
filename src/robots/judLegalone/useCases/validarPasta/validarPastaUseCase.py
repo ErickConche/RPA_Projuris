@@ -88,32 +88,38 @@ class ValidarPastaJudUseCase:
                     url_details_pasta = f"https://booking.nextlegalone.com.br/processos/Processos/DetailsVinculos/{id_pasta}?renderOnlySection=True&ajaxnavigation=true"
                     response = requests.get(url=url_details_pasta,headers=headers)
                     site_html = BeautifulSoup(response.text, 'html.parser')
-                    trs = site_html.select_one(".search-result-bar-compact-no-overflow").select_one("tbody").select("tr")
-                    for tr in trs:
-                        tds =tr.select("td")
-                        if tds[2].text == 'Incidente':
-                            protocolo = tds[3].text
-                            url_pasta = tds[1].select_one("a").attrs.get("href")
-                            url_pasta = f"https://booking.nextlegalone.com.br{url_pasta}"
-                            response = requests.get(url=url_pasta,headers=headers)
-                            site_html = BeautifulSoup(response.text, 'html.parser')
-                            rows = site_html.select(".row")
-                            data_cadastro = None
-                            for row in rows:
-                                if row.find("div", class_="header small-header", text="Data do cadastro"):
-                                    data_cadastro = row.select("a")[0].text
-                                    break
-                            data_pasta: PastaModel = PastaModel(
-                                found=True,
-                                pasta=f"Pasta nº {protocolo}",
-                                url_pasta=url_pasta,
-                                protocolo=protocolo,
-                                data_cadastro=data_cadastro,
-                                url_pasta_originaria=url_pasta_originaria
-                            )
-                            message = f"{data_pasta.pasta}"
-                            self.classLogger.message(message)
-                            return data_pasta
+                    if site_html.select_one(".search-result-bar-compact-no-overflow").select_one("tbody"):
+                        trs = site_html.select_one(".search-result-bar-compact-no-overflow").select_one("tbody").select("tr")
+                        for tr in trs:
+                            tds =tr.select("td")
+                            if tds[2].text == 'Incidente':
+                                protocolo = tds[1].text
+                                url_pasta = tds[1].select_one("a").attrs.get("href")
+                                url_pasta = f"https://booking.nextlegalone.com.br{url_pasta}"
+                                response = requests.get(url=url_pasta,headers=headers)
+                                site_html = BeautifulSoup(response.text, 'html.parser')
+                                rows = site_html.select(".row")
+                                for row in rows:
+                                    if row.find("div", class_="header small-header", text="Número CNJ"):
+                                        if row.select(".value.small-value")[1].text != self.processo:
+                                            break
+                                        elif row.select(".value.small-value")[1].text == self.processo:
+                                            data_cadastro = None
+                                            for row in rows:
+                                                if row.find("div", class_="header small-header", text="Data do cadastro"):
+                                                    data_cadastro = row.select("a")[0].text
+                                                    break
+                                            data_pasta: PastaModel = PastaModel(
+                                                found=True,
+                                                pasta=f"Pasta nº {protocolo}",
+                                                url_pasta=url_pasta,
+                                                protocolo=protocolo,
+                                                data_cadastro=data_cadastro,
+                                                url_pasta_originaria=url_pasta_originaria
+                                            )
+                                            message = f"{data_pasta.pasta}"
+                                            self.classLogger.message(message)
+                                            return data_pasta
                     message = f"Não existe pasta para o CNJ {self.processo}"
                     self.classLogger.message(message)
                     data_pasta: PastaModel = PastaModel(

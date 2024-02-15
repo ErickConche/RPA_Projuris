@@ -36,7 +36,7 @@ class UploadArquivoUseCase:
                     self.page.locator('input[title="file input"]').click()
                 file_chooser = fc_info.value
                 file_chooser.set_files(self.nome_arquivo)
-                time.sleep(60)
+                time.sleep(35)
                 if self.file_main:
                     self.page.locator("#TipoText").click()
                     time.sleep(1)
