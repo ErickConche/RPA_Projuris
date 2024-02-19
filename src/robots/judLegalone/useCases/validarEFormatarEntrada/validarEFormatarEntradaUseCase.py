@@ -143,11 +143,20 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.complemento_comarca == 'Capital Copacabana':
             data_input.complemento_comarca = 'Copacabana'
 
+        if data_input.comarca == 'Norte da Ilha':
+            data_input.comarca = 'Norte Da Ilha'
+
         if data_input.vara == 'Vara do Juizado Especial Cível':
             data_input.vara = 'Vara Do Juizado Especial Cível'
 
-        if data_input.cpf_cnpj_outros_envolvidos1 == '29301521-09':
-            data_input.cpf_cnpj_outros_envolvidos1 = '029.301.521-09'
+        elif data_input.vara == 'Vara do Juizado Especial Central':
+            data_input.vara = 'Vara Do Juizado Especial Central'
+
+        elif data_input.vara == 'Vara Juizado Especial Cível e Criminal':
+            data_input.vara = 'Do Juizado Especial Cível E Criminal'
+
+
+            
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)

@@ -39,7 +39,8 @@ class Deparas:
         depara = {
             "Indenizatória":"17",
             "Indenizatoria":"17",
-            "Cumprimento de Sentença.":"74"
+            "Cumprimento de Sentença.":"74",
+            "Reclamação Pré-Processual":"93"
         }
         return depara.get(acao)
     

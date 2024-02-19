@@ -29,7 +29,7 @@ class InserirDadosComplementaresUseCase:
 
     def execute(self):
         try:
-            if self.data_input.titulo == 'Indenizatória':
+            if self.data_input.titulo == 'Indenizatória' or self.data_input.titulo == 'Reclamação Pré-Processual':
                 self.page.locator('p:has-text("Dados complementares")').click()
                 time.sleep(3)
 

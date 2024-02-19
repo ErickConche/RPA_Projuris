@@ -26,7 +26,7 @@ class CriarPastaUseCase:
 
     def execute(self)->PastaModel:
         try:
-            if self.data_input.titulo == 'Indenizatória':
+            if self.data_input.titulo == 'Indenizatória' or self.data_input.titulo == 'Reclamação Pré-Processual':
                 response = CriarPastaIndenizatoriaUseCase(
                     page=self.page,
                     data_input=self.data_input,
