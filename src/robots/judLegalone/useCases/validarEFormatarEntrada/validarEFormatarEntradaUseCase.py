@@ -152,6 +152,11 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.comarca == 'Norte da Ilha':
             data_input.comarca = 'Norte Da Ilha'
 
+        if data_input.comarca == 'Embu das Artes':
+            data_input.comarca = 'Embu Das Artes'
+
+            
+
         if data_input.vara == 'Vara do Juizado Especial Cível':
             data_input.vara = 'Vara Do Juizado Especial Cível'
 
