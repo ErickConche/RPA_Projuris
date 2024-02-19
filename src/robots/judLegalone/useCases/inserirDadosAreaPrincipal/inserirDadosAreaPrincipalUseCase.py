@@ -26,7 +26,7 @@ class InserirDadosAreaPrincipalUseCase:
             if self.data_input.titulo == 'Indenizatória':
                 id_titulo = 11
                 valor_titulo  = 'Indenizatória'
-            if self.data_input.titulo == 'Reclamação Pré-Processual':
+            elif self.data_input.titulo == 'Reclamação Pré-Processual':
                 id_titulo = 37
                 valor_titulo  = 'Reclamação Pré-Processual'
             elif self.data_input.titulo == 'Cumprimento de Sentença':
