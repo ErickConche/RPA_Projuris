@@ -6,6 +6,7 @@ from models.cliente.cliente import Cliente
 from modules.robotCore.__model__.RobotModel import RobotModel
 from robots.admAutojur.admAutojur import AdmAutoJur
 from robots.admLegalone.admLegalone import AdmLegalone
+from robots.judAutojur.judAutojur import JudAutojur
 from robots.judLegalone.judLegalone import judLegalone
 
 class RobotCore:
@@ -32,6 +33,17 @@ class RobotCore:
     def execute(self)-> RobotModel:
         if 'app-jud-legalone' in self.queue:
             return judLegalone(
+                con_rd=self.con_rd,
+                classLogger=self.classLogger,
+                json_recebido=self.json_recebido,
+                task_id=self.task_id,
+                identifier_tenant=self.identifier_tenant,
+                cliente=self.cliente,
+                id_queue=self.id_queue
+            ).execute()
+        
+        if 'app-jud-autojur' in self.queue:
+            return JudAutojur(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,

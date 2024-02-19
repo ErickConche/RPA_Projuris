@@ -2,14 +2,13 @@ import time
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 
 from modules.logger.Logger import Logger
-from robots.admAutojur.useCases.inserirArquivos.inserirArquivosUseCase import InserirArquivosUseCase
-from robots.admAutojur.useCases.inserirDadosCadastrais.InserirDadosCadastraisUseCase import InserirDadosCadastraisUseCase
-from robots.admAutojur.useCases.inserirDadosEnvolvidos.inserirDadosEnvolvidosUseCase import InserirDadosEnvolvidosUseCase
-from robots.admAutojur.useCases.inserirDadosPersonalizados.inserirDadosPersonalizadosUseCase import InserirDadosPersonalizadosUseCase
-from robots.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
-from robots.admAutojur.useCases.validarPastaAutojur.__model__.CodigoModel import CodigoModel
-from robots.admAutojur.useCases.validarPastaAutojur.validarPastaAutojurUseCase import ValidarPastaAutojurUseCase
-
+from robots.judAutojur.useCases.inserirDadosCadastrais.InserirDadosCadastraisUseCase import InserirDadosCadastraisUseCase
+from robots.judAutojur.useCases.inserirDadosComentarios.inserirDadosComentariosUseCAse import InserirDadosComentariosUseCAse
+from robots.judAutojur.useCases.inserirDadosEnvolvidos.inserirDadosEnvolvidosUseCase import InserirDadosEnvolvidosUseCase
+from robots.judAutojur.useCases.inserirDadosOutrosEnvolvidos.inserirDadosOutrosEnvolvidosUseCase import InserirDadosOutrosEnvolvidosUseCase
+from robots.judAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+from robots.judAutojur.useCases.validarPastaAutojur.__model__.CodigoModel import CodigoModel
+from robots.judAutojur.useCases.validarPastaAutojur.validarPastaAutojurUseCase import ValidarPastaAutojurUseCase
 
 class CriarCodigoUseCase:
     def __init__(
@@ -32,8 +31,14 @@ class CriarCodigoUseCase:
             success = False
             while attemp < max_attemp:
                 try:
-                    self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=3")
+                    self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=5")
                     time.sleep(10)
+
+                    InserirDadosOutrosEnvolvidosUseCase(
+                        page=self.page,
+                        data_input=self.data_input,
+                        classLogger=self.classLogger
+                    ).execute()
                 
                     InserirDadosEnvolvidosUseCase(
                         page=self.page,
@@ -47,13 +52,7 @@ class CriarCodigoUseCase:
                         classLogger=self.classLogger
                     ).execute()
 
-                    InserirDadosPersonalizadosUseCase(
-                        page=self.page,
-                        data_input=self.data_input,
-                        classLogger=self.classLogger
-                    ).execute()
-
-                    InserirArquivosUseCase(
+                    InserirDadosComentariosUseCAse(
                         page=self.page,
                         data_input=self.data_input,
                         classLogger=self.classLogger
@@ -62,7 +61,6 @@ class CriarCodigoUseCase:
                     ##Salvando codigo
                     self.page.locator('#btn-save\\:j_idt1131').click()
                     time.sleep(5)
-
                     response = ValidarPastaAutojurUseCase(
                         page=self.page,
                         pasta=self.data_input.pasta,
@@ -73,6 +71,7 @@ class CriarCodigoUseCase:
                         message = 'Erro ao inserir a pasta'
                         self.classLogger.message(message)
                         raise Exception (message)
+
                     message = "Pasta inserida, aguarde enquanto estamos pegando o codigo gerado"
                     self.classLogger.message(message)
                     attemp = max_attemp
@@ -83,7 +82,6 @@ class CriarCodigoUseCase:
 
             if not success:
                 raise error_exec
-
             return response
 
         except Exception as error:
