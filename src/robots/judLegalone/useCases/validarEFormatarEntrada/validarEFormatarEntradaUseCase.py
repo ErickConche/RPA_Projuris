@@ -143,6 +143,12 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.complemento_comarca == 'Capital Copacabana':
             data_input.complemento_comarca = 'Copacabana'
 
+        if data_input.complemento_comarca == '2° JD':
+            data_input.complemento_comarca = '2ª JD'
+
+        if data_input.complemento_comarca == '29° JD':
+            data_input.complemento_comarca = '29º JD da Comarca de Belo Horizonte'
+
         if data_input.comarca == 'Norte da Ilha':
             data_input.comarca = 'Norte Da Ilha'
 
