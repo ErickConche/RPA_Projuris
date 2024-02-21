@@ -51,6 +51,13 @@ class CadastrarEnvolvidoUseCase:
             response = requests.post(url=url,data=body,headers=headers)
 
             if response.status_code == 200:
+                if 'O conte&#250;do informado no campo &#39;CPF&#39; n&#227;o &#233; v&#225;lido.' in response.text:
+                    return CadastrarEnvolvidoUseCase(
+                        nome_envolvido=self.nome_envolvido,
+                        cpf_cnpj_envolvido='',
+                        classLogger=self.classLogger,
+                        context=self.context
+                    ).execute()
                 json_response = json.loads(response.text)
                 return json_response
             raise Exception(response.text)

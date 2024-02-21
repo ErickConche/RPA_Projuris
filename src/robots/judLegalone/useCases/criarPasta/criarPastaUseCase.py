@@ -34,7 +34,7 @@ class CriarPastaUseCase:
                     context=self.context
                 ).execute()
 
-            elif self.data_input.titulo == 'Cumprimento de Sentença':
+            elif self.data_input.titulo == 'Cumprimento de Sentença' or self.data_input.titulo == 'Carta Precatória':
                 response = CriarPastaCumprimentoSentencaUseCase(
                     page=self.page,
                     data_input=self.data_input,

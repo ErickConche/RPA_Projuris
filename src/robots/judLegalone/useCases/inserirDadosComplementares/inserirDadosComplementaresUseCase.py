@@ -4,6 +4,7 @@ from playwright.sync_api import Page, BrowserContext, sync_playwright
 from modules.logger.Logger import Logger
 from robots.judLegalone.useCases.buscarComarca.buscarComarcaUseCase import BuscarComarcaUseCase
 from robots.judLegalone.useCases.buscarComplementoComarca.buscarComplementoComarcaUseCase import BuscarComplementoComarcaUseCase
+from robots.judLegalone.useCases.buscarComplementoVara.buscarComplementoVaraUseCase import BuscarComplementoVaraUseCase
 from robots.judLegalone.useCases.buscarDadosCidade.buscarDadosCidadeUseCase import BuscarDadosCidadeUseCase
 from robots.judLegalone.useCases.buscarDadosUf.buscarDadosUfUseCase import BuscarDadosUfUseCase
 from robots.judLegalone.useCases.buscarOrgao.buscarOrgaoUseCase import BuscarOrgaoUseCase
@@ -104,6 +105,23 @@ class InserirDadosComplementaresUseCase:
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             elemento_dropdown.locator(f'tr[data-val-id="{info_vara.get("Id")}"] td[data-val-field="Value"]:text("{info_vara.get("Value")}")').click()
             time.sleep(5)
+
+            if self.data_input.complemento_vara != 'Não':
+                info_complemento_vara = BuscarComplementoVaraUseCase(
+                    id_vara=info_vara.get("Id"),
+                    complemento_vara=self.data_input.complemento_vara,
+                    classLogger=self.classLogger,
+                    context=self.context
+                ).execute()
+                self.page.locator("#ComplementoVaraText").click()
+                time.sleep(1)
+                self.page.locator("#ComplementoVaraText").type(self.data_input.complemento_vara)
+                time.sleep(3)
+                self.page.locator("#ComplementoVaraText").press("Enter")
+                time.sleep(3)
+                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+                elemento_dropdown.locator(f'tr[data-val-id="{info_complemento_vara.get("Id")}"] td[data-val-field="Value"]:text("{info_complemento_vara.get("Value")}")').click()
+                time.sleep(5)
 
 
         except Exception as error:

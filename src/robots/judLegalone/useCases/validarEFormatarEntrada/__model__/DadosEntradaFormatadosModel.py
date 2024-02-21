@@ -18,6 +18,7 @@ class DadosEntradaFormatadosModel(BaseModel):
     complemento_comarca: str
     numero_vara: str
     vara: str
+    complemento_vara: str
     empresa: str
     justica: str
     nome_envolvido: str

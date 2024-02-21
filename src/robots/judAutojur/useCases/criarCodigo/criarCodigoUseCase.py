@@ -64,7 +64,7 @@ class CriarCodigoUseCase:
                     response = ValidarPastaAutojurUseCase(
                         page=self.page,
                         pasta=self.data_input.pasta,
-                        numero_reclamacao=self.data_input.numero_reclamacao,
+                        processo=self.data_input.processo,
                         classLogger=self.classLogger
                     ).execute()
                     if not response.codigo:

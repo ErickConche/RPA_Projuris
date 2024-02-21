@@ -90,6 +90,7 @@ class ValidarEFormatarEntradaUseCase:
             comarca=fields.get("Comarca"),
             complemento_comarca=fields.get("ComplementoComarca"),
             numero_vara=fields.get("NumeroVara"),
+            complemento_vara=fields.get("ComplementoVara") if fields.get("ComplementoVara") and fields.get("ComplementoVara") is not None else 'Não',
             vara=fields.get("Vara"),
             empresa=fields.get("NomeEmpresa") if fields.get("NomeEmpresa") and fields.get("NomeEmpresa") is not None else 'Booking.com Brasil Serviços de Reserva de Hotéis Ltda',
             nome_envolvido=fields.get("NomeEnvolvido"),

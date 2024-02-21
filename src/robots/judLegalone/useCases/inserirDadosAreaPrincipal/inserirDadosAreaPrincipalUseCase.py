@@ -32,6 +32,9 @@ class InserirDadosAreaPrincipalUseCase:
             elif self.data_input.titulo == 'Cumprimento de Sentença':
                 id_titulo = 6
                 valor_titulo  = 'Cumprimento de Sentença'
+            elif self.data_input.titulo == 'Carta Precatória':
+                id_titulo = 8
+                valor_titulo  = 'Carta Precatória'
             else:
                 message = "Titulo invalido"
                 self.classLogger.message(message)
@@ -68,6 +71,8 @@ class InserirDadosAreaPrincipalUseCase:
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             if valor_titulo == 'Cumprimento de Sentença':
                 valor_titulo = 'Cumprimento de Sentença.'
+            if valor_titulo == 'Carta Precatória':
+                valor_titulo = 'Carta Precatória.'
             elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_acao(valor_titulo)}"] td[data-val-field="Value"]:text("{valor_titulo}")').click()
             time.sleep(5)
 

@@ -40,7 +40,8 @@ class Deparas:
             "Indenizatória":"17",
             "Indenizatoria":"17",
             "Cumprimento de Sentença.":"74",
-            "Reclamação Pré-Processual":"93"
+            "Reclamação Pré-Processual":"93",
+            "Carta Precatória.":"87"
         }
         return depara.get(acao)
     
