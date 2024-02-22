@@ -64,8 +64,8 @@ class ValidarEFormatarEntradaUseCase:
             raise Exception("Informe a url do arquivo principal")
 
         # Obtenha a hora atual no fuso horário do Brasil
-        usuario = "docato"
-        senha = "Docato1234"
+        usuario = "docato2"
+        senha = "Docatojudicial2"
 
         message = (f"Usando o usuário {usuario} para login")
         self.classLogger.message(message)
