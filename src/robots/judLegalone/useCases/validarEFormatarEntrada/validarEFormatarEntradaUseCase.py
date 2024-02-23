@@ -156,8 +156,6 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.comarca == 'Embu das Artes':
             data_input.comarca = 'Embu Das Artes'
 
-            
-
         if data_input.vara == 'Vara do Juizado Especial Cível':
             data_input.vara = 'Vara Do Juizado Especial Cível'
 
@@ -167,8 +165,8 @@ class ValidarEFormatarEntradaUseCase:
         elif data_input.vara == 'Vara Juizado Especial Cível e Criminal':
             data_input.vara = 'Do Juizado Especial Cível E Criminal'
 
-
-            
+        if data_input.cpf_cnpj_envolvido == '0':
+            data_input.cpf_cnpj_envolvido = ''
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
