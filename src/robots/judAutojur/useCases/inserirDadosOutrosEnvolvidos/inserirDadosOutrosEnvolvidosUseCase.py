@@ -1,7 +1,7 @@
 import time
 from bs4 import BeautifulSoup
 from playwright.sync_api import Page, BrowserContext, sync_playwright
-import unidecode
+from unidecode import unidecode
 
 from modules.logger.Logger import Logger
 from robots.judAutojur.useCases.deparas.deparas import Deparas

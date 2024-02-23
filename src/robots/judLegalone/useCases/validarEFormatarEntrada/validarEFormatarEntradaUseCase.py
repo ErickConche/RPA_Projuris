@@ -165,6 +165,9 @@ class ValidarEFormatarEntradaUseCase:
         elif data_input.vara == 'Vara Juizado Especial Cível e Criminal':
             data_input.vara = 'Do Juizado Especial Cível E Criminal'
 
+        elif data_input.vara == 'Vara do Juizado das Relações de Consumo':
+            data_input.vara = 'Do Juizado Especial Cível Das Relações De Consumo'
+
         if data_input.cpf_cnpj_envolvido == '0':
             data_input.cpf_cnpj_envolvido = ''
 
