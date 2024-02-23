@@ -51,8 +51,14 @@ class InserirDadosParteUseCase:
                 time.sleep(5)
                 frame.locator("#form-tipo-pessoa\\:ff-nome\\:nome").type(self.data_input.nome_envolvido)
                 time.sleep(5)
+                if frame.locator("#modal-duplicados").is_visible():
+                    frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                    time.sleep(3)
                 frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',self.data_input.cpf_cnpj_envolvido)
-                time.sleep(5)
+                time.sleep(3)
+                if frame.locator("#modal-duplicados").is_visible():
+                    frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                    time.sleep(3)
                 frame.locator("#form-salvar-pessoa\\:j_idt641").click()
                 time.sleep(5)
             else:
@@ -71,9 +77,15 @@ class InserirDadosParteUseCase:
                     frame.locator("#form-tipo-pessoa\\:ff-nome\\:nome").click()
                     time.sleep(1)
                     frame.locator("#form-tipo-pessoa\\:ff-nome\\:nome").type(self.data_input.nome_envolvido)
-                    time.sleep(3)
+                    time.sleep(5)
+                    if frame.locator("#modal-duplicados").is_visible():
+                        frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                        time.sleep(3)
                     frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',self.data_input.cpf_cnpj_envolvido)
-                    time.sleep(3)
+                    time.sleep(5)
+                    if frame.locator("#modal-duplicados").is_visible():
+                        frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                        time.sleep(5)
                     frame.locator("#form-salvar-pessoa\\:j_idt641").click()
                     time.sleep(5)
                 else:

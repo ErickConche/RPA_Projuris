@@ -97,7 +97,7 @@ class ValidarEFormatarEntradaUseCase:
             cidade=fields.get("Cidade"),
             tipo_processo=fields.get("TipoProcesso") if fields.get("TipoProcesso") and fields.get("TipoProcesso") is not None else 'Reclamação',
             tipo_extrajudicial=fields.get("TipoExtrajudicial") if fields.get("TipoExtrajudicial") and fields.get("TipoExtrajudicial") is not None else 'Contencioso Administrativo',
-            empresa=fields.get("NomeEmpresa"),
+            empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',
             situacao=fields.get("Situacao") if fields.get("Situacao") and fields.get("Situacao") is not None else 'Ativo',
             qualificacao_empresa=fields.get("QualificacaoEmpresa") if fields.get("QualificacaoEmpresa") and fields.get("QualificacaoEmpresa") is not None else 'CLIENTE - CLIENTE',
             nome_envolvido=fields.get("NomeEnvolvido"),
@@ -115,5 +115,8 @@ class ValidarEFormatarEntradaUseCase:
         
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
+
+        if Deparas.depara_uf(data_input.uf):
+            data_input.uf = Deparas.depara_uf(data_input.uf)
 
         return data_input
