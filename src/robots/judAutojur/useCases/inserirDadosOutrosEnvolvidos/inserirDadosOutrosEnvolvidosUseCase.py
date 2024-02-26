@@ -80,8 +80,14 @@ class InserirDadosOutrosEnvolvidosUseCase:
                         if len(obj.get(chave)) >14:
                             frame.locator("#form-tipo-pessoa\\:j_idt26\\:tipo\\:1").click()
                             time.sleep(1)
+                        if frame.locator("#modal-duplicados").is_visible():
+                            frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                            time.sleep(3)
                         frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',obj.get(chave))
                         time.sleep(5)
+                        if frame.locator("#modal-duplicados").is_visible():
+                            frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                            time.sleep(3)
                         frame.locator("#form-salvar-pessoa\\:j_idt641").click()
                         time.sleep(5)
                     
@@ -109,6 +115,14 @@ class InserirDadosOutrosEnvolvidosUseCase:
                             if len(obj.get(chave)) >14:
                                 frame.locator("#form-tipo-pessoa\\:j_idt26\\:tipo\\:1").click()
                                 time.sleep(1)
+                            if frame.locator("#modal-duplicados").is_visible():
+                                frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                                time.sleep(3)
+                            frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',obj.get(chave))
+                            time.sleep(5)
+                            if frame.locator("#modal-duplicados").is_visible():
+                                frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
+                                time.sleep(3)
                             frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',obj.get(chave))
                             time.sleep(3)
                             frame.locator("#form-salvar-pessoa\\:j_idt641").click()
@@ -135,6 +149,6 @@ class InserirDadosOutrosEnvolvidosUseCase:
             print("Finalizou")
 
         except Exception as error:
-            message = "Erro ao inserir dados do comentario"
+            message = "Erro ao inserir dados dos outros envolvidos"
             self.classLogger.message(message)
-            raise Exception ("Erro ao inserir dados do comentario")
+            raise Exception ("Erro ao inserir dos outros envolvidos")
