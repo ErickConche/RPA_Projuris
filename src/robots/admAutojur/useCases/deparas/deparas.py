@@ -12,7 +12,23 @@ class Deparas:
             "Rio Grande do Norte":"RN",
             "Distrito Federal":"DF",
             "Rio Grande do Sul":"SC",
-            "Espírito Santo":"ES"
+            "Espírito Santo":"ES",
+            "Mato Grosso do Sul":"MS",
+            "Mato Grosso":"MT",
+            "Acre":"AC",
+            "Alagoas":"AL",
+            "Amapá":"AP",
+            "Amazonas":"AM",
+            "Bahia":"BA",
+            "Ceará":"CE",
+            "Maranhão":"MA",
+            "Pará":"PA",
+            "Paraíba":"PB",
+            "Piauí":"PI",
+            "Rondônia":"RO",
+            "Roraima":"RR",
+            "Sergipe":"SE",
+            "Tocantins":"TO"
         }
         return depara.get(uf)
      
