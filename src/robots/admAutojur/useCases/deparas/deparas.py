@@ -6,7 +6,13 @@ class Deparas:
             "Paraná":"PR",
             "Minas Gerais":"MG",
             "Santa Catarina":"SC",
-            "Goias":"GO"
+            "Goias":"GO",
+            "Pernambuco":"PE",
+            "Rio de Janeiro":"RJ",
+            "Rio Grande do Norte":"RN",
+            "Distrito Federal":"DF",
+            "Rio Grande do Sul":"SC",
+            "Espírito Santo":"ES"
         }
         return depara.get(uf)
      
