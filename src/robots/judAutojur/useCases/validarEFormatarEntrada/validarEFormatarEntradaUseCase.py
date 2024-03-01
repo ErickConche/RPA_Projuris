@@ -33,6 +33,9 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("Pasta") or fields.get("Pasta") is None:
             raise Exception("Informe a pasta")
         
+        if 'Pasta n' not in fields.get("Pasta"):
+            raise Exception("A Pasta está no formato incorreto")
+        
         if not fields.get("Titulo") or fields.get("Titulo") is None:
             raise Exception("Informe o Titulo/Tipo de ação")
         
@@ -150,7 +153,7 @@ class ValidarEFormatarEntradaUseCase:
 
         if data_input.sistema_tribunal == 'Projudi':
             data_input.sistema_tribunal = 'PROJUDI'
-        
+
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
 
