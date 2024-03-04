@@ -109,9 +109,3 @@ class BuscarComplementoComarcaUseCase:
             self.classLogger.message(message)
             raise error
         
-
-
-"""Insert
-https://booking.nextlegalone.com.br/config/ComplementoForo/EditModal
-JusticaText=Justi%C3%A7a+Estadual&JusticaId=13&UFText=Minas+Gerais&UFId=11&ForoText=Uberl%C3%A2ndia&ForoId=2338&Descricao=1%C2%B0+JD
-"""
