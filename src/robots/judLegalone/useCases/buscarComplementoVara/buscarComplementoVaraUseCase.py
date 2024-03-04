@@ -1,5 +1,6 @@
 import json
 import time
+from urllib.parse import urlencode
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
 from unidecode import unidecode
@@ -10,11 +11,13 @@ class BuscarComplementoVaraUseCase:
     def __init__(
         self,
         id_vara: str,
+        vara:str,
         complemento_vara: str,
         classLogger: Logger,
         context: BrowserContext
     ) -> None:
         self.id_vara = id_vara
+        self.vara = vara
         self.complemento_vara = complemento_vara
         self.classLogger = classLogger
         self.context = context
@@ -66,6 +69,29 @@ class BuscarComplementoVaraUseCase:
 
                 time.sleep(0.5)
                 cont +=1
+
+            url = f"https://booking.nextlegalone.com.br/config/ComplementoVaraTurma/EditModal"
+
+            body = urlencode({
+                "VaraTurmaText":self.vara,
+                "VaraTurmaId":self.id_vara,
+                "Descricao":self.complemento_vara
+            })
+
+            headers = {
+                "X-Requested-With":"XMLHttpRequest",
+                "Referer":url,
+                "Host":"booking.nextlegalone.com.br",
+                "Cookie":cookies_str,
+                "Content-Type":"application/x-www-form-urlencoded"
+            }
+
+            response = requests.post(url=url,data=body,headers=headers)
+
+            json_response = json.loads(response.text)
+
+            if response.status_code == 200:
+                return json_response 
 
             raise Exception ("vara não encontrada")
         except Exception as error:
