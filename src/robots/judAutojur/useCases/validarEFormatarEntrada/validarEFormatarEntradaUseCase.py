@@ -100,7 +100,7 @@ class ValidarEFormatarEntradaUseCase:
             arquivo_principal=fields.get("ArquivoPrincipal").strip(),
             houve_expedicao=fields.get("HouveExpedicao").strip(),
             qualificacao_envolvido="Parte",
-            processo_originario=fields.get("ProcessoOriginario") if fields.get("ProcessoOriginario") != '' else fields.get("Processo"),
+            processo_originario=fields.get("ProcessoOriginario") if fields.get("ProcessoOriginario") != '' and fields.get("ProcessoOriginario") is not None else fields.get("Processo"),
             natureza="CIVEL",
             fase="INICIAL",
             empresa="BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA",
@@ -153,6 +153,39 @@ class ValidarEFormatarEntradaUseCase:
 
         if data_input.sistema_tribunal == 'Projudi':
             data_input.sistema_tribunal = 'PROJUDI'
+
+        if data_input.cpf_cnpj_envolvido == '0':
+            data_input.cpf_cnpj_envolvido =''
+
+        if data_input.cpf_cnpj_outros_envolvidos1 == '0':
+            data_input.cpf_cnpj_outros_envolvidos1 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos2 == '0':
+            data_input.cpf_cnpj_outros_envolvidos2 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos3 == '0':
+            data_input.cpf_cnpj_outros_envolvidos3 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos4 == '0':
+            data_input.cpf_cnpj_outros_envolvidos4 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos5 == '0':
+            data_input.cpf_cnpj_outros_envolvidos5 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos6 == '0':
+            data_input.cpf_cnpj_outros_envolvidos6 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos7 == '0':
+            data_input.cpf_cnpj_outros_envolvidos7 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos8 == '0':
+            data_input.cpf_cnpj_outros_envolvidos8 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos9 == '0':
+            data_input.cpf_cnpj_outros_envolvidos9 =''
+
+        if data_input.cpf_cnpj_outros_envolvidos10 == '0':
+            data_input.cpf_cnpj_outros_envolvidos10 =''
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
