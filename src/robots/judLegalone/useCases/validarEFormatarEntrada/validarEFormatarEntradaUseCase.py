@@ -67,6 +67,11 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("ArquivoPrincipal") or fields.get("ArquivoPrincipal") is None:
             raise Exception("Informe a url do arquivo principal")
         
+        if fields.get("ProcessoOriginario") == '' and (fields.get("Titulo")=='Cumprimento de Sentença' or fields.get("Titulo")=='Carta Precatória'):
+            titulo = fields.get("Titulo")
+            message = f"O Titulo do processo é {titulo} porém não foi informado o processo originário"
+            raise Exception(message)
+
         usuario = "BazLegalOne"
         senha = "@Baz1978"
 
@@ -141,6 +146,9 @@ class ValidarEFormatarEntradaUseCase:
             arquivo_principal=fields.get("ArquivoPrincipal")
         )
 
+        if data_input.processo_originario != '' and (data_input.titulo == 'Indenizatória' or data_input.titulo == 'Reclamação Pré-Processual'):
+            data_input.processo_originario = ''
+
         if data_input.complemento_comarca == 'Capital Copacabana':
             data_input.complemento_comarca = 'Copacabana'
 
@@ -155,6 +163,9 @@ class ValidarEFormatarEntradaUseCase:
 
         if data_input.comarca == 'Embu das Artes':
             data_input.comarca = 'Embu Das Artes'
+
+        if data_input.vara == 'Vara do Juizado Especial':
+            data_input.vara = 'Vara Do Juizado Especial'
 
         if data_input.vara == 'Vara do Juizado Especial Cível':
             data_input.vara = 'Vara Do Juizado Especial Cível'
