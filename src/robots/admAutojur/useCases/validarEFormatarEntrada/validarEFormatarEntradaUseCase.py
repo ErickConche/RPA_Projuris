@@ -119,4 +119,10 @@ class ValidarEFormatarEntradaUseCase:
         if Deparas.depara_uf(data_input.uf):
             data_input.uf = Deparas.depara_uf(data_input.uf)
 
+        if len(data_input.data_solicitacao.split("/")[-1]) == 2:
+            dia, mes, ano = data_input.data_solicitacao.split('/')
+            if len(ano):
+                ano = '20' + ano
+            data_input.data_solicitacao =  f'{dia}/{mes}/{ano}'
+
         return data_input

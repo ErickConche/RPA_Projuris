@@ -117,4 +117,10 @@ class ValidarEFormatarEntradaUseCase:
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
 
+        if len(data_input.data_solicitacao.split("/")[-1]) == 2:
+            dia, mes, ano = data_input.data_solicitacao.split('/')
+            if len(ano):
+                ano = '20' + ano
+            data_input.data_solicitacao =  f'{dia}/{mes}/{ano}'
+
         return data_input

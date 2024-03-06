@@ -167,6 +167,9 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.vara == 'Vara do Juizado Especial':
             data_input.vara = 'Vara Do Juizado Especial'
 
+        if data_input.vara == 'Vara Descentralizada de Santa Felicidade':
+            data_input.vara = 'Vara Descentralizada De Santa Felicidade'
+
         if data_input.vara == 'Vara do Juizado Especial Cível':
             data_input.vara = 'Vara Do Juizado Especial Cível'
 
@@ -181,6 +184,12 @@ class ValidarEFormatarEntradaUseCase:
 
         if data_input.cpf_cnpj_envolvido == '0':
             data_input.cpf_cnpj_envolvido = ''
+
+        if len(data_input.data_distribuicao.split("/")[-1]) == 2:
+            dia, mes, ano = data_input.data_distribuicao.split('/')
+            if len(ano):
+                ano = '20' + ano
+            data_input.data_distribuicao =  f'{dia}/{mes}/{ano}'
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)

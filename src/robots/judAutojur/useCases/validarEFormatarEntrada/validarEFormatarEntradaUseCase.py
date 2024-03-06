@@ -186,6 +186,12 @@ class ValidarEFormatarEntradaUseCase:
 
         if data_input.cpf_cnpj_outros_envolvidos10 == '0':
             data_input.cpf_cnpj_outros_envolvidos10 =''
+        
+        if len(data_input.data_distribuicao.split("/")[-1]) == 2:
+            dia, mes, ano = data_input.data_distribuicao.split('/')
+            if len(ano):
+                ano = '20' + ano
+            data_input.data_distribuicao =  f'{dia}/{mes}/{ano}'
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
