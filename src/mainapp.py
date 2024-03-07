@@ -3,6 +3,7 @@ import time
 import warnings
 import global_variables.error_ged_legalone as error_ged_legalone
 from models.cliente.cliente import Cliente
+from models.log_execucao.log_execucao import LogExecucao
 from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
 from modules.logger.Logger import Logger
 
@@ -54,6 +55,14 @@ def main(
             ).execute()
             if not data.error or 'autojur' in queue or (data.error and not error_ged_legalone.get_error_ged_legalone()):
                 attemp = max_attemp
+        if not data.error:
+            LogExecucao(
+                con=con_rd
+            ).inserirLog(
+                queue_execucao=queue,
+                json_recebido=json.loads(json_recebido),
+                json_envio=data.data_return[0]
+            )
         EnviarPlataforma(
             tenant=identifier_tenant,
             classLogger=classLogger,

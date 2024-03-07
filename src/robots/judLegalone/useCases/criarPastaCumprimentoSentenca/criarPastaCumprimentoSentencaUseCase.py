@@ -53,7 +53,7 @@ class CriarPastaCumprimentoSentencaUseCase:
 
             self.page.goto(url_pasta)
             time.sleep(15)
-
+            self.classLogger.message("Inserindo Outros envolvidos")
             InserirDadosOutrosEnvolvidosUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -61,6 +61,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                 context=self.context
             ).execute()
 
+            self.classLogger.message("Inserindo envolvidos")
             InserirDadosEnvolvidoUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -68,6 +69,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                 context=self.context
             ).execute()
             
+            self.classLogger.message("Inserindo dados principais")
             id_uf = InserirDadosAreaPrincipalUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -75,6 +77,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                 context=self.context
             ).execute()
 
+            self.classLogger.message("Inserindo dados da empresa")
             InserirDadosEmpresaUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -82,6 +85,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                 context=self.context
             ).execute()
 
+            self.classLogger.message("Inserindo dados complementares")
             InserirDadosComplementaresUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -90,6 +94,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                 id_uf=id_uf
             ).execute()
             
+            self.classLogger.message("Inserindo dados personalizados")
             InserirDadosPersonalizadosUseCase(
                 page=self.page,
                 data_input=self.data_input,

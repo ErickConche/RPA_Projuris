@@ -94,7 +94,7 @@ class ValidarEFormatarEntradaUseCase:
             uf=fields.get("UF"),
             cidade=fields.get("Cidade"),
             data_solicitacao=fields.get("DataSolicitacao"),
-            empresa=fields.get("NomeEmpresa"),
+            empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',
             posicao_envolvido=fields.get("PosicaoEnvolvido") if fields.get("PosicaoEnvolvido") and fields.get("PosicaoEnvolvido") is not None else 'Reclamante',
             nome_envolvido=fields.get("NomeEnvolvido"),
             cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido"),

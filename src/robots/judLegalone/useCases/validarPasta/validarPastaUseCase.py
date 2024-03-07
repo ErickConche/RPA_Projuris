@@ -42,10 +42,6 @@ class ValidarPastaJudUseCase:
             response = requests.get(url=url,headers=headers)
 
             json_response:dict = json.loads(response.text)
-
-            if 'Unauthorized' in response.text and is_indelizatorio:
-                raise Exception("O processo originário não foi encontrado")
-
             if len(json_response.get("Groups"))<=0:
                 message = f"Não existe pasta para o CNJ {self.processo}"
                 self.classLogger.message(message)

@@ -13,12 +13,14 @@ class CadastrarEnvolvidoUseCase:
         nome_envolvido:str,
         cpf_cnpj_envolvido: str,
         classLogger: Logger,
-        context: BrowserContext
+        context: BrowserContext,
+        retry: bool = False
     ) -> None:
         self.nome_envolvido = nome_envolvido
         self.cpf_cnpj_envolvido = cpf_cnpj_envolvido
         self.classLogger = classLogger
         self.context = context
+        self.retry = retry
 
     def execute(self)->dict:
         try:
@@ -62,6 +64,14 @@ class CadastrarEnvolvidoUseCase:
                 return json_response
             raise Exception(response.text)
         except Exception as error:
+            if not self.retry:
+                return CadastrarEnvolvidoUseCase(
+                    nome_envolvido=self.nome_envolvido,
+                    cpf_cnpj_envolvido='',
+                    classLogger=self.classLogger,
+                    context=self.context,
+                    retry=True
+                ).execute()
             message = "Erro ao cadastrar o envolvido no Legalone"
             self.classLogger.message(message)
             raise error

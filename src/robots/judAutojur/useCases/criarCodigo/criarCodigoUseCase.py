@@ -34,6 +34,7 @@ class CriarCodigoUseCase:
                     self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=5")
                     time.sleep(10)
 
+                    self.classLogger.message("Inserindo Outros envolvidos")
                     InserirDadosOutrosEnvolvidosUseCase(
                         page=self.page,
                         data_input=self.data_input,
@@ -46,12 +47,14 @@ class CriarCodigoUseCase:
                         classLogger=self.classLogger
                     ).execute()
 
+                    self.classLogger.message("Inserindo dados cadastrais")
                     InserirDadosCadastraisUseCase(
                         page=self.page,
                         data_input=self.data_input,
                         classLogger=self.classLogger
                     ).execute()
 
+                    self.classLogger.message("Inserindo comentarios")
                     InserirDadosComentariosUseCAse(
                         page=self.page,
                         data_input=self.data_input,

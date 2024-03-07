@@ -20,6 +20,7 @@ class InserirDadosEnvolvidosUseCase:
 
     def execute(self):
         try:
+            self.classLogger.message("Inserindo dados da parte")
             InserirDadosParteUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -27,6 +28,7 @@ class InserirDadosEnvolvidosUseCase:
             ).execute()
             time.sleep(10)
 
+            self.classLogger.message("Inserindo dados da autoridade")
             InserirDadosAutoridadeUseCase(
                 page=self.page,
                 data_input=self.data_input,
@@ -34,6 +36,7 @@ class InserirDadosEnvolvidosUseCase:
             ).execute()
             time.sleep(10)
 
+            self.classLogger.message("Inserindo dados da empresa")
             InserirDadosEmpresaUseCase(
                 page=self.page,
                 data_input=self.data_input,

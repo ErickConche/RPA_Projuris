@@ -31,6 +31,7 @@ class CriarPastaUseCase:
             time.sleep(15)
 
             ## Inserindo dados no formulario
+            self.classLogger.message("Inserindo dados do envolvido")
             InserirDadosEnvolvidosUseCase(
                 page=self.page,
                 nome_envolvido=self.data_input.nome_envolvido,
@@ -41,6 +42,7 @@ class CriarPastaUseCase:
                 context=self.context
             ).execute()
 
+            self.classLogger.message("Inserindo dados principais")
             InserirDadosPrincipaisUseCase(
                 page=self.page,
                 tipo_sistema=self.data_input.tipo_sistema,
@@ -51,18 +53,21 @@ class CriarPastaUseCase:
                 context=self.context
             ).execute()
 
+            self.classLogger.message("Inserindo dados da empresa")
             InserirDadosEmpresaUseCase(
                 page=self.page,
                 empresa=self.data_input.empresa,
                 classLogger=self.classLogger
             ).execute()
 
+            self.classLogger.message("Inserindo observação")
             InserirDadosObservacaoUseCase(
                 page=self.page,
                 observacoes=self.data_input.observacoes,
                 classLogger=self.classLogger
             ).execute()
 
+            self.classLogger.message("Inserindo dados personalizados")
             InserirDadosPersonalizadosUseCase(
                 page=self.page,
                 id_acomodacao=self.data_input.id_acomodacao,

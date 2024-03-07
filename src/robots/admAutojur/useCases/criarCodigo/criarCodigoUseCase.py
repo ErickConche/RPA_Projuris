@@ -41,18 +41,21 @@ class CriarCodigoUseCase:
                         classLogger=self.classLogger
                     ).execute()
 
+                    self.classLogger.message("Inserindo dados cadastrais")
                     InserirDadosCadastraisUseCase(
                         page=self.page,
                         data_input=self.data_input,
                         classLogger=self.classLogger
                     ).execute()
 
+                    self.classLogger.message("Inserindo dados personalizados")
                     InserirDadosPersonalizadosUseCase(
                         page=self.page,
                         data_input=self.data_input,
                         classLogger=self.classLogger
                     ).execute()
 
+                    self.classLogger.message("Inserindo arquivo")
                     InserirArquivosUseCase(
                         page=self.page,
                         data_input=self.data_input,

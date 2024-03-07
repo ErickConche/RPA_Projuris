@@ -34,7 +34,7 @@ class UploadArquivoUseCase:
                     self.page.locator('input[title="file input"]').click()
                 file_chooser = fc_info.value
                 file_chooser.set_files(self.nome_arquivo)
-                time.sleep(60)
+                time.sleep(35)
                 if self.file_main:
                     self.page.locator("#TipoText").click()
                     time.sleep(1)
@@ -60,12 +60,12 @@ class UploadArquivoUseCase:
                                 self.page.locator('input[title="file input"]').click()
                             file_chooser = fc_info.value
                             file_chooser.set_files(file)
-                            time.sleep(60)
+                            time.sleep(35)
                             os.remove(file)
                             self.page.click('button[name="ButtonSave"][value="0"]')
                             message = f"Arquivo secundario {file}, inserido na caixa de seleção e persistido"
                             self.classLogger.message(message)
-                            time.sleep(15)
+                            time.sleep(7)
                             attemp = max_attemp
                             AcessarPaginaUploadUseCase(
                                 page=self.page,
