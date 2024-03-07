@@ -54,7 +54,7 @@ class InserirDadosPersonalizadosUseCase:
             self.page.query_selector('#TipoDaReclamacao_ServicoEntitySchema_p16891_o_Value').type(self.tiporeclamacao)
             time.sleep(1)
             self.page.locator('#TipoDaReclamacao_ServicoEntitySchema_p16891_o_Lookup .lookup-button.lookup-filter').click()
-            time.sleep(10)
+            time.sleep(5)
             self.page.locator(f'tr[data-val-id="{Deparas.depara_tipo_reclamacao(self.tiporeclamacao)}"] td[data-val-field="Value"]:text("{self.tiporeclamacao}")').click()
             time.sleep(4)
 
@@ -63,7 +63,7 @@ class InserirDadosPersonalizadosUseCase:
             self.page.query_selector('#TipoDeProcesso_ServicoEntitySchema_p17570_o_Value').type(self.tipoprocesso)
             time.sleep(1)
             self.page.locator('#TipoDeProcesso_ServicoEntitySchema_p17570_o_Lookup .lookup-button.lookup-filter').click()
-            time.sleep(10)
+            time.sleep(5)
             self.page.locator(f'tr[data-val-id="{Deparas.depara_tipo_processo(self.tipoprocesso)}"] td[data-val-field="Value"]:text("{self.tipoprocesso}")').click()
             time.sleep(4)
 

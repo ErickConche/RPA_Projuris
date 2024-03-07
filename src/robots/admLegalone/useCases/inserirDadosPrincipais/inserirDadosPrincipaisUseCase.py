@@ -33,9 +33,9 @@ class InserirDadosPrincipaisUseCase:
             self.page.query_selector('#TipoText').type(self.tipo_sistema)
             time.sleep(1)
             self.page.locator('#lookupTipo .lookup-button.lookup-filter').click()
-            time.sleep(5)
+            time.sleep(3)
             self.page.locator(f'tr[data-val-id="{Deparas.depara_sistema(self.tipo_sistema)}"] td[data-val-field="Value"]:text("{self.tipo_sistema}")').click()
-            time.sleep(5)
+            time.sleep(3)
 
             self.page.query_selector('#DtSolicitacao').click()
             time.sleep(1)
@@ -52,9 +52,9 @@ class InserirDadosPrincipaisUseCase:
             self.page.query_selector('#UFText').type(self.uf)
             time.sleep(1)
             self.page.locator('#lookup_uf .lookup-button.lookup-filter').click()
-            time.sleep(5)
+            time.sleep(3)
             self.page.locator(f'tr[data-val-id="{info_uf.get("Id")}"] td[data-val-field="UFText"]:text("{info_uf.get("UFText")}")').click()
-            time.sleep(5)
+            time.sleep(3)
 
 
             try:
@@ -69,9 +69,9 @@ class InserirDadosPrincipaisUseCase:
                 self.page.query_selector('#CidadeText').type(self.cidade)
                 time.sleep(1)
                 self.page.locator('#LookupCidade .lookup-button.lookup-filter').click()
-                time.sleep(5)
+                time.sleep(3)
                 self.page.locator(f'tr[data-val-id="{info_cidade.get("Id")}"] td[data-val-field="Value"]:text("{info_cidade.get("Value")}")').click()
-                time.sleep(5)
+                time.sleep(3)
             except Exception as error:
                 message = "Erro ao buscar cidade. Continuará a execução porém sem a informação da cidade"
                 self.classLogger.message(message)

@@ -28,7 +28,7 @@ class CriarPastaUseCase:
     def execute(self)->PastaModel:
         try:
             self.page.goto("https://booking.nextlegalone.com.br/servicos/servicos/create?returnUrl=%2Fservicos%2Fservicos%2Fsearch%3Fajaxnavigation%3Dtrue")
-            time.sleep(15)
+            time.sleep(5)
 
             ## Inserindo dados no formulario
             self.classLogger.message("Inserindo dados do envolvido")

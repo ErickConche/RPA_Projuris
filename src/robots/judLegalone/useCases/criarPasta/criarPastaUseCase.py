@@ -49,6 +49,7 @@ class CriarPastaUseCase:
                             url_pasta_originaria=self.url_pasta_originaria
                         ).execute()
                     success = True
+                    break
                 except Exception as error:
                     time.sleep(3)
                     message_error = str(error)

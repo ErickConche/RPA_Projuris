@@ -27,7 +27,7 @@ class InserirDadosEnvolvidosUseCase:
     def execute(self):
         try:
             self.page.query_selector(f'#add_outroEnvolvido').click()
-            time.sleep(5)
+            time.sleep(3)
             usuario = BuscarEnvolvidoUseCase(
                 nome_envolvido=self.nome_envolvido,
                 cpf_cnpj_envolvido=self.cpf_cnpj_envolvido,
@@ -44,9 +44,9 @@ class InserirDadosEnvolvidosUseCase:
             time.sleep(1)
             elemento_envolvido = self.page.locator(f'#OutrosEnvolvidos_{id_do_cliente_envolvido}__LookupPosicaoNaoUnica')
             elemento_envolvido.locator('.lookup-button.lookup-filter').click()
-            time.sleep(10)
-            self.page.locator(f'tr[data-val-id="{Deparas.depara_posicao_reclamante(self.posicao_envolvido)}"]').click() ### Criar depara
             time.sleep(5)
+            self.page.locator(f'tr[data-val-id="{Deparas.depara_posicao_reclamante(self.posicao_envolvido)}"]').click() ### Criar depara
+            time.sleep(3)
 
             self.page.query_selector(f'#OutrosEnvolvidos_{id_do_cliente_envolvido}__EnvolvidoText').click()
             time.sleep(1)
@@ -54,9 +54,9 @@ class InserirDadosEnvolvidosUseCase:
             time.sleep(1)
             elemento_envolvido = self.page.locator(f'#OutrosEnvolvidos_{id_do_cliente_envolvido}__LookupContato')
             elemento_envolvido.locator('.lookup-button.lookup-filter').click()
-            time.sleep(10)
-            self.page.locator(f'tr[data-val-id="{usuario.get("Id")}"]').click() 
             time.sleep(5)
+            self.page.locator(f'tr[data-val-id="{usuario.get("Id")}"]').click() 
+            time.sleep(3)
 
         except Exception as error:
             raise Exception("Erro ao inserir dados dos envolvidos no formulario de criação")
