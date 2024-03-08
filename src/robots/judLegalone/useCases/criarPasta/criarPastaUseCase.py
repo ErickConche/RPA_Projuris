@@ -26,36 +26,22 @@ class CriarPastaUseCase:
 
     def execute(self)->PastaModel:
         try:
-            attemp = 0
-            max_attemp = 3
-            success = False
-            message_error = None
-            while attemp < max_attemp:
-                try:    
-                    if self.data_input.titulo == 'Indenizatória' or self.data_input.titulo == 'Reclamação Pré-Processual':
-                        response = CriarPastaIndenizatoriaUseCase(
-                            page=self.page,
-                            data_input=self.data_input,
-                            classLogger=self.classLogger,
-                            context=self.context
-                        ).execute()
+            if self.data_input.titulo == 'Indenizatória' or self.data_input.titulo == 'Reclamação Pré-Processual':
+                response = CriarPastaIndenizatoriaUseCase(
+                    page=self.page,
+                    data_input=self.data_input,
+                    classLogger=self.classLogger,
+                    context=self.context
+                ).execute()
 
-                    elif self.data_input.titulo == 'Cumprimento de Sentença' or self.data_input.titulo == 'Carta Precatória':
-                        response = CriarPastaCumprimentoSentencaUseCase(
-                            page=self.page,
-                            data_input=self.data_input,
-                            classLogger=self.classLogger,
-                            context=self.context,
-                            url_pasta_originaria=self.url_pasta_originaria
-                        ).execute()
-                    success = True
-                    break
-                except Exception as error:
-                    time.sleep(3)
-                    message_error = str(error)
-            
-            if not success:
-                raise Exception(message_error)
+            elif self.data_input.titulo == 'Cumprimento de Sentença' or self.data_input.titulo == 'Carta Precatória':
+                response = CriarPastaCumprimentoSentencaUseCase(
+                    page=self.page,
+                    data_input=self.data_input,
+                    classLogger=self.classLogger,
+                    context=self.context,
+                    url_pasta_originaria=self.url_pasta_originaria
+                ).execute()
             
             InserirArquivosUseCase(
                 page=self.page,
