@@ -11,12 +11,14 @@ class ValidarPastaAutojurUseCase:
         page: Page,
         pasta:str, 
         processo: str,
-        classLogger: Logger
+        classLogger: Logger,
+        retry: bool = False
     ) -> None:
         self.page = page
         self.pasta = pasta
         self.processo = processo
         self.classLogger = classLogger
+        self.retry = retry
 
     def execute(self)->CodigoModel:
         try:
@@ -60,6 +62,15 @@ class ValidarPastaAutojurUseCase:
                                 )
                                 return data_codigo
                     
+                    if not self.retry:
+                        return ValidarPastaAutojurUseCase(
+                            page=self.page,
+                            pasta=self.pasta.replace("Pasta nº ",""),
+                            processo=self.processo,
+                            classLogger=self.classLogger,
+                            retry=True
+                        ).execute()
+
                     message = "A pasta informada não possui um codigo existente"
                     self.classLogger.message(message)
                     data_codigo: CodigoModel = CodigoModel(

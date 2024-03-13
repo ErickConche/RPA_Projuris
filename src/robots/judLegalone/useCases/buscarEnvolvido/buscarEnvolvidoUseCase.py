@@ -12,12 +12,14 @@ class BuscarEnvolvidoUseCase:
         nome_envolvido:str,
         cpf_cnpj_envolvido: str,
         classLogger: Logger,
-        context: BrowserContext
+        context: BrowserContext,
+        retry: bool = False
     ) -> None:
         self.nome_envolvido = nome_envolvido
         self.cpf_cnpj_envolvido = cpf_cnpj_envolvido
         self.classLogger = classLogger
         self.context = context
+        self.retry = retry
 
     def execute(self)->dict:
         try:
@@ -41,7 +43,8 @@ class BuscarEnvolvidoUseCase:
                     nome_envolvido=self.nome_envolvido,
                     cpf_cnpj_envolvido=self.cpf_cnpj_envolvido,
                     classLogger=self.classLogger,
-                    context=self.context
+                    context=self.context,
+                    retry=self.retry
                 ).execute()
             for row in json_response.get('Rows'):
                 if unidecode(row.get("Value").upper()) == unidecode(self.nome_envolvido.upper()) \
@@ -52,9 +55,18 @@ class BuscarEnvolvidoUseCase:
                 nome_envolvido=self.nome_envolvido,
                 cpf_cnpj_envolvido=self.cpf_cnpj_envolvido,
                 classLogger=self.classLogger,
-                context=self.context
+                context=self.context,
+                retry=self.retry
             ).execute()
         except Exception as error:
+            if not self.retry:
+                return BuscarEnvolvidoUseCase(
+                    nome_envolvido=self.nome_envolvido,
+                    cpf_cnpj_envolvido='',
+                    classLogger=self.classLogger,
+                    context=self.context,
+                    retry=True
+                ).execute()
             message = "Erro ao buscar o cadastro do envolvido no Legalone"
             self.classLogger.message(message)
             raise error

@@ -43,22 +43,26 @@ def main(
             classLogger = Logger(hiring_id=task_id)
             message = "Inicio da aplicação "+str(datetime.now())
             classLogger.message(message=message)
-            data = RobotCore(
-                con_rd=con_rd,
-                classLogger=classLogger,
-                json_recebido=json_recebido,
-                task_id=task_id,
-                identifier_tenant=identifier_tenant,
-                cliente=cliente,
-                queue=queue,
-                id_queue=id_queue
-            ).execute()
-            if not data.error or 'autojur' in queue or (data.error and not error_ged_legalone.get_error_ged_legalone()):
-                attemp = max_attemp
+            classLogExecucao = LogExecucao(con=con_rd)
+            data = classLogExecucao.buscarLog(
+                queue_execucao=queue,
+                json_recebido=json.loads(json_recebido)
+            )
+            if not data:
+                data = RobotCore(
+                    con_rd=con_rd,
+                    classLogger=classLogger,
+                    json_recebido=json_recebido,
+                    task_id=task_id,
+                    identifier_tenant=identifier_tenant,
+                    cliente=cliente,
+                    queue=queue,
+                    id_queue=id_queue
+                ).execute()
+                if not data.error or 'autojur' in queue or (data.error and not error_ged_legalone.get_error_ged_legalone()):
+                    attemp = max_attemp
         if not data.error:
-            LogExecucao(
-                con=con_rd
-            ).inserirLog(
+            classLogExecucao.inserirLog(
                 queue_execucao=queue,
                 json_recebido=json.loads(json_recebido),
                 json_envio=data.data_return[0]

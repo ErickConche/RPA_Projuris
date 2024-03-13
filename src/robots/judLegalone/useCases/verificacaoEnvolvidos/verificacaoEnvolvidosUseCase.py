@@ -1,5 +1,6 @@
 import json
 import time
+from urllib.parse import quote
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
 from unidecode import unidecode
@@ -32,7 +33,7 @@ class VerificacaoEnvolvidosUseCase:
                     cookies_str = ''
                     for cookie in cookies:
                         cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
-                    url = f"https://booking.nextlegalone.com.br/contatos/Contatos/LookupGridContato?positionId=1&term={obj_envolvido.cpf_cnpj}&pageSize=10&_=170"
+                    url = f"https://booking.nextlegalone.com.br/contatos/Contatos/LookupGridContato?positionId=1&term={quote(obj_envolvido.cpf_cnpj)}&pageSize=10&_=170"
                     headers = {
                         "X-Requested-With":"XMLHttpRequest",
                         "Referer":url,

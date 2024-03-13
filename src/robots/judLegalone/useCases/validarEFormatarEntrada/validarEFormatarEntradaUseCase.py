@@ -99,47 +99,47 @@ class ValidarEFormatarEntradaUseCase:
             vara=fields.get("Vara"),
             empresa=fields.get("NomeEmpresa") if fields.get("NomeEmpresa") and fields.get("NomeEmpresa") is not None else 'Booking.com Brasil Serviços de Reserva de Hotéis Ltda',
             nome_envolvido=fields.get("NomeEnvolvido"),
-            cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido"),
+            cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido").replace(" ",""),
             situacao_outros_envolvidos1=fields.get("SituacaoOutrosEnvolvidos1") if fields.get("SituacaoOutrosEnvolvidos1") and fields.get("SituacaoOutrosEnvolvidos1") is not None else 'Parte',
             posicao_outros_envolvidos1=fields.get("PosicaoOutrosEnvolvidos1") if fields.get("PosicaoOutrosEnvolvidos1") and fields.get("PosicaoOutrosEnvolvidos1") is not None else '',
             nome_outros_envolvidos1=fields.get("NomeOutrosEnvolvidos1") if fields.get("NomeOutrosEnvolvidos1") and fields.get("NomeOutrosEnvolvidos1") is not None else '',
-            cpf_cnpj_outros_envolvidos1=fields.get("CpfCnpjOutrosEnvolvidos1") if fields.get("CpfCnpjOutrosEnvolvidos1") and fields.get("CpfCnpjOutrosEnvolvidos1") is not None else '',
+            cpf_cnpj_outros_envolvidos1=fields.get("CpfCnpjOutrosEnvolvidos1").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos1") and fields.get("CpfCnpjOutrosEnvolvidos1") is not None else '',
             situacao_outros_envolvidos2=fields.get("SituacaoOutrosEnvolvidos2") if fields.get("SituacaoOutrosEnvolvidos2") and fields.get("SituacaoOutrosEnvolvidos2") is not None else 'Parte',
             posicao_outros_envolvidos2=fields.get("PosicaoOutrosEnvolvidos2") if fields.get("PosicaoOutrosEnvolvidos2") and fields.get("PosicaoOutrosEnvolvidos2") is not None else '',
             nome_outros_envolvidos2=fields.get("NomeOutrosEnvolvidos2") if fields.get("NomeOutrosEnvolvidos2") and fields.get("NomeOutrosEnvolvidos2") is not None else '',
-            cpf_cnpj_outros_envolvidos2=fields.get("CpfCnpjOutrosEnvolvidos2") if fields.get("CpfCnpjOutrosEnvolvidos2") and fields.get("CpfCnpjOutrosEnvolvidos2") is not None else '',
+            cpf_cnpj_outros_envolvidos2=fields.get("CpfCnpjOutrosEnvolvidos2").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos2") and fields.get("CpfCnpjOutrosEnvolvidos2") is not None else '',
             situacao_outros_envolvidos3=fields.get("SituacaoOutrosEnvolvidos3") if fields.get("SituacaoOutrosEnvolvidos3") and fields.get("SituacaoOutrosEnvolvidos3") is not None else 'Parte',
             posicao_outros_envolvidos3=fields.get("PosicaoOutrosEnvolvidos3") if fields.get("PosicaoOutrosEnvolvidos3") and fields.get("PosicaoOutrosEnvolvidos3") is not None else '',
             nome_outros_envolvidos3=fields.get("NomeOutrosEnvolvidos3") if fields.get("NomeOutrosEnvolvidos3") and fields.get("NomeOutrosEnvolvidos3") is not None else '',
-            cpf_cnpj_outros_envolvidos3=fields.get("CpfCnpjOutrosEnvolvidos3") if fields.get("CpfCnpjOutrosEnvolvidos3") and fields.get("CpfCnpjOutrosEnvolvidos3") is not None else '',
+            cpf_cnpj_outros_envolvidos3=fields.get("CpfCnpjOutrosEnvolvidos3").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos3")and fields.get("CpfCnpjOutrosEnvolvidos3") is not None else '',
             situacao_outros_envolvidos4=fields.get("SituacaoOutrosEnvolvidos4") if fields.get("SituacaoOutrosEnvolvidos4") and fields.get("SituacaoOutrosEnvolvidos4") is not None else 'Parte',
             posicao_outros_envolvidos4=fields.get("PosicaoOutrosEnvolvidos4") if fields.get("PosicaoOutrosEnvolvidos4") and fields.get("PosicaoOutrosEnvolvidos4") is not None else '',
             nome_outros_envolvidos4=fields.get("NomeOutrosEnvolvidos4") if fields.get("NomeOutrosEnvolvidos4") and fields.get("NomeOutrosEnvolvidos4") is not None else '',
-            cpf_cnpj_outros_envolvidos4=fields.get("CpfCnpjOutrosEnvolvidos4") if fields.get("CpfCnpjOutrosEnvolvidos4") and fields.get("CpfCnpjOutrosEnvolvidos4") is not None else '',
+            cpf_cnpj_outros_envolvidos4=fields.get("CpfCnpjOutrosEnvolvidos4").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos4")and fields.get("CpfCnpjOutrosEnvolvidos4") is not None else '',
             situacao_outros_envolvidos5=fields.get("SituacaoOutrosEnvolvidos5") if fields.get("SituacaoOutrosEnvolvidos5") and fields.get("SituacaoOutrosEnvolvidos5") is not None else 'Parte',
             posicao_outros_envolvidos5=fields.get("PosicaoOutrosEnvolvidos5") if fields.get("PosicaoOutrosEnvolvidos5") and fields.get("PosicaoOutrosEnvolvidos5") is not None else '',
             nome_outros_envolvidos5=fields.get("NomeOutrosEnvolvidos5") if fields.get("NomeOutrosEnvolvidos5") and fields.get("NomeOutrosEnvolvidos5") is not None else '',
-            cpf_cnpj_outros_envolvidos5=fields.get("CpfCnpjOutrosEnvolvidos5") if fields.get("CpfCnpjOutrosEnvolvidos5") and fields.get("CpfCnpjOutrosEnvolvidos5") is not None else '',
+            cpf_cnpj_outros_envolvidos5=fields.get("CpfCnpjOutrosEnvolvidos5").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos5") and fields.get("CpfCnpjOutrosEnvolvidos5") is not None else '',
             situacao_outros_envolvidos6=fields.get("SituacaoOutrosEnvolvidos6") if fields.get("SituacaoOutrosEnvolvidos6") and fields.get("SituacaoOutrosEnvolvidos6") is not None else 'Parte',
             posicao_outros_envolvidos6=fields.get("PosicaoOutrosEnvolvidos6") if fields.get("PosicaoOutrosEnvolvidos6") and fields.get("PosicaoOutrosEnvolvidos6") is not None else '',
             nome_outros_envolvidos6=fields.get("NomeOutrosEnvolvidos6") if fields.get("NomeOutrosEnvolvidos6") and fields.get("NomeOutrosEnvolvidos6") is not None else '',
-            cpf_cnpj_outros_envolvidos6=fields.get("CpfCnpjOutrosEnvolvidos6") if fields.get("CpfCnpjOutrosEnvolvidos6") and fields.get("CpfCnpjOutrosEnvolvidos6") is not None else '',
+            cpf_cnpj_outros_envolvidos6=fields.get("CpfCnpjOutrosEnvolvidos6").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos6") and fields.get("CpfCnpjOutrosEnvolvidos6") is not None else '',
             situacao_outros_envolvidos7=fields.get("SituacaoOutrosEnvolvidos7") if fields.get("SituacaoOutrosEnvolvidos7") and fields.get("SituacaoOutrosEnvolvidos7") is not None else 'Parte',
             posicao_outros_envolvidos7=fields.get("PosicaoOutrosEnvolvidos7") if fields.get("PosicaoOutrosEnvolvidos7") and fields.get("PosicaoOutrosEnvolvidos7") is not None else '',
             nome_outros_envolvidos7=fields.get("NomeOutrosEnvolvidos7") if fields.get("NomeOutrosEnvolvidos7") and fields.get("NomeOutrosEnvolvidos7") is not None else '',
-            cpf_cnpj_outros_envolvidos7=fields.get("CpfCnpjOutrosEnvolvidos7") if fields.get("CpfCnpjOutrosEnvolvidos7") and fields.get("CpfCnpjOutrosEnvolvidos7") is not None else '',
+            cpf_cnpj_outros_envolvidos7=fields.get("CpfCnpjOutrosEnvolvidos7").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos7") and fields.get("CpfCnpjOutrosEnvolvidos7") is not None else '',
             situacao_outros_envolvidos8=fields.get("SituacaoOutrosEnvolvidos8") if fields.get("SituacaoOutrosEnvolvidos8") and fields.get("SituacaoOutrosEnvolvidos8") is not None else 'Parte',
             posicao_outros_envolvidos8=fields.get("PosicaoOutrosEnvolvidos8") if fields.get("PosicaoOutrosEnvolvidos8") and fields.get("PosicaoOutrosEnvolvidos8") is not None else '',
             nome_outros_envolvidos8=fields.get("NomeOutrosEnvolvidos8") if fields.get("NomeOutrosEnvolvidos8") and fields.get("NomeOutrosEnvolvidos8") is not None else '',
-            cpf_cnpj_outros_envolvidos8=fields.get("CpfCnpjOutrosEnvolvidos8") if fields.get("CpfCnpjOutrosEnvolvidos8") and fields.get("CpfCnpjOutrosEnvolvidos8") is not None else '',
+            cpf_cnpj_outros_envolvidos8=fields.get("CpfCnpjOutrosEnvolvidos8").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos8") and fields.get("CpfCnpjOutrosEnvolvidos8") is not None else '',
             situacao_outros_envolvidos9=fields.get("SituacaoOutrosEnvolvidos9") if fields.get("SituacaoOutrosEnvolvidos9") and fields.get("SituacaoOutrosEnvolvidos9") is not None else 'Parte',
             posicao_outros_envolvidos9=fields.get("PosicaoOutrosEnvolvidos9") if fields.get("PosicaoOutrosEnvolvidos9") and fields.get("PosicaoOutrosEnvolvidos9") is not None else '',
             nome_outros_envolvidos9=fields.get("NomeOutrosEnvolvidos9") if fields.get("NomeOutrosEnvolvidos9") and fields.get("NomeOutrosEnvolvidos9") is not None else '',
-            cpf_cnpj_outros_envolvidos9=fields.get("CpfCnpjOutrosEnvolvidos9") if fields.get("CpfCnpjOutrosEnvolvidos9") and fields.get("CpfCnpjOutrosEnvolvidos9") is not None else '',
+            cpf_cnpj_outros_envolvidos9=fields.get("CpfCnpjOutrosEnvolvidos9").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos9") and fields.get("CpfCnpjOutrosEnvolvidos9") is not None else '',
             situacao_outros_envolvidos10=fields.get("SituacaoOutrosEnvolvidos10") if fields.get("SituacaoOutrosEnvolvidos10") and fields.get("SituacaoOutrosEnvolvidos10") is not None else 'Parte',
             posicao_outros_envolvidos10=fields.get("PosicaoOutrosEnvolvidos10") if fields.get("PosicaoOutrosEnvolvidos10") and fields.get("PosicaoOutrosEnvolvidos10") is not None else '',
             nome_outros_envolvidos10=fields.get("NomeOutrosEnvolvidos10") if fields.get("NomeOutrosEnvolvidos10") and fields.get("NomeOutrosEnvolvidos10") is not None else '',
-            cpf_cnpj_outros_envolvidos10=fields.get("CpfCnpjOutrosEnvolvidos10") if fields.get("CpfCnpjOutrosEnvolvidos10") and fields.get("CpfCnpjOutrosEnvolvidos10") is not None else '',
+            cpf_cnpj_outros_envolvidos10=fields.get("CpfCnpjOutrosEnvolvidos10").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos10") and fields.get("CpfCnpjOutrosEnvolvidos10") is not None else '',
             id_acomodacao=fields.get("IdAcomodacao") if fields.get("IdAcomodacao") and fields.get("IdAcomodacao") is not None else '0000',
             numero_reserva=fields.get("NumeroReserva") if fields.get("NumeroReserva") and fields.get("NumeroReserva") is not None else '0000',
             data_citacao=fields.get("DataCitacao") if fields.get("DataCitacao") and fields.get("DataCitacao") is not None else '',
@@ -161,8 +161,11 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.comarca == 'Norte da Ilha':
             data_input.comarca = 'Norte Da Ilha'
 
-        if data_input.comarca == 'Embu das Artes':
+        elif data_input.comarca == 'Embu das Artes':
             data_input.comarca = 'Embu Das Artes'
+
+        elif data_input.comarca == 'Arujá':
+            data_input.comarca = 'Guarujá'
 
         if data_input.vara == 'Vara do Juizado Especial':
             data_input.vara = 'Vara Do Juizado Especial'
