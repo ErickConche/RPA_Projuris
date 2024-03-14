@@ -12,7 +12,7 @@ class ValidarPastaAutojurUseCase:
         pasta:str, 
         processo: str,
         classLogger: Logger,
-        retry: bool = False
+        retry: int = 0
     ) -> None:
         self.page = page
         self.pasta = pasta
@@ -62,13 +62,17 @@ class ValidarPastaAutojurUseCase:
                                 )
                                 return data_codigo
                     
-                    if not self.retry:
+                    if self.retry < 2:
+                        if self.retry == 0:
+                            pasta = self.pasta.replace("º","°")
+                        elif self.retry == 1:
+                            pasta = self.pasta.replace("Pasta nº ","")
                         return ValidarPastaAutojurUseCase(
                             page=self.page,
-                            pasta=self.pasta.replace("Pasta nº ",""),
+                            pasta=pasta,
                             processo=self.processo,
                             classLogger=self.classLogger,
-                            retry=True
+                            retry=self.retry+1
                         ).execute()
 
                     message = "A pasta informada não possui um codigo existente"
