@@ -43,8 +43,7 @@ class BuscarEnvolvidoUseCase:
                     nome_envolvido=self.nome_envolvido,
                     cpf_cnpj_envolvido=self.cpf_cnpj_envolvido,
                     classLogger=self.classLogger,
-                    context=self.context,
-                    retry=self.retry
+                    context=self.context
                 ).execute()
             for row in json_response.get('Rows'):
                 if unidecode(row.get("Value").upper()) == unidecode(self.nome_envolvido.upper()) \
@@ -55,8 +54,7 @@ class BuscarEnvolvidoUseCase:
                 nome_envolvido=self.nome_envolvido,
                 cpf_cnpj_envolvido=self.cpf_cnpj_envolvido,
                 classLogger=self.classLogger,
-                context=self.context,
-                retry=self.retry
+                context=self.context
             ).execute()
         except Exception as error:
             if not self.retry:
