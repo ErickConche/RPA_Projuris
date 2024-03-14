@@ -1,9 +1,11 @@
 import time
+from bs4 import BeautifulSoup
 from unidecode import unidecode
 from playwright.sync_api import Page, BrowserContext, sync_playwright
 
 from modules.logger.Logger import Logger
 from robots.judAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+from robots.judAutojur.useCases.verificarDuplicidadeLitispendencia.verificarDuplicidadeLitispendenciaUseCase import VerificarDuplicidadeLitispendenciaUseCase
 
 class InserirDadosCadastraisUseCase:
     def __init__(
@@ -88,14 +90,20 @@ class InserirDadosCadastraisUseCase:
                 self.page.locator(f'li[data-item-label="{self.data_input.cidade.upper()}"]').click()
                 time.sleep(3)
 
-            if self.page.locator(f'li[data-item-label="{unidecode(self.data_input.cidade.upper())}"]').is_visible():
+            elif self.page.locator(f'li[data-item-label="{unidecode(self.data_input.cidade.upper())}"]').is_visible():
                 self.page.locator(f'li[data-item-label="{unidecode(self.data_input.cidade.upper())}"]').click()
                 time.sleep(3)
 
-            if self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').is_visible():
+            elif self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').is_visible():
                 self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').click()
                 time.sleep(3)
 
+            if self.page.locator("#modal-litispendencia").is_visible():
+                VerificarDuplicidadeLitispendenciaUseCase(
+                    page=self.page,
+                    data_input=self.data_input,
+                    classLogger=self.classLogger
+                ).execute()
             attemp = 0
             max_attemp = 3
             while attemp < max_attemp:
