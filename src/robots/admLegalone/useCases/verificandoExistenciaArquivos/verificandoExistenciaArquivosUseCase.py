@@ -32,21 +32,21 @@ class VerificandoExistenciaArquivosUseCase:
             message = "Verificando se os arquivos foram salvos."
             self.classLogger.message(message)
             self.page.goto(self.url_pasta)
-            time.sleep(10)
+            time.sleep(5)
             success = False
             attemp = 0
-            max_attemp = 3
+            max_attemp = 8
             while attemp < max_attemp:
                 try:
                     self.page.query_selector('#aTab-ecm').click()
-                    time.sleep(25)
+                    time.sleep(5)
                     self.page.query_selector('.add-popover-menu.popover-menu-button.main-popover-menu-button.tooltipMenu').hover()
-                    time.sleep(10)
+                    time.sleep(5)
                     attemp = max_attemp
                     success = True
                 except Exception as error:
                     attemp +=1
-                    time.sleep(5)
+                    time.sleep(3)
             if not success:
                 message = "Erro ao verificar se os arquivos foram salvos."
                 self.classLogger.message(message)

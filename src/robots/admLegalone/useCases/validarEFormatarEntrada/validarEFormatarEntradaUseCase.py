@@ -2,6 +2,7 @@
 import json
 import pytz
 from datetime import datetime
+from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from robots.admLegalone.useCases.deparas.deparas import Deparas
@@ -66,9 +67,7 @@ class ValidarEFormatarEntradaUseCase:
         
         if not fields.get("ArquivoPrincipal") or fields.get("ArquivoPrincipal") is None:
             raise Exception("Informe a url do arquivo principal")
-        
-        if not fields.get("ArquivosSecundarios") or fields.get("ArquivosSecundarios") is None:
-            raise Exception("Informe as urls dos arquivos secundarios")
+    
         
         fuso_horario_brasil = pytz.timezone('America/Sao_Paulo')
 
@@ -91,13 +90,13 @@ class ValidarEFormatarEntradaUseCase:
             username=usuario,
             password=senha,
             tipo_sistema=fields.get("Sistema"),
-            uf=fields.get("UF"),
+            uf=fields.get("UF").replace("-"," "),
             cidade=fields.get("Cidade"),
-            data_solicitacao=fields.get("DataSolicitacao"),
+            data_solicitacao=Formatacao().formatarData(fields.get("DataSolicitacao")),
             empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',
             posicao_envolvido=fields.get("PosicaoEnvolvido") if fields.get("PosicaoEnvolvido") and fields.get("PosicaoEnvolvido") is not None else 'Reclamante',
             nome_envolvido=fields.get("NomeEnvolvido"),
-            cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido"),
+            cpf_cnpj_envolvido=Formatacao().formatarCpfCnpj(fields.get("CpfCnpjEnvolvido")),
             tipo_envolvido=fields.get("TipoEnvolvido") if fields.get("TipoEnvolvido") and fields.get("TipoEnvolvido") is not None else 'Fisico',
             observacoes=fields.get("Observacao"),
             id_acomodacao=fields.get("IdAcomodacao") if fields.get("IdAcomodacao") and fields.get("IdAcomodacao") is not None else '0000',
@@ -108,12 +107,16 @@ class ValidarEFormatarEntradaUseCase:
             tipo_processo=fields.get("TipoProcesso"),
             dados_reserva=fields.get("DadosReserva"),
             arquivo_principal=fields.get("ArquivoPrincipal"),
-            arquivos_secundarios=fields.get("ArquivosSecundarios")
+            arquivos_secundarios=fields.get("ArquivosSecundarios") if fields.get("ArquivosSecundarios") and fields.get("ArquivosSecundarios") is not None else 'Nenhum arquivo anexado'
         )
+        
 
         if data_input.tipo_processo == 'C.I.P':
             data_input.tipo_processo = 'C.I.P.'
         
+        if data_input.tipo_sistema == 'PROCON-Consumidorgovbr':
+            data_input.tipo_sistema = "PROCON / Consumidor.gov.br"
+
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
 

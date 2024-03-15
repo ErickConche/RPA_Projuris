@@ -30,7 +30,7 @@ class InserirArquivosUseCase:
             time.sleep(3)
             file_input = self.page.locator('#ged-panel-processo\\:ged-body\\:form-upload\\:btn-upload_input')
             file_input.set_input_files(name_file_main_download)
-            time.sleep(60)
+            time.sleep(30)
         except Exception as error:
             message = "Erro ao inserir arquivos"
             self.classLogger.message(message)

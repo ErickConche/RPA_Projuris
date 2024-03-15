@@ -14,7 +14,8 @@ class Deparas:
             "Ofício":"16",
             "PROCON":"13",
             "PROCON / Consumidor.gov.br":"15",
-            "PROCON / Proconsumidor":"14"
+            "PROCON / Proconsumidor":"14",
+            'PROCON-Consumidorgovbr':"15"
         }
         return depara.get(sistema)
     

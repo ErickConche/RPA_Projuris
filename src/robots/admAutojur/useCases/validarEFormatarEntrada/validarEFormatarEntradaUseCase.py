@@ -2,6 +2,7 @@
 import json
 import pytz
 from datetime import datetime
+from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from robots.admAutojur.useCases.cookies.cookiesUseCase import CookiesUseCase
@@ -52,7 +53,7 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("CpfCnpjEnvolvido") or fields.get("CpfCnpjEnvolvido") is None:
             raise Exception("Informe o cpf ou cnpj do envolvido")
         
-        if len(fields.get("CpfCnpjEnvolvido"))!=14:
+        if len(fields.get("CpfCnpjEnvolvido"))!=14 and len(fields.get("CpfCnpjEnvolvido"))!=11:
             raise Exception("CPF invalido")
         
         if not fields.get("Sistema") or fields.get("Sistema") is None:
@@ -92,16 +93,16 @@ class ValidarEFormatarEntradaUseCase:
             url_cookie=cookie.url,
             numero_reclamacao=fields.get("Reclamacao"),
             pasta=fields.get("Pasta"),
-            data_solicitacao=fields.get("DataSolicitacao"),
-            uf=fields.get("UF"),
+            data_solicitacao=Formatacao().formatarData(fields.get("DataSolicitacao")),
+            uf=fields.get("UF").replace("-"," "),
             cidade=fields.get("Cidade"),
             tipo_processo=fields.get("TipoProcesso") if fields.get("TipoProcesso") and fields.get("TipoProcesso") is not None else 'Reclamação',
-            tipo_extrajudicial=fields.get("TipoExtrajudicial") if fields.get("TipoExtrajudicial") and fields.get("TipoExtrajudicial") is not None else 'Contencioso Administrativo',
+            tipo_extrajudicial=fields.get("TipoExtrajudicial").replace("-"," ") if fields.get("TipoExtrajudicial") and fields.get("TipoExtrajudicial") is not None else 'Contencioso Administrativo',
             empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',
             situacao=fields.get("Situacao") if fields.get("Situacao") and fields.get("Situacao") is not None else 'Ativo',
             qualificacao_empresa=fields.get("QualificacaoEmpresa") if fields.get("QualificacaoEmpresa") and fields.get("QualificacaoEmpresa") is not None else 'CLIENTE - CLIENTE',
             nome_envolvido=fields.get("NomeEnvolvido"),
-            cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido"),
+            cpf_cnpj_envolvido=Formatacao().formatarCpfCnpj(fields.get("CpfCnpjEnvolvido")),
             tipo_envolvido=fields.get("TipoEnvolvido") if fields.get("TipoEnvolvido") and fields.get("TipoEnvolvido") is not None else 'Fisico',
             qualificacao_envolvido=fields.get("QualificacaoEnvolvido") if fields.get("QualificacaoEnvolvido") and fields.get("QualificacaoEnvolvido") is not None else 'PARTE ADVERSA - PARTE_CONTRARIA',
             tipo_sistema=fields.get("Sistema"),
@@ -118,6 +119,12 @@ class ValidarEFormatarEntradaUseCase:
 
         if Deparas.depara_uf(data_input.uf):
             data_input.uf = Deparas.depara_uf(data_input.uf)
+
+        if data_input.tipo_sistema == 'PROCONConsumidorgov':
+            data_input.tipo_sistema = 'PROCON / Consumidor.gov'
+
+        if data_input.tipo_processo == 'C.I.P':
+            data_input.tipo_processo = 'C.I.P.'
 
         if len(data_input.data_solicitacao.split("/")[-1]) == 2:
             dia, mes, ano = data_input.data_solicitacao.split('/')

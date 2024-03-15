@@ -21,14 +21,14 @@ class AcessarPaginaUploadUseCase:
             while attemp < max_attemp:
                 try:
                     self.page.query_selector('#aTab-ecm').click()
-                    time.sleep(25)
+                    time.sleep(5)
                     self.page.query_selector('.add-popover-menu.popover-menu-button.main-popover-menu-button.tooltipMenu').hover()
-                    time.sleep(10)
+                    time.sleep(5)
                     attemp = max_attemp
                     success = True
                 except Exception as error:
                     attemp +=1
-                    time.sleep(5)
+                    time.sleep(3)
             if not success:
                 raise Exception("Erro ao acessar GED")
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
@@ -40,7 +40,7 @@ class AcessarPaginaUploadUseCase:
                     url = f"https://booking.nextlegalone.com.br{href}"
                     break
             self.page.goto(url)
-            time.sleep(15)
+            time.sleep(10)
         except Exception as error:
             message = f"Erro ao acessar a pagina de uploads"
             self.classLogger.message(message)
