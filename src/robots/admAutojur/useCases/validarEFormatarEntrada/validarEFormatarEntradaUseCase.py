@@ -120,8 +120,8 @@ class ValidarEFormatarEntradaUseCase:
         if Deparas.depara_uf(data_input.uf):
             data_input.uf = Deparas.depara_uf(data_input.uf)
 
-        if data_input.tipo_sistema == 'PROCONConsumidorgov':
-            data_input.tipo_sistema = 'PROCON / Consumidor.gov'
+        if data_input.tipo_sistema == 'PROCONConsumidorgov' or data_input.tipo_sistema == 'PROCON/Consumidor.gov':
+            data_input.tipo_sistema = 'PROCON / Consumidor.gov.br'
 
         if data_input.tipo_processo == 'C.I.P':
             data_input.tipo_processo = 'C.I.P.'
