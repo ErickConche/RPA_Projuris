@@ -27,7 +27,7 @@ class InserirDadosParteUseCase:
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
             frame = self.page.frame(url=url_iframe)
             if has_cpf_cnpj:
-                frame.locator('button[data-id="form-pesquisa-pessoa:componente-pesquisa-pessoa:j_idt23"]').click()
+                frame.locator('button[data-id="form-pesquisa-pessoa:componente-pesquisa-pessoa:cmb-campo-pesquisa-rapida"]').click()
                 time.sleep(5)
                 frame.locator('#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:campo .bs-searchbox input').type("CPF/CNPJ")
                 time.sleep(1)
@@ -53,7 +53,7 @@ class InserirDadosParteUseCase:
             codigo = None
             time.sleep(5)
             if trs[0].text == 'Nenhum registro encontrado':
-                frame.locator("#form-pesquisa-pessoa\\:j_idt92").click()
+                frame.locator("#form-pesquisa-pessoa\\:j_idt91").click()
                 time.sleep(5)
                 site_html = BeautifulSoup(self.page.content(), 'html.parser')
                 url_iframe = f"https://baz.autojur.com.br{site_html.select('iframe')[1].attrs.get('src')}"
@@ -73,7 +73,7 @@ class InserirDadosParteUseCase:
                 if frame.locator("#modal-duplicados").is_visible():
                     frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                     time.sleep(3)
-                frame.locator("#form-salvar-pessoa\\:j_idt641").click()
+                frame.locator("#form-salvar-pessoa\\:j_idt640").click()
                 time.sleep(5)
             else:
                 for tr in trs:
@@ -87,7 +87,7 @@ class InserirDadosParteUseCase:
                         codigo = tds[1].text
                         break
                 if not codigo:
-                    frame.locator("#form-pesquisa-pessoa\\:j_idt92").click()
+                    frame.locator("#form-pesquisa-pessoa\\:j_idt91").click()
                     time.sleep(3)
                     site_html = BeautifulSoup(self.page.content(), 'html.parser')
                     url_iframe = f"https://baz.autojur.com.br{site_html.select('iframe')[1].attrs.get('src')}"
@@ -107,7 +107,7 @@ class InserirDadosParteUseCase:
                     if frame.locator("#modal-duplicados").is_visible():
                         frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                         time.sleep(3)
-                    frame.locator("#form-salvar-pessoa\\:j_idt641").click()
+                    frame.locator("#form-salvar-pessoa\\:j_idt640").click()
                     time.sleep(5)
                 else:
                     frame.locator(f'tr[data-rk="{codigo}"]').click()
@@ -116,14 +116,14 @@ class InserirDadosParteUseCase:
                     time.sleep(5)
             
 
-            self.page.locator("#j_idt1248\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1248\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
+            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
             time.sleep(1)
             self.page.locator(f'li[data-item-value="53"]').click()
             time.sleep(1)
 
-            self.page.locator("#j_idt1248\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(10)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()

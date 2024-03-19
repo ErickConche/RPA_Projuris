@@ -28,8 +28,8 @@ class ValidarPastaAutojurUseCase:
                 try:
                     self.page.goto("https://baz.autojur.com.br/sistema/processos/processo.jsf")
                     time.sleep(10)
-                    self.page.locator('button[data-id="form-pesquisa:componente-pesquisa:j_idt299"]').click()
-                    time.sleep(5)
+                    self.page.locator('button[data-id="form-pesquisa:componente-pesquisa:cmb-campo-pesquisa-rapida"]').click()
+                    time.sleep(1)
                     self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .bs-searchbox input').click()
                     time.sleep(3)
                     self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .bs-searchbox input').type("Localizador")
@@ -61,6 +61,10 @@ class ValidarPastaAutojurUseCase:
                                     codigo=codigo_encontrado
                                 )
                                 return data_codigo
+                            elif pasta_encontrada == self.pasta:
+                                message = f"Essa pasta já existe, porem o processo desse cadastro é o {processo}. Codigo: {codigo_encontrado}"
+                                self.classLogger.message(message)
+                                raise Exception (message)
                     
                     if self.retry < 2:
                         if self.retry == 0:

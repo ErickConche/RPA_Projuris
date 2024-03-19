@@ -54,9 +54,9 @@ class InserirDadosCadastraisUseCase:
 
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:10\\:j_idt325\\:j_idt326\\:ff-tag\\:btn-tag-vazia").click()
             time.sleep(3)
-            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1151\\:2\\:j_idt1152").click()
+            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1153\\:2\\:j_idt1154").click()
             time.sleep(3)
-            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:1\\:j_idt1151\\:0\\:j_idt1152").click()
+            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:1\\:j_idt1153\\:0\\:j_idt1154").click()
             time.sleep(3)
             self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:link-salvar").click()
             time.sleep(3)

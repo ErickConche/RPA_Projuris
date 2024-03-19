@@ -63,7 +63,7 @@ class CriarCodigoUseCase:
                     ).execute()
 
                     ##Salvando codigo
-                    self.page.locator('#btn-save\\:j_idt1131').click()
+                    self.page.locator('#btn-save\\:j_idt1133').click()
                     time.sleep(5)
 
                     response = ValidarPastaAutojurUseCase(

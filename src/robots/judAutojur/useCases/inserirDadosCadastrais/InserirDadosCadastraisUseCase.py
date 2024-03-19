@@ -110,11 +110,11 @@ class InserirDadosCadastraisUseCase:
                 attemp += 1
                 self.page.locator("#form-dados-cadastrais\\:j_idt324\\:32\\:j_idt325\\:j_idt326\\:ff-tag\\:btn-tag-vazia").click()
                 time.sleep(5)
-                if self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1151\\:2\\:j_idt1152").is_visible():
+                if self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1153\\:2\\:j_idt1154").is_visible():
                     attemp = max_attemp
-            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1151\\:2\\:j_idt1152").click()
+            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1153\\:2\\:j_idt1154").click()
             time.sleep(5)
-            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:1\\:j_idt1151\\:0\\:j_idt1152").click()
+            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:1\\:j_idt1153\\:0\\:j_idt1154").click()
             time.sleep(5)
             self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:link-salvar").click()
             time.sleep(5)

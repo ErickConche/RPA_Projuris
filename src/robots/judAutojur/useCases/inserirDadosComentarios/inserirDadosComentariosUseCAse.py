@@ -27,7 +27,7 @@ class InserirDadosComentariosUseCAse:
             time.sleep(3)
             modal.locator("#comments-dialog\\:form-cad-comentario\\:ff-descricao\\:txt-descricao_editor").type(mensagem)
             time.sleep(10)
-            modal.locator("#comments-dialog\\:form-cad-comentario\\:j_idt1344").click()
+            modal.locator("#comments-dialog\\:form-cad-comentario\\:j_idt1346").click()
             time.sleep(5)
 
         except Exception as error:

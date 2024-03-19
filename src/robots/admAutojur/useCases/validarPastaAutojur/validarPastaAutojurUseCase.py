@@ -24,7 +24,7 @@ class ValidarPastaAutojurUseCase:
         try:
             self.page.goto("https://baz.autojur.com.br/sistema/processos/processo.jsf")
             time.sleep(10)
-            self.page.locator('button[data-id="form-pesquisa:componente-pesquisa:j_idt299"]').click()
+            self.page.locator('button[data-id="form-pesquisa:componente-pesquisa:cmb-campo-pesquisa-rapida"]').click()
             time.sleep(3)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .bs-searchbox input').click()
             time.sleep(1)
