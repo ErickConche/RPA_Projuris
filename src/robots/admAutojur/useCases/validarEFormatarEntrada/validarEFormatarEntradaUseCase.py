@@ -95,7 +95,7 @@ class ValidarEFormatarEntradaUseCase:
             pasta=fields.get("Pasta"),
             data_solicitacao=Formatacao().formatarData(fields.get("DataSolicitacao")),
             uf=fields.get("UF").replace("-"," "),
-            cidade=fields.get("Cidade"),
+            cidade=fields.get("Cidade").strip(),
             tipo_processo=fields.get("TipoProcesso") if fields.get("TipoProcesso") and fields.get("TipoProcesso") is not None else 'Reclamação',
             tipo_extrajudicial=fields.get("TipoExtrajudicial").replace("-"," ") if fields.get("TipoExtrajudicial") and fields.get("TipoExtrajudicial") is not None else 'Contencioso Administrativo',
             empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',
