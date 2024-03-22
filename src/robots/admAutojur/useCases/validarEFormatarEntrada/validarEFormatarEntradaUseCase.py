@@ -132,4 +132,7 @@ class ValidarEFormatarEntradaUseCase:
                 ano = '20' + ano
             data_input.data_solicitacao =  f'{dia}/{mes}/{ano}'
 
+        if data_input.arquivo_principal[-1:] == "\n":
+            data_input.arquivo_principal = data_input.arquivo_principal[:-1]
+
         return data_input
