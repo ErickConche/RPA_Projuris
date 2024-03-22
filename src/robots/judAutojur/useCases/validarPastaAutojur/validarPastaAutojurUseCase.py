@@ -68,9 +68,9 @@ class ValidarPastaAutojurUseCase:
                     
                     if self.retry < 2:
                         if self.retry == 0:
-                            pasta = self.pasta.replace("º","°")
-                        elif self.retry == 1:
                             pasta = self.pasta.replace("Pasta nº ","")
+                        elif self.retry == 1:
+                            pasta = self.pasta.replace("º","°")
                         return ValidarPastaAutojurUseCase(
                             page=self.page,
                             pasta=pasta,

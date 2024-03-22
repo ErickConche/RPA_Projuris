@@ -39,7 +39,7 @@ class BuscarLogUseCase:
                     protocolo1_recebido=df[0]['protocolo1_recebido'],
                     protocolo2_recebido=df[0]['protocolo2_recebido'],
                     protocolo_enviado=df[0]['protocolo_enviado'],
-                    data_envio=df[0]['data_envio']
+                    data_envio=str(df[0]['data_envio'])
                 )
                 return return_sistem
             else:
