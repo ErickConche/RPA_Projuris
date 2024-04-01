@@ -54,7 +54,8 @@ class Deparas:
     
     def depara_fase(fase):
         depara = {
-            "Inicial":"9"
+            "Inicial":"9",
+            "Pré-processual":"10"
         }
         return depara.get(fase)
     
