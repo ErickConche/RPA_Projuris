@@ -44,10 +44,6 @@ def main(
             message = "Inicio da aplicação "+str(datetime.now())
             classLogger.message(message=message)
             classLogExecucao = LogExecucao(con=con_rd)
-            data = classLogExecucao.buscarLog(
-                queue_execucao=queue,
-                json_recebido=json.loads(json_recebido)
-            )
             if not data:
                 data = RobotCore(
                     con_rd=con_rd,
