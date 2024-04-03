@@ -146,6 +146,9 @@ class ValidarEFormatarEntradaUseCase:
             arquivo_principal=fields.get("ArquivoPrincipal")
         )
 
+        if data_input.cpf_cnpj_envolvido == '0':
+            data_input.cpf_cnpj_envolvido = ''
+
         if data_input.processo_originario != '' and (data_input.titulo == 'Indenizatória' or data_input.titulo == 'Reclamação Pré-Processual'):
             data_input.processo_originario = ''
 

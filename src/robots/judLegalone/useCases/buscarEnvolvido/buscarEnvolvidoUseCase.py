@@ -16,7 +16,7 @@ class BuscarEnvolvidoUseCase:
         retry: bool = False
     ) -> None:
         self.nome_envolvido = nome_envolvido
-        self.cpf_cnpj_envolvido = cpf_cnpj_envolvido
+        self.cpf_cnpj_envolvido = cpf_cnpj_envolvido if cpf_cnpj_envolvido != '0' else ''
         self.classLogger = classLogger
         self.context = context
         self.retry = retry

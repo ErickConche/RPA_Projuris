@@ -151,6 +151,12 @@ class ValidarEFormatarEntradaUseCase:
             cpf_cnpj_outros_envolvidos10=fields.get("CpfCnpjOutrosEnvolvidos10") if fields.get("CpfCnpjOutrosEnvolvidos10") and fields.get("CpfCnpjOutrosEnvolvidos10") is not None else '',
         )
 
+        if data_input.cidade == 'São Gonçalo':
+            data_input.cidade = 'SAO GONÇALO'
+            
+        elif data_input.cidade == 'Paraty':
+            data_input.cidade = 'PARATI'
+
         if data_input.sistema_tribunal == 'Projudi':
             data_input.sistema_tribunal = 'PROJUDI'
 
