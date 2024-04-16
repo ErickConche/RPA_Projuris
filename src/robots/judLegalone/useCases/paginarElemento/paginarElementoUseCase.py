@@ -25,7 +25,7 @@ class PaginarElementoUseCase:
 
     def execute(self):
         try:
-            time.sleep(10)
+            time.sleep(3)
             elemento = self.page.locator('.lookup-dropdown[style*="display: block"]')
             site_html = BeautifulSoup(elemento.inner_html(), 'html.parser')
             qtde_paginas = int(site_html.select_one(".paginator-page-count").text)

@@ -18,7 +18,7 @@ class InserirDadosComentariosUseCAse:
     def execute(self):
         try:
             mensagem = self.data_input.arquivo_principal
-            if self.data_input.houve_expedicao != 'Não':
+            if self.data_input.houve_expedicao != 'Não' or self.data_input.houve_expedicao != 'Nao':
                 mensagem = "A citação foi expedida. \n\n"+ mensagem
             self.page.locator("#comments-panel\\:btn-comentar").click()
             time.sleep(5)

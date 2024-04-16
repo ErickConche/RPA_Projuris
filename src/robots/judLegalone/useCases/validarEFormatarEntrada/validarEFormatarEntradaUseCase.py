@@ -82,7 +82,7 @@ class ValidarEFormatarEntradaUseCase:
             username=usuario,
             password=senha,
             processo_originario=fields.get("ProcessoOriginario") if fields.get("ProcessoOriginario") and fields.get("ProcessoOriginario") is not None else '',
-            justica=fields.get("Justica") if fields.get("Justica") and fields.get("Justica") is not None else 'Justiça Estadual',
+            justica=fields.get("Justica").replace("-"," ") if fields.get("Justica") and fields.get("Justica") is not None else 'Justiça Estadual',
             titulo=fields.get("Titulo"),
             processo=fields.get("Processo"),
             data_distribuicao=fields.get("DataDistribuicao"),
@@ -145,6 +145,18 @@ class ValidarEFormatarEntradaUseCase:
             data_citacao=fields.get("DataCitacao") if fields.get("DataCitacao") and fields.get("DataCitacao") is not None else '',
             arquivo_principal=fields.get("ArquivoPrincipal")
         )
+
+        data_input.uf = data_input.uf.replace("-","")
+
+
+        if data_input.vara == 'Juizado-Especial-Civel-JEC':
+            data_input.vara = 'Juizado Especial Cível - JEC'
+
+        if data_input.vara == 'Vara-Civel-VC':
+            data_input.vara = 'Vara Cível - VC'
+
+        if 'Justica' in data_input.justica: 
+            data_input.justica = data_input.justica.replace("Justica","Justiça")
 
         if data_input.cpf_cnpj_envolvido == '0':
             data_input.cpf_cnpj_envolvido = ''

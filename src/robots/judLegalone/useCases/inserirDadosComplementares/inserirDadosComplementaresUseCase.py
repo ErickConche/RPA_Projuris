@@ -61,32 +61,6 @@ class InserirDadosComplementaresUseCase:
             elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').click()
             time.sleep(3)
 
-            if self.data_input.complemento_comarca != 'Não':
-                info_complemento_comarca = BuscarComplementoComarcaUseCase(
-                    classLogger=self.classLogger,
-                    context=self.context,
-                    complemento_comarca=self.data_input.complemento_comarca,
-                    id_comarca=info_comarca.get("Id"),
-                    uf=self.data_input.uf,
-                    nome_comarca=self.data_input.comarca,
-                    id_uf=self.id_uf
-                ).execute()
-                value = info_complemento_comarca.get("Value") if info_complemento_comarca.get("Value") else info_complemento_comarca.get("Text")
-                self.page.locator("#ComplementoForoText").click()
-                time.sleep(1)
-                self.page.locator("#ComplementoForoText").type(self.data_input.complemento_comarca)
-                time.sleep(3)
-                self.page.locator("#ComplementoForoText").press("Enter")
-                time.sleep(3)
-                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-                elemento_dropdown.locator(f'tr[data-val-id="{info_complemento_comarca.get("Id")}"] td[data-val-field="Value"]:text("{value}")').click()
-                time.sleep(3)
-
-            if self.data_input.numero_vara!= 'Não':
-                self.page.locator("#NumeroVaraTurma").click()
-                time.sleep(1)
-                self.page.locator("#NumeroVaraTurma").type(self.data_input.numero_vara)
-                time.sleep(3)
 
             info_vara = BuscarVaraUseCase(
                 vara=self.data_input.vara,
@@ -99,35 +73,9 @@ class InserirDadosComplementaresUseCase:
             time.sleep(3)
             self.page.locator("#VaraText").press("Enter")
             time.sleep(3)
-            PaginarElementoUseCase(
-                page=self.page,
-                classLogger=self.classLogger,
-                context=self.context,
-                id_elemento=info_vara.get("Id"),
-                valor_elemento=info_vara.get("Value")
-            ).execute()
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             elemento_dropdown.locator(f'tr[data-val-id="{info_vara.get("Id")}"] td[data-val-field="Value"]:text("{info_vara.get("Value")}")').click()
             time.sleep(5)
-
-            if self.data_input.complemento_vara != 'Não':
-                info_complemento_vara = BuscarComplementoVaraUseCase(
-                    id_vara=info_vara.get("Id"),
-                    vara = info_vara.get("Value"),
-                    complemento_vara=self.data_input.complemento_vara,
-                    classLogger=self.classLogger,
-                    context=self.context
-                ).execute()
-                value = info_complemento_vara.get("Value") if info_complemento_vara.get("Value") else info_complemento_vara.get("Text")
-                self.page.locator("#ComplementoVaraText").click()
-                time.sleep(1)
-                self.page.locator("#ComplementoVaraText").type(self.data_input.complemento_vara)
-                time.sleep(3)
-                self.page.locator("#ComplementoVaraText").press("Enter")
-                time.sleep(3)
-                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-                elemento_dropdown.locator(f'tr[data-val-id="{info_complemento_vara.get("Id")}"] td[data-val-field="Value"]:text("{value}")').click()
-                time.sleep(5)
 
 
         except Exception as error:
