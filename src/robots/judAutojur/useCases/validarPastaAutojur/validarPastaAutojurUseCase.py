@@ -36,48 +36,39 @@ class ValidarPastaAutojurUseCase:
                     time.sleep(3)
                     self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .dropdown-menu a:has(span:text-is("Localizador"))').click()
                     time.sleep(3)
-                    self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').click()
-                    time.sleep(3)
-                    self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').type(self.pasta)
-                    time.sleep(3)
                     self.page.locator('button[data-id="form-pesquisa:tipo-proc"]').click()
                     time.sleep(5)
                     self.page.locator('#form-pesquisa\\:pg-pesquisa-body .dropdown-menu a:has(span:text-is("Judicial"))').click()
                     time.sleep(5)
-                    self.page.locator('#form-pesquisa\\:componente-pesquisa\\:btn-pesquisar').click()
-                    time.sleep(10)
-                    site_html = BeautifulSoup(self.page.content(), 'html.parser')
-                    trs = site_html.select_one("#list-processos\\:tabela_data").select("tr")
-                    if trs[0].text != 'Nenhum registro encontrado':
-                        for tr in trs:
-                            pasta_encontrada = tr.select('.lg-dado.tooltipstered')[3].next
-                            processo = tr.select('.lg-dado.tooltipstered')[4].next
-                            codigo_encontrado = tr.select('.lg-dado.tooltipstered')[0].next
-                            if pasta_encontrada == self.pasta and processo == self.processo:
-                                message = f"A pasta informada possui um codigo já existente. Codigo: {codigo_encontrado}"
-                                self.classLogger.message(message)
-                                data_codigo: CodigoModel = CodigoModel(
-                                    found=True,
-                                    codigo=codigo_encontrado
-                                )
-                                return data_codigo
-                            elif pasta_encontrada == self.pasta:
-                                message = f"Essa pasta já existe, porem o processo desse cadastro é o {processo}. Codigo: {codigo_encontrado}"
-                                self.classLogger.message(message)
-                                raise Exception (message)
-                    
-                    if self.retry < 2:
-                        if self.retry == 0:
-                            pasta = self.pasta.replace("Pasta nº ","")
-                        elif self.retry == 1:
-                            pasta = self.pasta.replace("º","°")
-                        return ValidarPastaAutojurUseCase(
-                            page=self.page,
-                            pasta=pasta,
-                            processo=self.processo,
-                            classLogger=self.classLogger,
-                            retry=self.retry+1
-                        ).execute()
+                    pastas = [self.pasta, self.pasta.replace("Pasta nº ",""), self.pasta.replace("Pasta n° ","")]
+                    for pasta in pastas:
+                        self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').click()
+                        time.sleep(1)
+                        self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').clear()
+                        time.sleep(1)
+                        self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').type(pasta)
+                        time.sleep(1)
+                        self.page.locator('#form-pesquisa\\:componente-pesquisa\\:btn-pesquisar').click()
+                        time.sleep(10)
+                        site_html = BeautifulSoup(self.page.content(), 'html.parser')
+                        trs = site_html.select_one("#list-processos\\:tabela_data").select("tr")
+                        if trs[0].text != 'Nenhum registro encontrado':
+                            for tr in trs:
+                                pasta_encontrada = tr.select('.lg-dado.tooltipstered')[3].next
+                                processo = tr.select('.lg-dado.tooltipstered')[4].next
+                                codigo_encontrado = tr.select('.lg-dado.tooltipstered')[0].next
+                                if pasta_encontrada == pasta and processo == self.processo:
+                                    message = f"A pasta informada possui um codigo já existente. Codigo: {codigo_encontrado}"
+                                    self.classLogger.message(message)
+                                    data_codigo: CodigoModel = CodigoModel(
+                                        found=True,
+                                        codigo=codigo_encontrado
+                                    )
+                                    return data_codigo
+                                elif pasta_encontrada == self.pasta:
+                                    message = f"Essa pasta já existe, porem o processo desse cadastro é o {processo}. Codigo: {codigo_encontrado}"
+                                    self.classLogger.message(message)
+                                    raise Exception (message)
 
                     message = "A pasta informada não possui um codigo existente"
                     self.classLogger.message(message)

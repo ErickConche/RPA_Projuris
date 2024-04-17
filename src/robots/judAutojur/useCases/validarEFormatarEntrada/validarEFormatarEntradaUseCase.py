@@ -98,7 +98,7 @@ class ValidarEFormatarEntradaUseCase:
             nome_envolvido=fields.get("NomeEnvolvido").strip(),
             cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido").strip(),
             arquivo_principal=fields.get("ArquivoPrincipal").strip(),
-            houve_expedicao=fields.get("HouveExpedicao").strip(),
+            houve_expedicao=fields.get("HouveExpedicao").strip() if fields.get("HouveExpedicao") else 'Nao',
             qualificacao_envolvido="Parte",
             processo_originario=fields.get("ProcessoOriginario") if fields.get("ProcessoOriginario") != '' and fields.get("ProcessoOriginario") is not None else fields.get("Processo"),
             natureza="CIVEL",
@@ -160,38 +160,38 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.sistema_tribunal == 'Projudi':
             data_input.sistema_tribunal = 'PROJUDI'
 
-        if data_input.cpf_cnpj_envolvido == '0':
+        if data_input.cpf_cnpj_envolvido == '000.000.000-00':
             data_input.cpf_cnpj_envolvido =''
 
-        if data_input.cpf_cnpj_outros_envolvidos1 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos1 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos1 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos2 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos2 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos2 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos3 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos3 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos3 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos4 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos4 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos4 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos5 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos5 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos5 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos6 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos6 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos6 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos7 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos7 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos7 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos8 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos8 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos8 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos9 == '0':
+        if data_input.cpf_cnpj_outros_envolvidos9 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos9 =''
 
         if data_input.cpf_cnpj_outros_envolvidos10 == '0':
-            data_input.cpf_cnpj_outros_envolvidos10 =''
+            data_input.cpf_cnpj_outros_envolvidos10 ='000.000.000-00'
         
         if len(data_input.data_distribuicao.split("/")[-1]) == 2:
             dia, mes, ano = data_input.data_distribuicao.split('/')

@@ -40,12 +40,12 @@ class UploadArquivoUseCase:
                 if self.file_main:
                     self.page.locator("#TipoText").click()
                     time.sleep(1)
-                    self.page.locator("#TipoText").type(self.processo)
+                    self.page.locator("#TipoText").type("Peça Processual / Petição inicial")
                     time.sleep(1)
-                    self.page.locator("#Descricao").click()
-                    time.sleep(1)
-                    self.page.locator("#Descricao").clear()
-                    time.sleep(1)
+                    self.page.locator('#lookup_tipo .lookup-button.lookup-filter').click()
+                    time.sleep(5)
+                    self.page.locator('#subtipo_24').click()
+                    time.sleep(5)
                 os.remove(self.nome_arquivo)
                 self.page.click('button[name="ButtonSave"][value="0"]')
                     
