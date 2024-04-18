@@ -28,11 +28,11 @@ class LoginAdmAutojurUseCase:
             self.page.query_selector("#login-form-novo\\:password").type(self.password)
             time.sleep(1)
             self.page.query_selector("#login-form-novo\\:btn-login").click()
-            time.sleep(10)
+            time.sleep(5)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             if site_html.select("#form-derrubar-usuario"):
                 self.page.query_selector("#form-derrubar-usuario\\:j_idt74").click()
-                time.sleep(10)
+                time.sleep(5)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             if site_html.select("#user-header"):
                 message = "Login finalizado"

@@ -20,7 +20,7 @@ class InserirDadosParteUseCase:
     def execute(self):
         try:
             self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
-            time.sleep(8)
+            time.sleep(4)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
             frame = self.page.frame(url=url_iframe)
@@ -32,7 +32,7 @@ class InserirDadosParteUseCase:
             frame.locator('li:has-text("Todos")').click()
             time.sleep(5)
             frame.locator("#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:btn-pesquisar").click()
-            time.sleep(10)
+            time.sleep(7)
             frame.locator("#form-pesquisa-pessoa\\:ativo").click()
             time.sleep(1)
 
@@ -101,7 +101,7 @@ class InserirDadosParteUseCase:
             time.sleep(1)
 
             self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
-            time.sleep(10)
+            time.sleep(5)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()
             if popup:

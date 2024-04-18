@@ -33,7 +33,7 @@ class CriarCodigoUseCase:
             while attemp < max_attemp:
                 try:
                     self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=3")
-                    time.sleep(10)
+                    time.sleep(5)
                 
                     InserirDadosEnvolvidosUseCase(
                         page=self.page,

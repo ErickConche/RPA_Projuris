@@ -23,7 +23,7 @@ class ValidarPastaAutojurUseCase:
     def execute(self)->CodigoModel:
         try:
             self.page.goto("https://baz.autojur.com.br/sistema/processos/processo.jsf")
-            time.sleep(10)
+            time.sleep(5)
             self.page.locator('button[data-id="form-pesquisa:componente-pesquisa:cmb-campo-pesquisa-rapida"]').click()
             time.sleep(3)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .bs-searchbox input').click()
@@ -41,7 +41,7 @@ class ValidarPastaAutojurUseCase:
             self.page.locator('#form-pesquisa\\:pg-pesquisa-body .dropdown-menu a:has(span:text-is("Extrajudicial"))').click()
             time.sleep(3)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:btn-pesquisar').click()
-            time.sleep(10)
+            time.sleep(5)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             trs = site_html.select_one("#list-processos\\:tabela_data").select("tr")
             if trs[0].text != 'Nenhum registro encontrado':
