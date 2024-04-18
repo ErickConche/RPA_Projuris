@@ -30,6 +30,14 @@ class InserirDadosCadastraisUseCase:
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:1\\:j_idt325\\:ff\\:txt-numero-processo").type(self.data_input.processo)
             time.sleep(3)
 
+            if self.page.locator("#modal-duplicados").is_visible():
+                VerificarDuplicidadeLitispendenciaUseCase(
+                    page=self.page,
+                    data_input=self.data_input,
+                    classLogger=self.classLogger,
+                    tag="#modal-duplicados"
+                ).execute()
+
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:28\\:j_idt325\\:ff\\:txt-numero-processo-originario").click()
             time.sleep(3)
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:28\\:j_idt325\\:ff\\:txt-numero-processo-originario").type(self.data_input.processo_originario)
@@ -102,7 +110,8 @@ class InserirDadosCadastraisUseCase:
                 VerificarDuplicidadeLitispendenciaUseCase(
                     page=self.page,
                     data_input=self.data_input,
-                    classLogger=self.classLogger
+                    classLogger=self.classLogger,
+                    tag="#modal-litispendencia"
                 ).execute()
             attemp = 0
             max_attemp = 3
@@ -114,11 +123,12 @@ class InserirDadosCadastraisUseCase:
                     attemp = max_attemp
             self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:j_idt1153\\:2\\:j_idt1154").click()
             time.sleep(5)
-            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:1\\:j_idt1153\\:0\\:j_idt1154").click()
+            self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:2\\:j_idt1153\\:1\\:j_idt1154").click()
             time.sleep(5)
             self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:link-salvar").click()
             time.sleep(5)
 
+        
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:10\\:j_idt325\\:ff\\:ac-orgao-julgador_input").click()
             time.sleep(3)
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:10\\:j_idt325\\:ff\\:ac-orgao-julgador_input").type(self.data_input.orgao_julgador)
