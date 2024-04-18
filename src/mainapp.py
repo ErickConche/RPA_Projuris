@@ -111,6 +111,7 @@ def initApp(queue:str):
                 time.sleep(60)
             con_rd.close()
     except Exception as error:
+        time.sleep(60)
         initApp(queue)
 
 def initThreads(list_queues: List[str]):

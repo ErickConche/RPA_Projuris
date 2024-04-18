@@ -1,4 +1,5 @@
 import os
+import time
 from typing import List
 import pika
 import json
@@ -48,4 +49,5 @@ def initServer(list_queues: List[str]):
         channel.start_consuming()
 
     except Exception as error:
+        time.sleep(60)
         initServer(list_queues)
