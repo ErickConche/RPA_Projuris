@@ -190,8 +190,8 @@ class ValidarEFormatarEntradaUseCase:
         if data_input.cpf_cnpj_outros_envolvidos9 == '000.000.000-00':
             data_input.cpf_cnpj_outros_envolvidos9 =''
 
-        if data_input.cpf_cnpj_outros_envolvidos10 == '0':
-            data_input.cpf_cnpj_outros_envolvidos10 ='000.000.000-00'
+        if data_input.cpf_cnpj_outros_envolvidos10 == '000.000.000-00':
+            data_input.cpf_cnpj_outros_envolvidos10 =''
         
         if len(data_input.data_distribuicao.split("/")[-1]) == 2:
             dia, mes, ano = data_input.data_distribuicao.split('/')
