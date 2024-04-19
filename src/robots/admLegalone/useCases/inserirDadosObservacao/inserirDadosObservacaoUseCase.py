@@ -21,6 +21,6 @@ class InserirDadosObservacaoUseCase:
             self.page.query_selector('#Observacao').click()
             time.sleep(1)
             self.page.query_selector('#Observacao').type(self.observacoes)
-            time.sleep(20)
+            time.sleep(10)
         except Exception as error:
             raise Exception("Erro ao inserir dados de observacao no formulario de criação")

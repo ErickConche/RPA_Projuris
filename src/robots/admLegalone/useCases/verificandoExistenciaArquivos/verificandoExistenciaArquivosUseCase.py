@@ -1,6 +1,7 @@
 import time
 from bs4 import BeautifulSoup
 from playwright.sync_api import Page, BrowserContext, sync_playwright
+import requests
 from modules.downloadS3.downloadS3 import DownloadS3
 
 from modules.logger.Logger import Logger
@@ -29,30 +30,28 @@ class VerificandoExistenciaArquivosUseCase:
 
     def execute(self):
         try:
+            cookies = self.context.cookies()
+            cookies_str = ''
+            for cookie in cookies:
+                cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
+
+            headers = {
+                "X-Requested-With":"XMLHttpRequest",
+                "Referer":self.url_pasta,
+                "Host":"booking.nextlegalone.com.br",
+                "Cookie":cookies_str
+            }
+
+            id = self.url_pasta.split("/details/")[1].split("?")[0]
+
+            url = f"https://booking.nextlegalone.com.br/servicos/servicos/detailsged/{str(id)}?renderOnlySection=True&ajaxnavigation=true"
+
+            response = requests.get(url=url,headers=headers)
+
             message = "Verificando se os arquivos foram salvos."
             self.classLogger.message(message)
-            self.page.goto(self.url_pasta)
-            time.sleep(5)
-            success = False
-            attemp = 0
-            max_attemp = 8
-            while attemp < max_attemp:
-                try:
-                    self.page.query_selector('#aTab-ecm').click()
-                    time.sleep(5)
-                    self.page.query_selector('.add-popover-menu.popover-menu-button.main-popover-menu-button.tooltipMenu').hover()
-                    time.sleep(5)
-                    attemp = max_attemp
-                    success = True
-                except Exception as error:
-                    attemp +=1
-                    time.sleep(3)
-            if not success:
-                message = "Erro ao verificar se os arquivos foram salvos."
-                self.classLogger.message(message)
-                raise Exception("Erro ao acessar GED")
-            
-            site_html = BeautifulSoup(self.page.content(), 'html.parser')
+
+            site_html = BeautifulSoup(response.text, 'html.parser')
             
             list_files_legalone = []
 

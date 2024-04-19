@@ -34,7 +34,7 @@ class PercorrerPastasUseCase:
 
             for url in list_urls:
                 self.page.goto(url)
-                time.sleep(10)
+                time.sleep(5)
                 site_html = BeautifulSoup(self.page.content(), 'html.parser')
                 divs_person_html = site_html.select_one(".legalone-panel-content")
                 protocol_find = divs_person_html.select(".field")[3].text

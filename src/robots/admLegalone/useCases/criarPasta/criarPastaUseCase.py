@@ -85,7 +85,7 @@ class CriarPastaUseCase:
                 self.page.query_selector('button[name="ButtonSave"][value="0"]').click()
             except Exception as error:
                 pass
-            time.sleep(15)
+            time.sleep(5)
 
             message = "Pasta inserida. Aguarde enquanto buscamos o número gerado e fazemos o upload dos arquivos."
             self.classLogger.message(message)

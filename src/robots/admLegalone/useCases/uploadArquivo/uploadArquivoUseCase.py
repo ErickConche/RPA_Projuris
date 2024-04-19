@@ -13,7 +13,7 @@ class UploadArquivoUseCase:
         nome_arquivo:str,
         classLogger: Logger,
         list_files: List[str],
-        url_pasta: str,
+        url_insert_ged: str,
         file_main: bool = True
     ) -> None:
         self.page = page
@@ -21,20 +21,18 @@ class UploadArquivoUseCase:
         self.file_main = file_main
         self.classLogger = classLogger
         self.list_files = list_files
-        self.url_pasta = url_pasta
+        self.url_insert_ged = url_insert_ged
 
     def execute(self):
         try:
-            AcessarPaginaUploadUseCase(
-                page=self.page,
-                classLogger=self.classLogger
-            ).execute()
+            self.page.goto(self.url_insert_ged)
+            time.sleep(5)
             if len(self.list_files)<=0:
                 with self.page.expect_file_chooser() as fc_info:
                     self.page.locator('input[title="file input"]').click()
                 file_chooser = fc_info.value
                 file_chooser.set_files(self.nome_arquivo)
-                time.sleep(35)
+                time.sleep(30)
                 if self.file_main:
                     self.page.locator("#TipoText").click()
                     time.sleep(1)
@@ -60,31 +58,24 @@ class UploadArquivoUseCase:
                                 self.page.locator('input[title="file input"]').click()
                             file_chooser = fc_info.value
                             file_chooser.set_files(file)
-                            time.sleep(35)
+                            time.sleep(30)
                             os.remove(file)
                             self.page.click('button[name="ButtonSave"][value="0"]')
                             message = f"Arquivo secundario {file}, inserido na caixa de seleção e persistido"
                             self.classLogger.message(message)
-                            time.sleep(7)
+                            time.sleep(3)
                             attemp = max_attemp
-                            AcessarPaginaUploadUseCase(
-                                page=self.page,
-                                classLogger=self.classLogger
-                            ).execute()
                         except Exception as error:
                             attemp +=1
                             error_function = error
-                            self.page.goto(self.url_pasta)
-                            time.sleep(10)
-                            AcessarPaginaUploadUseCase(
-                                page=self.page,
-                                classLogger=self.classLogger
-                            ).execute()
+                            self.page.goto(self.url_insert_ged)
+                            time.sleep(5)
+                    self.page.goto(self.url_insert_ged)
                 
                 if not success and error_function:
                     raise error_function
                     
-            time.sleep(15)
+            time.sleep(5)
         except Exception as error:
             message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}. Erro: {str(error)}"
             self.classLogger.message(message)
