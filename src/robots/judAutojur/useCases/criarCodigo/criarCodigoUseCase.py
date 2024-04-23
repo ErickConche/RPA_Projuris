@@ -26,13 +26,13 @@ class CriarCodigoUseCase:
     def execute(self)->CodigoModel:
         try:
             attemp = 0
-            max_attemp = 3
+            max_attemp = 1
             error_exec = None
             success = False
             while attemp < max_attemp:
                 try:
                     self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=5")
-                    time.sleep(10)
+                    time.sleep(5)
 
                     self.classLogger.message("Inserindo Outros envolvidos")
                     InserirDadosOutrosEnvolvidosUseCase(

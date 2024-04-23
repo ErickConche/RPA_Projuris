@@ -1,3 +1,4 @@
+import time
 import psycopg2
 
 class create_connect:
@@ -14,10 +15,16 @@ class create_connect:
         self.password = password
 
     def get_connect(self) -> str:
-        return psycopg2.connect(
-            host=self.host,
-            port=self.port,
-            database=self.database,
-            user=self.user,
-            password=self.password
-        ) 
+        try:
+            return psycopg2.connect(
+                host=self.host,
+                port=self.port,
+                database=self.database,
+                user=self.user,
+                password=self.password
+            ) 
+        except Exception as error:
+            time.sleep(5)
+            return self.get_connect()
+
+        

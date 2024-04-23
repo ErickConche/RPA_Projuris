@@ -24,7 +24,7 @@ class InserirDadosComentariosUseCAse:
             time.sleep(5)
             modal = self.page.locator("#modal-add-comentario")
             modal.locator("#comments-dialog\\:form-cad-comentario\\:ff-descricao\\:txt-descricao_editor").click()
-            time.sleep(3)
+            time.sleep(1)
             modal.locator("#comments-dialog\\:form-cad-comentario\\:ff-descricao\\:txt-descricao_editor").type(mensagem)
             time.sleep(10)
             modal.locator("#comments-dialog\\:form-cad-comentario\\:j_idt1346").click()

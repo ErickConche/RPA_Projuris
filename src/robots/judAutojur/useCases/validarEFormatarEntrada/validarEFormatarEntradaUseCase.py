@@ -88,11 +88,11 @@ class ValidarEFormatarEntradaUseCase:
             url_cookie=cookie.url,
             processo=fields.get("Processo").strip(),
             pasta=fields.get("Pasta").strip(),
-            titulo=fields.get("Titulo").strip(),
+            titulo=fields.get("Titulo").replace("-"," ").strip(),
             data_distribuicao=fields.get("DataDistribuicao").strip(),
             uf=fields.get("UF").strip(),
             cidade=fields.get("Cidade").strip(),
-            orgao_julgador=fields.get("OrgaoJulgador").strip(),
+            orgao_julgador=fields.get("OrgaoJulgador").replace("-"," ").strip(),
             rito=fields.get("Rito").strip(),
             sistema_tribunal=fields.get("SistemaTribunal").strip(),
             nome_envolvido=fields.get("NomeEnvolvido").strip(),
@@ -153,9 +153,13 @@ class ValidarEFormatarEntradaUseCase:
 
         if data_input.cidade == 'São Gonçalo':
             data_input.cidade = 'SAO GONÇALO'
-            
+
         elif data_input.cidade == 'Paraty':
             data_input.cidade = 'PARATI'
+
+        if data_input.sistema_tribunal == 'eSAJ':
+            data_input.sistema_tribunal = 'e-SAJ'
+            
 
         if data_input.sistema_tribunal == 'Projudi':
             data_input.sistema_tribunal = 'PROJUDI'

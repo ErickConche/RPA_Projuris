@@ -43,7 +43,7 @@ class InserirDadosParteUseCase:
             frame.locator('li:has-text("Todos")').click()
             time.sleep(5)
             frame.locator("#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:btn-pesquisar").click()
-            time.sleep(10)
+            time.sleep(5)
             frame.locator("#form-pesquisa-pessoa\\:ativo").click()
             time.sleep(1)
 

@@ -25,7 +25,7 @@ class InserirDadosEnvolvidosUseCase:
                 data_input=self.data_input,
                 classLogger=self.classLogger
             ).execute()
-            time.sleep(10)
+            time.sleep(3)
 
             self.classLogger.message("Inserindo dados da parte")
             InserirDadosParteUseCase(
@@ -33,7 +33,7 @@ class InserirDadosEnvolvidosUseCase:
                 data_input=self.data_input,
                 classLogger=self.classLogger
             ).execute()
-            time.sleep(10)
+            time.sleep(3)
 
         except Exception as error:
             raise error
