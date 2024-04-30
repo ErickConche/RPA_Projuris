@@ -45,7 +45,7 @@ class InserirDadosOutrosEnvolvidosUseCase:
                     nome_usuario = usuario.get("Text") if usuario.get("Text") else usuario.get("Value")
 
                     self.page.locator("#add_outro_envolvido").click()
-                    time.sleep(10)
+                    time.sleep(5)
                     table = elemento.locator(".outros-envolvidos-list.edit-list")
                     li_table = table.locator(f'li:nth-child({str(index)})')
                     time.sleep(3)

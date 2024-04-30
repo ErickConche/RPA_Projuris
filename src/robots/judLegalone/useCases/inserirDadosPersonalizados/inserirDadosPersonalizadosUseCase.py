@@ -21,14 +21,14 @@ class InserirDadosPersonalizadosUseCase:
     def execute(self):
         try:
             self.page.locator("#NumeroDaReserva_ProcessoEntitySchema_p3812_o").click()
-            time.sleep(3)
+            time.sleep(1)
             self.page.locator("#NumeroDaReserva_ProcessoEntitySchema_p3812_o").type(self.data_input.numero_reserva)
-            time.sleep(3)
+            time.sleep(1)
 
             self.page.locator("#IDDoHotel_ProcessoEntitySchema_p3813_o").click()
-            time.sleep(3)
+            time.sleep(1)
             self.page.locator("#IDDoHotel_ProcessoEntitySchema_p3813_o").type(self.data_input.id_acomodacao)
-            time.sleep(3)
+            time.sleep(1)
 
             if self.data_input.data_citacao != '':
                 self.page.query_selector('#DataDeCitacao_ProcessoEntitySchema_p3814_o').click()
@@ -37,9 +37,9 @@ class InserirDadosPersonalizadosUseCase:
                 time.sleep(1)
 
             self.page.locator("#CausaRaizMotivacao_ProcessoEntitySchema_p3817_o_Value").click()
-            time.sleep(3)
+            time.sleep(1)
             self.page.locator("#CausaRaizMotivacao_ProcessoEntitySchema_p3817_o_Value").type("Outros")
-            time.sleep(3)
+            time.sleep(1)
             self.page.locator("#CausaRaizMotivacao_ProcessoEntitySchema_p3817_o_Value").press("Enter")
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')

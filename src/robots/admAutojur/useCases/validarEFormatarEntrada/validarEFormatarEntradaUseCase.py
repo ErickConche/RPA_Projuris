@@ -8,6 +8,7 @@ from models.cliente.cliente import Cliente
 from robots.admAutojur.useCases.cookies.cookiesUseCase import CookiesUseCase
 from robots.admAutojur.useCases.deparas.deparas import Deparas
 from robots.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+from robots.admAutojur.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
 
 
 class ValidarEFormatarEntradaUseCase:
@@ -113,26 +114,10 @@ class ValidarEFormatarEntradaUseCase:
             arquivo_principal=fields.get("ArquivoPrincipal"),
             observacoes=fields.get("Observacao")
         )
+
+        data_input = CorrecaoErrosUsuarioUseCase(data_input=data_input).execute()
         
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
-
-        if Deparas.depara_uf(data_input.uf):
-            data_input.uf = Deparas.depara_uf(data_input.uf)
-
-        if data_input.tipo_sistema == 'PROCONConsumidorgov' or data_input.tipo_sistema == 'PROCON/Consumidor.gov':
-            data_input.tipo_sistema = 'PROCON / Consumidor.gov.br'
-
-        if data_input.tipo_processo == 'C.I.P':
-            data_input.tipo_processo = 'C.I.P.'
-
-        if len(data_input.data_solicitacao.split("/")[-1]) == 2:
-            dia, mes, ano = data_input.data_solicitacao.split('/')
-            if len(ano):
-                ano = '20' + ano
-            data_input.data_solicitacao =  f'{dia}/{mes}/{ano}'
-
-        if data_input.arquivo_principal[-1:] == "\n":
-            data_input.arquivo_principal = data_input.arquivo_principal[:-1]
 
         return data_input

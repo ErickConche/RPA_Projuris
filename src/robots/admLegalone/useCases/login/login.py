@@ -29,7 +29,7 @@ class LoginAdmLegaloneUseCase:
             self.page.query_selector('#Password').type(self.password)
             time.sleep(1)
             self.page.query_selector('#SignIn').click()
-            time.sleep(5)
+            time.sleep(15)
             if self.page.query_selector('#menuservicos'):
                 print("Login finalizado")
                 return

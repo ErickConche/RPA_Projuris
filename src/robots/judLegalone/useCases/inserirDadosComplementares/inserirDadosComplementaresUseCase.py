@@ -75,7 +75,7 @@ class InserirDadosComplementaresUseCase:
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             elemento_dropdown.locator(f'tr[data-val-id="{info_vara.get("Id")}"] td[data-val-field="Value"]:text("{info_vara.get("Value")}")').click()
-            time.sleep(5)
+            time.sleep(3)
 
 
         except Exception as error:

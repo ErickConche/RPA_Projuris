@@ -44,10 +44,8 @@ class CriarPastaUseCase:
                 ).execute()
             
             InserirArquivosUseCase(
-                page=self.page,
                 arquivo_principal=self.data_input.arquivo_principal,
                 context=self.context,
-                pasta=response.pasta,
                 url_pasta=response.url_pasta,
                 classLogger=self.classLogger,
                 processo=self.data_input.processo

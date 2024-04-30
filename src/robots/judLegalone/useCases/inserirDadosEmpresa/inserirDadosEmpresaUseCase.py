@@ -31,7 +31,7 @@ class InserirDadosEmpresaUseCase:
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             elemento_dropdown.locator(f'tr[data-val-id="4036"] td[data-val-field="ContatoNome"]:text("{self.data_input.empresa}")').click()
-            time.sleep(5)
+            time.sleep(1)
 
             self.page.locator("#Cliente_PosicaoEnvolvidoText").click()
             time.sleep(1)
@@ -41,7 +41,7 @@ class InserirDadosEmpresaUseCase:
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             elemento_dropdown.locator(f'tr[data-val-id="2"] td[data-val-field="Value"]:text("Réu")').click()
-            time.sleep(5)
+            time.sleep(1)
 
         except Exception as error:
             raise Exception("Erro ao inserir os dados da empresa")

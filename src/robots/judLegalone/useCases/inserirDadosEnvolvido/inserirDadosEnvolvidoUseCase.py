@@ -39,6 +39,6 @@ class InserirDadosEnvolvidoUseCase:
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
             elemento_dropdown.locator(f'tr[data-val-id="{usuario.get("Id")}"] td[data-val-field="ContatoNome"]:text("{nome_usuario}")').click()
-            time.sleep(5)
+            time.sleep(2)
         except Exception as error:
             raise Exception("Erro ao inserir os dados dos envolvidos")

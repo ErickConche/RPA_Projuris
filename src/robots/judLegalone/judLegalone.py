@@ -70,10 +70,8 @@ class judLegalone:
                     ).execute()
                     if response.found:
                         InserirArquivosUseCase(
-                            page=page,
                             arquivo_principal=data_input.arquivo_principal,
                             context=context,
-                            pasta=response.pasta,
                             url_pasta=response.url_pasta,
                             classLogger=self.classLogger,
                             processo=data_input.processo
@@ -86,10 +84,6 @@ class judLegalone:
                                 "DataCadastro":response.data_cadastro
                             }
                         ]
-                        LogoutUseCase(
-                            page=page,
-                            classLogger=self.classLogger
-                        ).execute()
                     else: 
                         data_input = VerificacaoEnvolvidosUseCase(
                             classLogger=self.classLogger,
@@ -111,15 +105,7 @@ class judLegalone:
                                 "DataCadastro":response.data_cadastro
                             }
                         ]
-                        LogoutUseCase(
-                            page=page,
-                            classLogger=self.classLogger
-                        ).execute()
                 except Exception as error:
-                    LogoutUseCase(
-                        page=page,
-                        classLogger=self.classLogger
-                    ).execute()
                     raise error
                 
                 browser.close()

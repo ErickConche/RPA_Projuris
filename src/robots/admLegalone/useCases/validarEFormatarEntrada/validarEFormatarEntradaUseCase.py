@@ -5,6 +5,7 @@ from datetime import datetime
 from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
+from robots.admLegalone.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
 from robots.admLegalone.useCases.deparas.deparas import Deparas
 from robots.admLegalone.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
@@ -68,20 +69,8 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("ArquivoPrincipal") or fields.get("ArquivoPrincipal") is None:
             raise Exception("Informe a url do arquivo principal")
     
-        
-        fuso_horario_brasil = pytz.timezone('America/Sao_Paulo')
-
-        # Obtenha a hora atual no fuso horário do Brasil
-        hora_atual_brasil = datetime.now(fuso_horario_brasil).hour
-        usuario = ""
-        senha = ""
-        if  hora_atual_brasil < 12:
-            usuario = "ConsumidorBaz"
-            senha = "@BazConsumidor"
-        
-        else:
-            usuario = "ConsumidorBaz"
-            senha = "@BazConsumidor"
+        usuario = "ConsumidorBaz"
+        senha = "@BazConsumidor"
 
         message = (f"Usando o usuário {usuario} para login")
         self.classLogger.message(message)
@@ -110,26 +99,9 @@ class ValidarEFormatarEntradaUseCase:
             arquivos_secundarios=fields.get("ArquivosSecundarios") if fields.get("ArquivosSecundarios") and fields.get("ArquivosSecundarios") is not None else 'Nenhum arquivo anexado'
         )
         
-
-        if data_input.tipo_processo == 'C.I.P':
-            data_input.tipo_processo = 'C.I.P.'
-        
-        if data_input.tipo_sistema == 'PROCON-Consumidorgovbr':
-            data_input.tipo_sistema = "PROCON / Consumidor.gov.br"
+        data_input = CorrecaoErrosUsuarioUseCase(data_input=data_input).execute()
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
-
-        if len(data_input.data_solicitacao.split("/")[-1]) == 2:
-            dia, mes, ano = data_input.data_solicitacao.split('/')
-            if len(ano):
-                ano = '20' + ano
-            data_input.data_solicitacao =  f'{dia}/{mes}/{ano}'
-
-        if data_input.arquivo_principal[-1:] == "\n":
-            data_input.arquivo_principal = data_input.arquivo_principal[:-1]
-
-        if data_input.arquivos_secundarios[-1:] == "\n":
-            data_input.arquivos_secundarios = data_input.arquivos_secundarios[:-1]
 
         return data_input

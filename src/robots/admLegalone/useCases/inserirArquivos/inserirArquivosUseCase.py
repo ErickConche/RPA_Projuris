@@ -53,7 +53,8 @@ class InserirArquivosUseCase:
                         classLogger=self.classLogger,
                         file_main=True,
                         list_files=[],
-                        url_insert_ged = self.url_insert_ged
+                        url_insert_ged=self.url_insert_ged,
+                        context=self.context
                     ).execute()
 
                 if checked_files.get("files_secundary"):
@@ -63,8 +64,20 @@ class InserirArquivosUseCase:
                         classLogger=self.classLogger,
                         file_main=False,
                         list_files=checked_files.get("files_secundary"),
-                        url_insert_ged = self.url_insert_ged
+                        url_insert_ged = self.url_insert_ged,
+                        context=self.context
                     ).execute()
+                checked_files = VerificandoExistenciaArquivosUseCase(
+                    page=self.page,
+                    arquivo_principal=self.arquivo_principal,
+                    arquivos_secundarios=self.arquivos_secundarios,
+                    context=self.context,
+                    pasta=self.pasta,
+                    url_pasta=self.url_pasta,
+                    classLogger=self.classLogger
+                ).execute()
+                if checked_files.get("file_main") or checked_files.get("files_secundary"):
+                    raise Exception("Erro")
             error_ged_legalone.update_error_ged_legalone(False)
         except Exception as error:
             raise Exception("Erro ao realizar o upload dos arquivos")

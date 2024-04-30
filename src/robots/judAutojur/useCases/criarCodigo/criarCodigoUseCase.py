@@ -68,7 +68,8 @@ class CriarCodigoUseCase:
                         page=self.page,
                         pasta=self.data_input.pasta,
                         processo=self.data_input.processo,
-                        classLogger=self.classLogger
+                        classLogger=self.classLogger,
+                        context=self.context
                     ).execute()
                     if not response.codigo:
                         message = 'Erro ao inserir a pasta'

@@ -1,56 +1,48 @@
-import time
+import requests
 from bs4 import BeautifulSoup
-from playwright.sync_api import Page, BrowserContext, sync_playwright
-from modules.downloadS3.downloadS3 import DownloadS3
-
 from modules.logger.Logger import Logger
+from playwright.sync_api import Page, BrowserContext
 from robots.judLegalone.useCases.verificarExistenciaArquivoPrincipal.verificarExistenciaArquivoPrincipalUseCase import VerificarExistenciaArquivoPrincipal
 
 class VerificandoExistenciaArquivosUseCase:
     def __init__(
         self,
-        page: Page,
         arquivo_principal: str,
         context: BrowserContext,
-        pasta: str,
         url_pasta:str,
         processo:str,
         classLogger: Logger
     ) -> None:
-        self.page = page
         self.arquivo_principal = arquivo_principal
         self.context = context
-        self.pasta = pasta
         self.url_pasta = url_pasta
         self.classLogger = classLogger
         self.processo = processo
 
     def execute(self):
         try:
+            cookies = self.context.cookies()
+            cookies_str = ''
+            for cookie in cookies:
+                cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
+
+            headers = {
+                "X-Requested-With":"XMLHttpRequest",
+                "Referer":self.url_pasta,
+                "Host":"booking.nextlegalone.com.br",
+                "Cookie":cookies_str
+            }
+
+            id = self.url_pasta.split("/Details/")[1]
+
+            url = f"https://booking.nextlegalone.com.br/processos/Processos/detailsged/{id}?renderOnlySection=True&ajaxnavigation=true"
+
+            response = requests.get(url=url,headers=headers)
+
             message = "Verificando se os arquivos foram salvos."
             self.classLogger.message(message)
-            self.page.goto(self.url_pasta)
-            time.sleep(10)
-            success = False
-            attemp = 0
-            max_attemp = 3
-            while attemp < max_attemp:
-                try:
-                    self.page.query_selector('#aTab-ecm').click()
-                    time.sleep(25)
-                    self.page.query_selector('.add-popover-menu.popover-menu-button.main-popover-menu-button.tooltipMenu').hover()
-                    time.sleep(10)
-                    attemp = max_attemp
-                    success = True
-                except Exception as error:
-                    attemp +=1
-                    time.sleep(5)
-            if not success:
-                message = "Erro ao verificar se os arquivos foram salvos."
-                self.classLogger.message(message)
-                raise Exception("Erro ao acessar GED")
-            
-            site_html = BeautifulSoup(self.page.content(), 'html.parser')
+
+            site_html = BeautifulSoup(response.text, 'html.parser')
             
             list_files_legalone = []
 
@@ -60,9 +52,7 @@ class VerificandoExistenciaArquivosUseCase:
                     list_files_legalone.append(tr.select("td")[2].select_one("a").text)
                 
             name_file_main_download = VerificarExistenciaArquivoPrincipal(
-                page=self.page,
                 arquivo_principal=self.arquivo_principal,
-                context=self.context,
                 classLogger=self.classLogger,
                 list_files_legalone=list_files_legalone,
                 processo=self.processo

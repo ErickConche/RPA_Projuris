@@ -9,16 +9,12 @@ from modules.logger.Logger import Logger
 class VerificarExistenciaArquivoPrincipal:
     def __init__(
         self,
-        page: Page,
         arquivo_principal: str,
-        context: BrowserContext,
         classLogger: Logger,
         processo:str,
         list_files_legalone:List[str]
     ) -> None:
-        self.page = page
         self.arquivo_principal = arquivo_principal
-        self.context = context
         self.classLogger = classLogger
         self.list_files_legalone = list_files_legalone
         self.processo = processo

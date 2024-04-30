@@ -12,6 +12,7 @@ from robots.judAutojur.useCases.login.login import LoginJudAutojurUseCase
 
 from robots.judAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
 from robots.judAutojur.useCases.validarPastaAutojur.validarPastaAutojurUseCase import ValidarPastaAutojurUseCase
+from robots.judAutojur.useCases.verificacaoEnvolvidos.verificacaoEnvolvidosUseCase import VerificacaoEnvolvidosUseCase
 
 
 class JudAutojur:
@@ -66,7 +67,8 @@ class JudAutojur:
                         page=page,
                         pasta=data_input.pasta,
                         processo=data_input.processo,
-                        classLogger=self.classLogger
+                        classLogger=self.classLogger,
+                        context=context
                     ).execute()
                     if response.found:
                         data.error = False
@@ -76,6 +78,11 @@ class JudAutojur:
                             }
                         ]
                     else:
+                        data_input = VerificacaoEnvolvidosUseCase(
+                            classLogger=self.classLogger,
+                            data_input=data_input,
+                            context=context
+                        ).execute()
                         response = CriarCodigoUseCase(
                             page=page,
                             data_input=data_input,

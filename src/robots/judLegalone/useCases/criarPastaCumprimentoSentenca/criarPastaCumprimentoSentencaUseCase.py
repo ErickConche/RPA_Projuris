@@ -52,7 +52,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                     break
 
             self.page.goto(url_pasta)
-            time.sleep(15)
+            time.sleep(5)
             self.classLogger.message("Inserindo Outros envolvidos")
             InserirDadosOutrosEnvolvidosUseCase(
                 page=self.page,
@@ -107,7 +107,7 @@ class CriarPastaCumprimentoSentencaUseCase:
                 self.page.query_selector('button[name="ButtonSave"][value="0"]').click()
             except Exception as error:
                 pass
-            time.sleep(15)
+            time.sleep(5)
 
             response = ValidarPastaJudUseCase(
                 page=self.page,

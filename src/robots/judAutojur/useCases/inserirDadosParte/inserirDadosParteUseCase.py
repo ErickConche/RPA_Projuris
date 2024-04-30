@@ -75,6 +75,11 @@ class InserirDadosParteUseCase:
                     time.sleep(3)
                 frame.locator("#form-salvar-pessoa\\:j_idt640").click()
                 time.sleep(5)
+                if frame.locator("#form-salvar-pessoa\\:j_idt640").is_visible():
+                    frame.locator('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29').clear()
+                    time.sleep(1)
+                    frame.locator("#form-salvar-pessoa\\:j_idt640").click()
+                    time.sleep(5)
             else:
                 for tr in trs:
                     tds = tr.select("td")
@@ -109,6 +114,11 @@ class InserirDadosParteUseCase:
                         time.sleep(3)
                     frame.locator("#form-salvar-pessoa\\:j_idt640").click()
                     time.sleep(5)
+                    if frame.locator("#form-salvar-pessoa\\:j_idt640").is_visible():
+                        frame.locator('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29').clear()
+                        time.sleep(1)
+                        frame.locator("#form-salvar-pessoa\\:j_idt640").click()
+                        time.sleep(5)
                 else:
                     frame.locator(f'tr[data-rk="{codigo}"]').click()
                     time.sleep(1)

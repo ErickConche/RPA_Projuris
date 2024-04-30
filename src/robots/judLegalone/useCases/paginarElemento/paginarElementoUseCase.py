@@ -25,7 +25,7 @@ class PaginarElementoUseCase:
 
     def execute(self):
         try:
-            time.sleep(3)
+            time.sleep(5)
             elemento = self.page.locator('.lookup-dropdown[style*="display: block"]')
             site_html = BeautifulSoup(elemento.inner_html(), 'html.parser')
             qtde_paginas = int(site_html.select_one(".paginator-page-count").text)
@@ -35,7 +35,7 @@ class PaginarElementoUseCase:
                     return True
                 pagina_atual +=1
                 elemento.locator(".paginator-next").click()
-                time.sleep(3)
+                time.sleep(5)
             
             raise Exception ("Erro ao fazer paginação")
                     

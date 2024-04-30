@@ -5,6 +5,7 @@ from datetime import datetime
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from robots.judAutojur.useCases.cookies.cookiesUseCase import CookiesUseCase
+from robots.judAutojur.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
 from robots.judAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
 
@@ -151,57 +152,7 @@ class ValidarEFormatarEntradaUseCase:
             cpf_cnpj_outros_envolvidos10=fields.get("CpfCnpjOutrosEnvolvidos10") if fields.get("CpfCnpjOutrosEnvolvidos10") and fields.get("CpfCnpjOutrosEnvolvidos10") is not None else '',
         )
 
-        if data_input.cidade == 'São Gonçalo':
-            data_input.cidade = 'SAO GONÇALO'
-
-        elif data_input.cidade == 'Paraty':
-            data_input.cidade = 'PARATI'
-
-        if data_input.sistema_tribunal == 'eSAJ':
-            data_input.sistema_tribunal = 'e-SAJ'
-            
-
-        if data_input.sistema_tribunal == 'Projudi':
-            data_input.sistema_tribunal = 'PROJUDI'
-
-        if data_input.cpf_cnpj_envolvido == '000.000.000-00':
-            data_input.cpf_cnpj_envolvido =''
-
-        if data_input.cpf_cnpj_outros_envolvidos1 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos1 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos2 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos2 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos3 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos3 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos4 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos4 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos5 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos5 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos6 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos6 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos7 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos7 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos8 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos8 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos9 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos9 =''
-
-        if data_input.cpf_cnpj_outros_envolvidos10 == '000.000.000-00':
-            data_input.cpf_cnpj_outros_envolvidos10 =''
-        
-        if len(data_input.data_distribuicao.split("/")[-1]) == 2:
-            dia, mes, ano = data_input.data_distribuicao.split('/')
-            if len(ano):
-                ano = '20' + ano
-            data_input.data_distribuicao =  f'{dia}/{mes}/{ano}'
+        data_input = CorrecaoErrosUsuarioUseCase(data_input=data_input).execute()
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)

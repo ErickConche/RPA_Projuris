@@ -4,6 +4,7 @@ import pytz
 from datetime import datetime
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
+from robots.judLegalone.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
 from robots.judLegalone.useCases.deparas.deparas import Deparas
 from robots.judLegalone.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
@@ -146,68 +147,7 @@ class ValidarEFormatarEntradaUseCase:
             arquivo_principal=fields.get("ArquivoPrincipal")
         )
 
-        data_input.uf = data_input.uf.replace("-","")
-
-
-        if data_input.vara == 'Juizado-Especial-Civel-JEC':
-            data_input.vara = 'Juizado Especial Cível - JEC'
-
-        if data_input.vara == 'Vara-Civel-VC':
-            data_input.vara = 'Vara Cível - VC'
-
-        if 'Justica' in data_input.justica: 
-            data_input.justica = data_input.justica.replace("Justica","Justiça")
-
-        if data_input.cpf_cnpj_envolvido == '0':
-            data_input.cpf_cnpj_envolvido = ''
-
-        if data_input.processo_originario != '' and (data_input.titulo == 'Indenizatória' or data_input.titulo == 'Reclamação Pré-Processual'):
-            data_input.processo_originario = ''
-
-        if data_input.complemento_comarca == 'Capital Copacabana':
-            data_input.complemento_comarca = 'Copacabana'
-
-        if data_input.complemento_comarca == '2° JD':
-            data_input.complemento_comarca = '2ª JD'
-
-        if data_input.complemento_comarca == '29° JD':
-            data_input.complemento_comarca = '29º JD da Comarca de Belo Horizonte'
-
-        if data_input.comarca == 'Norte da Ilha':
-            data_input.comarca = 'Norte Da Ilha'
-
-        elif data_input.comarca == 'Embu das Artes':
-            data_input.comarca = 'Embu Das Artes'
-
-        elif data_input.comarca == 'Arujá':
-            data_input.comarca = 'Guarujá'
-
-        if data_input.vara == 'Vara do Juizado Especial':
-            data_input.vara = 'Vara Do Juizado Especial'
-
-        if data_input.vara == 'Vara Descentralizada de Santa Felicidade':
-            data_input.vara = 'Vara Descentralizada De Santa Felicidade'
-
-        if data_input.vara == 'Vara do Juizado Especial Cível':
-            data_input.vara = 'Vara Do Juizado Especial Cível'
-
-        elif data_input.vara == 'Vara do Juizado Especial Central':
-            data_input.vara = 'Vara Do Juizado Especial Central'
-
-        elif data_input.vara == 'Vara Juizado Especial Cível e Criminal':
-            data_input.vara = 'Do Juizado Especial Cível E Criminal'
-
-        elif data_input.vara == 'Vara do Juizado das Relações de Consumo':
-            data_input.vara = 'Do Juizado Especial Cível Das Relações De Consumo'
-
-        if data_input.cpf_cnpj_envolvido == '0':
-            data_input.cpf_cnpj_envolvido = ''
-
-        if len(data_input.data_distribuicao.split("/")[-1]) == 2:
-            dia, mes, ano = data_input.data_distribuicao.split('/')
-            if len(ano):
-                ano = '20' + ano
-            data_input.data_distribuicao =  f'{dia}/{mes}/{ano}'
+        data_input = CorrecaoErrosUsuarioUseCase(data_input=data_input).execute()
 
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
