@@ -1,7 +1,5 @@
 
 import time
-
-from bs4 import BeautifulSoup
 from models.cliente.__model__.ClienteModel import ClienteModel
 from models.cliente.cliente import Cliente
 from modules.logger.Logger import Logger

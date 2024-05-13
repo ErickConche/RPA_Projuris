@@ -1,6 +1,8 @@
 import time
 from playwright.sync_api import Page, BrowserContext, sync_playwright
+from unidecode import unidecode
 
+from modules.deparaGeral.deparaGeral import DeparaGeral
 from modules.logger.Logger import Logger
 from robots.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
@@ -14,6 +16,7 @@ class InserirDadosCadastraisUseCase:
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
+        self.depara = DeparaGeral()
 
     def execute(self):
         try:
@@ -76,7 +79,15 @@ class InserirDadosCadastraisUseCase:
             time.sleep(1)
             self.page.locator("#form-dados-cadastrais\\:j_idt324\\:8\\:j_idt325\\:ff\\:ac-cidade_input").type(self.data_input.cidade)
             time.sleep(1)
-            self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').click()
+            if not self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').is_visible():
+                capital = self.depara.depara_estado_capital(self.data_input.uf)
+                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:8\\:j_idt325\\:ff\\:ac-cidade_input").clear()
+                time.sleep(2)
+                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:8\\:j_idt325\\:ff\\:ac-cidade_input").type(capital.upper())
+                time.sleep(2)
+                self.page.locator(f'li[data-item-label="{capital}"]').click()
+            else:
+                self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').click()
             time.sleep(1)
 
         except Exception as error:

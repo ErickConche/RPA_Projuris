@@ -6,6 +6,7 @@ from models.cliente.cliente import Cliente
 from modules.robotCore.__model__.RobotModel import RobotModel
 from robots.admAutojur.admAutojur import AdmAutoJur
 from robots.admLegalone.admLegalone import AdmLegalone
+from robots.expJudAutojur.expJudAutojur import ExpJudAutojur
 from robots.judAutojur.judAutojur import JudAutojur
 from robots.judLegalone.judLegalone import judLegalone
 

@@ -1,4 +1,5 @@
 
+from modules.formatacao.useCases.formatarArquivoUseCase import FormatarArquivoUseCase
 from modules.formatacao.useCases.formatarCpfCnpjUseCase import FormatarCpfCnpjUseCase
 from modules.formatacao.useCases.formatarDataUseCase import FormatarDataUseCase
 
@@ -8,6 +9,12 @@ class Formatacao:
         self,
     ) -> None:
         pass
+
+    def formatarArquivo(
+        self,
+        arquivo: str
+    ):
+        return FormatarArquivoUseCase(arquivo=arquivo).execute()
 
     def formatarCpfCnpj(
         self,
