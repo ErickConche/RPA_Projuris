@@ -54,7 +54,10 @@ class IniciandoProcessoExpAutojurUseCase:
             data_rk, codigo_encontrado = EncontrarTokenProcessoUseCase(
                 processo=self.data_input.processo,
                 trs=trs,
-                classLogger=self.classLogger
+                classLogger=self.classLogger,
+                view_state=view_state,
+                headers=headers,
+                url=url
             ).execute()
 
             site_html, existem_tarefas = AcessarAgendamentosUseCase(
