@@ -61,21 +61,21 @@ class InserirDadosComplementaresUseCase:
             elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').click()
             time.sleep(3)
 
-
-            info_vara = BuscarVaraUseCase(
-                vara=self.data_input.vara,
-                classLogger=self.classLogger,
-                context=self.context
-            ).execute()
-            self.page.locator("#VaraText").click()
-            time.sleep(1)
-            self.page.locator("#VaraText").type(self.data_input.vara)
-            time.sleep(3)
-            self.page.locator("#VaraText").press("Enter")
-            time.sleep(3)
-            elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-            elemento_dropdown.locator(f'tr[data-val-id="{info_vara.get("Id")}"] td[data-val-field="Value"]:text("{info_vara.get("Value")}")').click()
-            time.sleep(3)
+            if self.data_input.vara != '':
+                info_vara = BuscarVaraUseCase(
+                    vara=self.data_input.vara,
+                    classLogger=self.classLogger,
+                    context=self.context
+                ).execute()
+                self.page.locator("#VaraText").click()
+                time.sleep(1)
+                self.page.locator("#VaraText").type(self.data_input.vara)
+                time.sleep(3)
+                self.page.locator("#VaraText").press("Enter")
+                time.sleep(3)
+                elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+                elemento_dropdown.locator(f'tr[data-val-id="{info_vara.get("Id")}"] td[data-val-field="Value"]:text("{info_vara.get("Value")}")').click()
+                time.sleep(3)
 
 
         except Exception as error:

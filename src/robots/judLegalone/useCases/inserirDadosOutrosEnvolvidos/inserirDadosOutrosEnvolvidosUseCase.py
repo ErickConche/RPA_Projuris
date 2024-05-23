@@ -52,7 +52,7 @@ class InserirDadosOutrosEnvolvidosUseCase:
                     site_html = BeautifulSoup(li_table.inner_html(), 'html.parser')
                     id_elemento = site_html.select_one("input").get("value").replace("-","_")
 
-                    id_depara_situacao = Deparas.depara_situacao_outros_envolvidos(obj.get(situacao))
+                    id_depara_situacao = Deparas.depara_situacao_outros_envolvidos(obj.get(situacao).strip())
                     select_elemento = li_table.locator('select')
                     select_elemento.select_option(value=f"{str(id_depara_situacao)}")
                     time.sleep(1)

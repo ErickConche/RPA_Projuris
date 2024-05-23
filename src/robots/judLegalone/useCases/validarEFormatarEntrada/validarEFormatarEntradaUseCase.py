@@ -2,6 +2,7 @@
 import json
 import pytz
 from datetime import datetime
+from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from robots.judLegalone.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
@@ -19,6 +20,7 @@ class ValidarEFormatarEntradaUseCase:
         self.classLogger = classLogger
         self.json_recebido = json_recebido
         self.cliente = cliente
+        self.formatacao = Formatacao()
 
     def execute(self)-> DadosEntradaFormatadosModel:
         message = "Iniciando validação dos campos de entrada"
@@ -49,16 +51,7 @@ class ValidarEFormatarEntradaUseCase:
         
         if not fields.get("Comarca") or fields.get("Comarca") is None:
             raise Exception("Informe a comarca")
-        
-        if not fields.get("ComplementoComarca") or fields.get("ComplementoComarca") is None:
-            raise Exception("Informe o complemento da comarca")
-        
-        if not fields.get("NumeroVara") or fields.get("NumeroVara") is None:
-            raise Exception("Informe o número da vara")
-        
-        if not fields.get("Vara") or fields.get("Vara") is None:
-            raise Exception("Informe a vara")
-
+    
         if not fields.get("NomeEnvolvido") or fields.get("NomeEnvolvido") is None:
             raise Exception("Informe o nome do envolvido")
         
@@ -94,10 +87,10 @@ class ValidarEFormatarEntradaUseCase:
             natureza=fields.get("Natureza") if fields.get("Natureza") and fields.get("Natureza") is not None else 'Cível',
             fase=fields.get("Fase") if fields.get("Fase") and fields.get("Fase") is not None else 'Inicial',
             comarca=fields.get("Comarca"),
-            complemento_comarca=fields.get("ComplementoComarca"),
-            numero_vara=fields.get("NumeroVara"),
+            complemento_comarca=fields.get("ComplementoComarca") or 'Não',
+            numero_vara=fields.get("NumeroVara") or '',
             complemento_vara=fields.get("ComplementoVara") if fields.get("ComplementoVara") and fields.get("ComplementoVara") is not None else 'Não',
-            vara=fields.get("Vara"),
+            vara=fields.get("Vara") or '',
             empresa=fields.get("NomeEmpresa") if fields.get("NomeEmpresa") and fields.get("NomeEmpresa") is not None else 'Booking.com Brasil Serviços de Reserva de Hotéis Ltda',
             nome_envolvido=fields.get("NomeEnvolvido"),
             cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido").replace(" ",""),
@@ -143,7 +136,7 @@ class ValidarEFormatarEntradaUseCase:
             cpf_cnpj_outros_envolvidos10=fields.get("CpfCnpjOutrosEnvolvidos10").replace(" ","") if fields.get("CpfCnpjOutrosEnvolvidos10") and fields.get("CpfCnpjOutrosEnvolvidos10") is not None else '',
             id_acomodacao=fields.get("IdAcomodacao") if fields.get("IdAcomodacao") and fields.get("IdAcomodacao") is not None else '0000',
             numero_reserva=fields.get("NumeroReserva") if fields.get("NumeroReserva") and fields.get("NumeroReserva") is not None else '0000',
-            data_citacao=fields.get("DataCitacao") if fields.get("DataCitacao") and fields.get("DataCitacao") is not None else '',
+            data_citacao=self.formatacao.formatarData(fields.get("DataCitacao")) if fields.get("DataCitacao") and fields.get("DataCitacao") is not None else '',
             arquivo_principal=fields.get("ArquivoPrincipal")
         )
 
