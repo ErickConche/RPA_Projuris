@@ -22,6 +22,9 @@ class CorrecaoErrosUsuarioUseCase:
         elif self.data_input.sistema_tribunal == 'eproc':
             self.data_input.sistema_tribunal = 'e-proc'
             
+        elif self.data_input.sistema_tribunal == 'E-proc':
+            self.data_input.sistema_tribunal = 'e-proc'
+
         elif self.data_input.sistema_tribunal == 'Projudi':
             self.data_input.sistema_tribunal = 'PROJUDI'
 
