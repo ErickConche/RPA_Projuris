@@ -39,8 +39,14 @@ class CorrecaoErrosUsuarioUseCase:
         elif self.data_input.comarca == 'Arujá':
             self.data_input.comarca = 'Guarujá'
 
-        if self.data_input.vara == 'Juizado-Especial-Civel-JEC':
+        if self.data_input.vara == 'Juizado Especial Cível':
             self.data_input.vara = 'Juizado Especial Cível - JEC'
+
+        elif self.data_input.vara == 'Juizado-Especial-Civel-JEC':
+            self.data_input.vara = 'Juizado Especial Cível - JEC'
+
+        elif self.data_input.vara == 'Vara Civel':
+            self.data_input.vara = 'Vara Cível - VC'
 
         elif self.data_input.vara == 'Vara-Civel-VC':
             self.data_input.vara = 'Vara Cível - VC'

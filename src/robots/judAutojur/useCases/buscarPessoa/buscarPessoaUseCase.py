@@ -56,7 +56,7 @@ class BuscarPessoaUseCase:
         headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
         response = requests.post(url=url,  data=body, headers=headers)
 
-        has_cpf_cnpj = True  if self.envolvido.cpf_cnpj != '' else False
+        has_cpf_cnpj = True  if self.envolvido.cpf_cnpj != '' and self.envolvido.cpf_cnpj != '0' else False
         pesquisa_campo_rapido = "10" if has_cpf_cnpj else "30"
         valor_busca = self.envolvido.cpf_cnpj if has_cpf_cnpj else self.envolvido.nome
         if has_cpf_cnpj:

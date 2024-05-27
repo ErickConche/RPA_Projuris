@@ -33,18 +33,18 @@ class InserirDadosComplementaresUseCase:
             if self.data_input.titulo == 'Indenizatória' or self.data_input.titulo == 'Reclamação Pré-Processual':
                 self.page.locator('p:has-text("Dados complementares")').click()
                 time.sleep(3)
-
+            justica = self.data_input.justica
             self.page.locator("#JusticaText").click()
             time.sleep(1)
-            self.page.locator("#JusticaText").type(self.data_input.justica)
+            self.page.locator("#JusticaText").type(justica)
             time.sleep(3)
             self.page.locator("#JusticaText").press("Enter")
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-            elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_justica(self.data_input.justica)}"] td[data-val-field="Value"]:text("{self.data_input.justica}")').click()
+            elemento_dropdown.locator(f'tr[data-val-id="{Deparas.depara_justica(justica)}"] td[data-val-field="Value"]:text("{justica}")').click()
             time.sleep(5)
 
-            info_comarca = BuscarComarcaUseCase(
+            list_info_comarca = BuscarComarcaUseCase(
                 comarca=self.data_input.comarca,
                 classLogger=self.classLogger,
                 context=self.context,
@@ -58,7 +58,10 @@ class InserirDadosComplementaresUseCase:
             self.page.locator("#ForoText").press("Enter")
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
-            elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').click()
+            for info_comarca in list_info_comarca:
+                 if elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').is_visible():
+                     elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').click()
+                     break
             time.sleep(3)
 
             if self.data_input.vara != '':

@@ -27,7 +27,7 @@ class BuscarComarcaUseCase:
             cookies_str = ''
             for cookie in cookies:
                 cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
-            url = f"https://booking.nextlegalone.com.br/config/Foro/LookupForo?idUF={str(self.id_uf)}&idJustica={str(self.id_justica)}&term={self.comarca}&pageSize=10&_=1706733430269"
+            url = f"https://booking.nextlegalone.com.br/config/Foro/LookupForo?idUF={str(self.id_uf)}&idJustica={str(self.id_justica)}&term={self.comarca}&pageSize=50&_=1706733430269"
 
             headers = {
                 "X-Requested-With":"XMLHttpRequest",
@@ -41,20 +41,20 @@ class BuscarComarcaUseCase:
             json_response = json.loads(response.text)
 
             ### Insere os resultados no banco
-
+            list_comarcas = []
             for row in json_response.get('Rows'):
                 if row.get("Value") == self.comarca:
-                    return row
+                    list_comarcas.append(row)
 
             qtde_comarcas = json_response.get("Count")
 
-            pages = qtde_comarcas//10
-            if qtde_comarcas % 10 != 0:
+            pages = qtde_comarcas//50
+            if qtde_comarcas % 50 != 0:
                 pages += 1
             
             cont = 1
             while cont < pages:
-                url = f"https://booking.nextlegalone.com.br/config/Foro/LookupForo?idUF={str(self.id_uf)}&pageIndex={str(cont)}&idJustica={str(self.id_justica)}&term={self.comarca}&pageSize=10&_=1706733430269"
+                url = f"https://booking.nextlegalone.com.br/config/Foro/LookupForo?idUF={str(self.id_uf)}&pageIndex={str(cont)}&idJustica={str(self.id_justica)}&term={self.comarca}&pageSize=50&_=1706733430269"
                 headers["Referer"] = url
                 response = requests.get(url=url,headers=headers)
 
@@ -64,10 +64,13 @@ class BuscarComarcaUseCase:
 
                 for row in json_response.get('Rows'):
                     if row.get("Value") == self.comarca:
-                        return row
+                        list_comarcas.append(row)
 
                 time.sleep(0.5)
                 cont +=1
+            
+            if len(list_comarcas) > 0:
+                return list_comarcas
 
             raise Exception ("comarca não encontrada")
         except Exception as error:

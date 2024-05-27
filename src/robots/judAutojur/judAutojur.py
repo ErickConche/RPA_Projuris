@@ -48,7 +48,7 @@ class JudAutojur:
             ).execute()
             response_data = []
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=True)
+                browser = playwright.chromium.launch(headless=False)
                 context = browser.new_context(ignore_https_errors=True)
                 page = context.new_page()
                 context.add_cookies([{"name":"footprint", "value": data_input.footprint, "url": data_input.url_cookie}])
