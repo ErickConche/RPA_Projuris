@@ -46,8 +46,7 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("DataExpediente") or fields.get("DataExpediente") is None:
             raise Exception("Informe a data")
         
-        if fields.get("HoraExpediente") and fields.get("HoraExpediente") != '' \
-            and not self.validacao.validar_hora(fields.get("HoraExpediente")):
+        if not fields.get("HoraExpediente") and fields.get("HoraExpediente") is None:
             raise Exception("A hora informada é invalida")
         
         if not fields.get("Responsavel") or fields.get("Responsavel") is None:
@@ -74,7 +73,13 @@ class ValidarEFormatarEntradaUseCase:
         
         data = self.formatacao.formatarData(fields.get("DataExpediente").strip())
         hora = fields.get("HoraExpediente").strip() or '00:00'
+        if len(hora.split(":")) > 2:
+            hora_split = hora.split(":")
+            hora = hora_split[0] + ":" + hora_split[1]
 
+        if not self.validacao.validar_hora(hora):
+            raise Exception("O formato da hora está incorreto")
+        
         data_formatada = f"{data} {hora}" \
             if self.depara.depara_usa_data_hora_evento(evento) is not None \
           else data

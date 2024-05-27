@@ -18,6 +18,7 @@ class Deparas:
         depara = {
             "ALEGAÇÕES FINAIS":"40",
             "ATO ORDINARIO":"63",
+            "ATO ORDINÁRIO":"63",
             "AUDIÊNCIA DE CONCILIAÇÃO":"70",
             "AUDIÊNCIA DE INSTRUÇÃO":"72",
             "AUDIÊNCIA UNA":"74",
@@ -26,7 +27,9 @@ class Deparas:
             "ALVARÁ EXPEDIDO":"44",
             "CONTESTAÇÃO":"137",
             "MANIFESTAÇÃO EMBARGOS DE DECLARACAO":"304",
+            'MANIFESTACAO EMBARGOS DE DECLARACAO':"304",
             "CONTRARRAZÕES JEC":"144",
+            "CONTRARRAZOES JEC":"144",
             "CONTRA RAZÕES":"140",
             "CONTRA RAZOES":"140",
             "PROCESSO ARQUIVADO":"415",
@@ -50,6 +53,7 @@ class Deparas:
             "SENTENÇA HOMOLOGATÓRIA":"508",
             "MANIFESTACAO SOBRE PROVAS A PRODUZIR":"309",
             "MANIFESTACAO SOBRE O RETORNO DOS AUTOS":"308",
+            'MANIFESTAÇÃO SOBRE O RETORNO DOS AUTOS':"308",
             "EXTINÇÃO DO PROCESSO":"230"
         }
         return depara.get(evento) 
@@ -62,7 +66,9 @@ class Deparas:
             "AUDIÊNCIA UNA":"74",
             "CONTESTAÇÃO":"137",
             "MANIFESTAÇÃO EMBARGOS DE DECLARACAO":"304",
+            'MANIFESTACAO EMBARGOS DE DECLARACAO':"304",
             "CONTRARRAZÕES JEC":"144",
+            "CONTRARRAZOES JEC":"144",
             "MANIFESTAÇÃO":"302",
             "MANIFESTACAO":"302",
             "CONTRA RAZÕES":"140",
@@ -74,6 +80,7 @@ class Deparas:
             "EXECUÇÃO DE SENTENÇA":"224",
             "MANIFESTAÇÃO SOBRE PROVAS A PRODUZIR":"309",
             "MANIFESTACAO SOBRE PROVAS A PRODUZIR":"309",
-            "MANIFESTACAO SOBRE O RETORNO DOS AUTOS":"308"
+            "MANIFESTACAO SOBRE O RETORNO DOS AUTOS":"308",
+            'MANIFESTAÇÃO SOBRE O RETORNO DOS AUTOS':"308",
         }
         return depara.get(evento)
