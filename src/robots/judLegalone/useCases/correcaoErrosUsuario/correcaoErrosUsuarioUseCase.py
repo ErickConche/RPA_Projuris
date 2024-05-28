@@ -45,7 +45,7 @@ class CorrecaoErrosUsuarioUseCase:
         elif self.data_input.vara == 'Juizado-Especial-Civel-JEC':
             self.data_input.vara = 'Juizado Especial Cível - JEC'
 
-        elif self.data_input.vara == 'Vara Civel':
+        elif self.data_input.vara == 'Vara Cível':
             self.data_input.vara = 'Vara Cível - VC'
 
         elif self.data_input.vara == 'Vara-Civel-VC':
@@ -68,6 +68,12 @@ class CorrecaoErrosUsuarioUseCase:
 
         elif self.data_input.vara == 'Vara do Juizado das Relações de Consumo':
             self.data_input.vara = 'Do Juizado Especial Cível Das Relações De Consumo'
+
+        if self.data_input.justica == 'Estadual':
+            self.data_input.justica = 'Justiça Estadual'
+
+        elif self.data_input.justica == 'Federal':
+            self.data_input.justica = 'Justiça Federal'
 
         if len(self.data_input.data_distribuicao.split("/")[-1]) == 2:
             dia, mes, ano = self.data_input.data_distribuicao.split('/')

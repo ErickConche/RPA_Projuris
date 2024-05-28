@@ -34,8 +34,10 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("Pasta") or fields.get("Pasta") is None:
             raise Exception("Informe a pasta")
         
+        pasta = fields.get("Pasta")
+
         if 'Pasta n' not in fields.get("Pasta"):
-            raise Exception("A Pasta está no formato incorreto")
+            pasta = f"Pasta nº {pasta}"
         
         if not fields.get("Titulo") or fields.get("Titulo") is None:
             raise Exception("Informe o Titulo/Tipo de ação")
