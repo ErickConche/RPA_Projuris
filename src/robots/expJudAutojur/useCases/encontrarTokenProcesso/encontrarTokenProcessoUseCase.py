@@ -15,7 +15,7 @@ class EncontrarTokenProcessoUseCase:
         headers: dict
     ) -> None:
         self.classLogger = classLogger
-        self.processo = processo.replace("-","").replace(".","")
+        self.processo = processo.replace("-","").replace(".","").strip()
         self.trs = trs
         self.view_state = view_state
         self.url = url
@@ -26,7 +26,7 @@ class EncontrarTokenProcessoUseCase:
             data_rk = None
             count = 0
             for tr in self.trs:
-                processo_encontrado = tr.select(".lg-dado")[4].next.replace("-","").replace(".","")
+                processo_encontrado = tr.select(".lg-dado")[4].next.replace("-","").replace(".","").strip()
                 data_rk = tr.attrs.get("data-rk")
                 if processo_encontrado == '':
                     processo_encontrado = AcessarProcessoUseCase(
