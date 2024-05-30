@@ -54,6 +54,8 @@ class Deparas:
             "MANIFESTACAO SOBRE PROVAS A PRODUZIR":"309",
             "MANIFESTACAO SOBRE O RETORNO DOS AUTOS":"308",
             'MANIFESTAÇÃO SOBRE O RETORNO DOS AUTOS':"308",
+            "INCLUSÃO EM PAUTA":"249",
+            "INCLUSAO EM PAUTA":"249",
             "EXTINÇÃO DO PROCESSO":"230"
         }
         return depara.get(evento) 
