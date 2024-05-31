@@ -1,25 +1,26 @@
+from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
+import global_variables.error_ged_legalone as error_ged_legalone
+from modules.robotCore.__model__.RobotModel import RobotModel
+from database.Postgres import create_connect as create_con_pg
+from models.log_execucao.log_execucao import LogExecucao
+from models.queues.queueExecucao import QueueExecucao
+from modules.robotCore.robotCore import RobotCore
+from models.cliente.cliente import Cliente
+from modules.logger.Logger import Logger
 import os
 import json
 import warnings
 from datetime import datetime
 from dotenv import load_dotenv
 warnings.filterwarnings('ignore')
-from modules.logger.Logger import Logger
-from models.cliente.cliente import Cliente
-from modules.robotCore.robotCore import RobotCore
-from models.queues.queueExecucao import QueueExecucao
-from models.log_execucao.log_execucao import LogExecucao
-from database.Postgres import create_connect as create_con_pg
-from modules.robotCore.__model__.RobotModel import RobotModel
-import global_variables.error_ged_legalone as error_ged_legalone
-from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
 load_dotenv()
+
 
 class MainCoreSingle:
     def __init__(
         self,
         queue: str,
-        requisicao: dict, 
+        requisicao: dict,
         class_queue_execucao: QueueExecucao
     ) -> None:
         self.queue = queue
@@ -28,10 +29,10 @@ class MainCoreSingle:
 
     def main(
         self,
-        json_recebido:str,
-        task_id:str,
-        identifier_tenant:str,
-        queue:str,
+        json_recebido: str,
+        task_id: str,
+        identifier_tenant: str,
+        queue: str,
         id_queue: int
     ):
         con_rd = create_con_pg(
@@ -42,29 +43,24 @@ class MainCoreSingle:
             password=os.getenv("PASSRD")
         ).get_connect()
         try:
-            attemp = 0
-            max_attemp = 3
-            data:RobotModel = None
-            while attemp < max_attemp:
-                class_cliente = Cliente(con=con_rd)
-                cliente = class_cliente.buscarCliente(tenant=identifier_tenant)
-                classLogger = Logger(hiring_id=task_id)
-                message = "Inicio da aplicação "+str(datetime.now())
-                classLogger.message(message=message)
-                classLogExecucao = LogExecucao(con=con_rd)
-                if not data:
-                    data = RobotCore(
-                        con_rd=con_rd,
-                        classLogger=classLogger,
-                        json_recebido=json_recebido,
-                        task_id=task_id,
-                        identifier_tenant=identifier_tenant,
-                        cliente=cliente,
-                        queue=queue,
-                        id_queue=id_queue
-                    ).execute()
-                    if not data.error or 'autojur' in queue or (data.error and not error_ged_legalone.get_error_ged_legalone()):
-                        attemp = max_attemp
+            data: RobotModel = None
+            class_cliente = Cliente(con=con_rd)
+            cliente = class_cliente.buscarCliente(tenant=identifier_tenant)
+            classLogger = Logger(hiring_id=task_id)
+            message = "Inicio da aplicação "+str(datetime.now())
+            classLogger.message(message=message)
+            classLogExecucao = LogExecucao(con=con_rd)
+            if not data:
+                data = RobotCore(
+                    con_rd=con_rd,
+                    classLogger=classLogger,
+                    json_recebido=json_recebido,
+                    task_id=task_id,
+                    identifier_tenant=identifier_tenant,
+                    cliente=cliente,
+                    queue=queue,
+                    id_queue=id_queue
+                ).execute()
             if not data.error:
                 classLogExecucao.inserirLog(
                     queue_execucao=queue,
@@ -78,8 +74,8 @@ class MainCoreSingle:
                 task_id=task_id,
                 error=data.error
             ).execute()
-        except Exception as error:
-            pass
+        except (Exception) as error:
+            classLogger.message(str(error))
         finally:
             message = "Fim da aplicação "+str(datetime.now())
             classLogger.message(message=message)
