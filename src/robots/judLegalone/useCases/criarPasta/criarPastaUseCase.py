@@ -42,7 +42,8 @@ class CriarPastaUseCase:
                     context=self.context,
                     url_pasta_originaria=self.url_pasta_originaria
                 ).execute()
-            
+            else:
+                raise Exception("O titulo passado não foi mapeado")
             InserirArquivosUseCase(
                 arquivo_principal=self.data_input.arquivo_principal,
                 context=self.context,

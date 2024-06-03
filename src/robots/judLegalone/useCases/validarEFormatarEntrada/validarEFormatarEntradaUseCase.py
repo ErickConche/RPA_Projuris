@@ -78,7 +78,7 @@ class ValidarEFormatarEntradaUseCase:
             processo_originario=fields.get("ProcessoOriginario") if fields.get("ProcessoOriginario") and fields.get("ProcessoOriginario") is not None else '',
             justica=fields.get("Justica").replace("-"," ") if fields.get("Justica") and fields.get("Justica") is not None else 'Justiça Estadual',
             titulo=fields.get("Titulo").replace("-"," "),
-            processo=fields.get("Processo"),
+            processo=fields.get("Processo").strip(),
             data_distribuicao=fields.get("DataDistribuicao"),
             procedimento=fields.get("Procedimento"),
             uf=fields.get("UF").strip(),
