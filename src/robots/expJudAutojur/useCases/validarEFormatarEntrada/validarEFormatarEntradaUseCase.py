@@ -1,6 +1,7 @@
 
 import json
 from models.cookies.cookiesUseCase import CookiesUseCase
+from models.eventos_exp_jud.main import EventosExpJud
 from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
@@ -24,9 +25,10 @@ class ValidarEFormatarEntradaUseCase:
         self.cliente = cliente
         self.con_rd = con_rd
         self.queue = queue
-        self.depara = Deparas()
         self.formatacao = Formatacao()
         self.validacao = Validacao()
+        self.eventos = EventosExpJud(self.con_rd).buscarEventos()
+        self.depara = Deparas()
 
     def execute(self)-> DadosEntradaFormatadosModel:
         message = "Iniciando validação dos campos de entrada"
@@ -40,7 +42,7 @@ class ValidarEFormatarEntradaUseCase:
             raise Exception("Informe o evento")
         
         evento = fields.get("Evento").strip()
-        if self.depara.depara_evento(evento) is None:
+        if not self.depara.depara_evento(evento,self.eventos):
             raise Exception("O Evento informado não foi mapeado")
         
         if not fields.get("DataExpediente") or fields.get("DataExpediente") is None:
@@ -81,7 +83,7 @@ class ValidarEFormatarEntradaUseCase:
             raise Exception("O formato da hora está incorreto")
         
         data_formatada = f"{data} {hora}" \
-            if self.depara.depara_usa_data_hora_evento(evento) is not None \
+            if self.depara.depara_usa_data_hora_evento(evento,self.eventos) \
           else data
 
         data_input: DadosEntradaFormatadosModel = DadosEntradaFormatadosModel(
@@ -92,7 +94,7 @@ class ValidarEFormatarEntradaUseCase:
             cookie_session=cookie.session_cookie,
             processo=fields.get("Processo").strip(),
             evento=fields.get("Evento").strip(),
-            id_evento=self.depara.depara_evento(evento),
+            id_evento=self.depara.depara_evento(evento,self.eventos),
             tipo_evento='Judicial', 
             data=data_formatada,
             data_final=data,

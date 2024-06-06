@@ -142,8 +142,8 @@ class IniciandoProcessoExpAutojurUseCase:
                     codigo=codigo_encontrado
                 )
                 return data_codigo
-            raise Exception("Erro")
+            raise Exception("Erro ao inserir pasta")
         
         except Exception as error:
-            raise Exception("Erro ao validar se a pasta já existe")
+            raise Exception(str(error))
         

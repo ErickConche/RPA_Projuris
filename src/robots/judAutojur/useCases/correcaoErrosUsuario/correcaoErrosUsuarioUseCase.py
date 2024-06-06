@@ -16,13 +16,14 @@ class CorrecaoErrosUsuarioUseCase:
         elif self.data_input.cidade == 'Paraty':
             self.data_input.cidade = 'PARATI'
 
+        if self.data_input.titulo == 'Cumprimento de Sentenca':
+            self.data_input.titulo = 'Cumprimento de Sentença'
+
         if self.data_input.sistema_tribunal == 'eSAJ':
             self.data_input.sistema_tribunal = 'e-SAJ'
 
-        elif self.data_input.sistema_tribunal == 'eproc':
-            self.data_input.sistema_tribunal = 'e-proc'
-            
-        elif self.data_input.sistema_tribunal == 'E-proc':
+        list_eprocs = ['eproc','Eproc','E-proc', 'eproc']
+        if self.data_input.sistema_tribunal in list_eprocs:
             self.data_input.sistema_tribunal = 'e-proc'
 
         elif self.data_input.sistema_tribunal == 'Projudi':
