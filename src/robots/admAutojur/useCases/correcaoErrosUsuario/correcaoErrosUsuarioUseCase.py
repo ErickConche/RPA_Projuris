@@ -16,11 +16,14 @@ class CorrecaoErrosUsuarioUseCase:
         if self.depara.depara_estado_uf(self.data_input.uf):
             self.data_input.uf = self.depara.depara_estado_uf(self.data_input.uf)
 
-        if self.data_input.tipo_sistema == 'PROCONConsumidorgov' or self.data_input.tipo_sistema == 'PROCON/Consumidor.gov':
+        if self.data_input.tipo_sistema == 'PROCONConsumidorgov' or self.data_input.tipo_sistema == 'PROCON/Consumidor.gov' or self.data_input.tipo_sistema == 'PROCON-Consumidorgovbr':
             self.data_input.tipo_sistema = 'PROCON / Consumidor.gov.br'
 
         if self.data_input.tipo_processo == 'C.I.P':
             self.data_input.tipo_processo = 'C.I.P.'
+
+        if self.data_input.tipo_processo == 'Reclamacao':
+            self.data_input.tipo_processo = 'Reclamação'
 
         if len(self.data_input.data_solicitacao.split("/")[-1]) == 2:
             dia, mes, ano = self.data_input.data_solicitacao.split('/')
