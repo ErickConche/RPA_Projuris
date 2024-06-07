@@ -21,6 +21,9 @@ class CorrecaoErrosUsuarioUseCase:
 
         if self.data_input.tipo_processo == 'C.I.P':
             self.data_input.tipo_processo = 'C.I.P.'
+        
+        if self.data_input.tipo_processo == 'CIP':
+            self.data_input.tipo_processo = 'C.I.P.'
 
         if self.data_input.tipo_processo == 'Reclamacao':
             self.data_input.tipo_processo = 'Reclamação'
