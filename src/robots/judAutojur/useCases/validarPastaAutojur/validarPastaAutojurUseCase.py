@@ -1,11 +1,11 @@
-import time
-from urllib.parse import urlencode
-from bs4 import BeautifulSoup
-from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
-
+from bs4 import BeautifulSoup
+from urllib.parse import urlencode
 from modules.logger.Logger import Logger
+from playwright.sync_api import Page, BrowserContext
 from robots.judAutojur.useCases.validarPastaAutojur.__model__.CodigoModel import CodigoModel
+from robots.judAutojur.useCases.buscarDataCadastro.buscarDataCadastroUseCase import BuscarDataCadastroUseCase
+
 
 class ValidarPastaAutojurUseCase:
     def __init__(
@@ -107,9 +107,17 @@ class ValidarPastaAutojurUseCase:
                         if pasta_encontrada_split == pasta_split and processo == self.processo:
                             message = f"A pasta informada possui um codigo já existente. Codigo: {codigo_encontrado}"
                             self.classLogger.message(message)
+                            data_cadastro_encontrado = BuscarDataCadastroUseCase(
+                                view_state=view_state,
+                                headers=headers,
+                                url=url,
+                                classLogger=self.classLogger,
+                                tr=tr
+                            ).execute()
                             data_codigo: CodigoModel = CodigoModel(
                                 found=True,
-                                codigo=codigo_encontrado
+                                codigo=codigo_encontrado,
+                                data_cadastro=data_cadastro_encontrado
                             )
                             return data_codigo
                         elif pasta_encontrada_split == pasta_split:

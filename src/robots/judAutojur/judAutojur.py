@@ -74,7 +74,8 @@ class JudAutojur:
                         data.error = False
                         data.data_return = [
                             {
-                                "Protocolo":response.codigo
+                                "Protocolo":response.codigo,
+                                "DataCadastro":response.data_cadastro
                             }
                         ]
                     else:
@@ -92,7 +93,8 @@ class JudAutojur:
                         data.error = False
                         data.data_return = [
                             {
-                                "Protocolo":response.codigo
+                                "Protocolo":response.codigo,
+                                "DataCadastro":response.data_cadastro
                             }
                         ]
                 except Exception as error:
@@ -103,7 +105,7 @@ class JudAutojur:
             message = f"Erro: {error}"
             self.classLogger.message(message)
             data_error = [{
-                "Pasta":"SITE INDISPONÍVEL",
+                "Protocolo":"SITE INDISPONÍVEL",
                 "DataCadastro":""
             }]
             data.data_return = data_error
