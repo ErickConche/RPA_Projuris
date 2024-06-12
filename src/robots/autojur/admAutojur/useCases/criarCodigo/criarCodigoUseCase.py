@@ -26,7 +26,7 @@ class CriarCodigoUseCase:
     def execute(self)->CodigoModel:
         try:
             attemp = 0
-            max_attemp = 3
+            max_attemp = 1
             error_exec = None
             success = False
             while attemp < max_attemp:

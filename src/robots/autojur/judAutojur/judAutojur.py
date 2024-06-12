@@ -77,7 +77,7 @@ class JudAutojur:
                     else:
                         data_input = VerificacaoEnvolvidosUseCase(
                             classLogger=self.classLogger,
-                            data_input=data_input.__dict__,
+                            data_input=data_input,
                             context=context
                         ).execute()
                         response = CriarCodigoUseCase(

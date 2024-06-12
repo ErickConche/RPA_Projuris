@@ -18,16 +18,11 @@ class InserirDadosParteUseCase:
 
     def execute(self):
         try:
-            message = BeautifulSoup(self.page.content(), 'html.parser').text
-            self.classLogger.message(f"Pré-Adicionar Envolvido {message}")
             self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
             time.sleep(8)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
-            message = site_html.text
-            self.classLogger.message(f"Pos-Adicionar Envolvido {message}")
             frame = self.page.frame(url=url_iframe)
-            self.classLogger.message(f"Frame da parte acessada")
             frame.fill('#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:txt-conteudo',self.data_input.nome_envolvido)
             time.sleep(3)
             frame.locator('button[data-id="form-pesquisa-pessoa:cmbCategoriaPessoa"]').click()
@@ -38,10 +33,8 @@ class InserirDadosParteUseCase:
             time.sleep(7)
             frame.locator("#form-pesquisa-pessoa\\:ativo").click()
             time.sleep(1)
-            self.classLogger.message(f"Escolhido o todas as categorias e o tipo ativo")
 
             site_html = BeautifulSoup(frame.content(), 'html.parser')
-            self.classLogger.message(site_html.text)
 
             trs = site_html.select_one("#form-pesquisa-pessoa\\:tabela_data").select("tr")
             codigo = None
@@ -67,13 +60,12 @@ class InserirDadosParteUseCase:
                     time.sleep(3)
                 frame.locator("#form-salvar-pessoa\\:j_idt662").click()
                 time.sleep(5)
-                self.classLogger.message(f"Inserido envolvido {self.data_input.nome_envolvido}")
             else:
                 for tr in trs:
                     tds = tr.select("td")
                     if unidecode(tds[3].previous.upper()) == unidecode(self.data_input.nome_envolvido.upper()) and \
                        tds[7].text == self.data_input.cpf_cnpj_envolvido:
-                        self.classLogger.message(f"Envolvido encontrado {self.data_input.nome_envolvido}")
+                        self.classLogger.message(f"Envolvido encontrado: {self.data_input.nome_envolvido}")
                         codigo = tds[1].text
                         break
                 if not codigo:
@@ -104,7 +96,7 @@ class InserirDadosParteUseCase:
                     frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
                     time.sleep(5)
             
-            self.classLogger.message(f"Vinculando o envolvido a pasta")
+            self.classLogger.message(f"Vinculando o envolvido {self.data_input.nome_envolvido} a pasta")
             self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
             self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
