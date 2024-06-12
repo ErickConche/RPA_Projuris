@@ -1,13 +1,9 @@
 import json
 import time
-from urllib.parse import urlencode
-from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
-from unidecode import unidecode
-
+from urllib.parse import urlencode
 from modules.logger.Logger import Logger
-from robots.admAutojur.useCases.deparas.deparas import Deparas
-from robots.admLegalone.useCases.buscarDadosUf.buscarDadosUfUseCase import BuscarDadosUfUseCase
+from playwright.sync_api import BrowserContext
 from robots.admLegalone.useCases.buscarDadosUfCidade.buscarDadosUfCidadeUseCase import BuscarDadosUfCidadeUseCase
 
 class BuscarComplementoComarcaUseCase:

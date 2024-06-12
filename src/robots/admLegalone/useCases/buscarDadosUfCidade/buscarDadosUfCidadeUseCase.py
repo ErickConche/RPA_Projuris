@@ -1,10 +1,9 @@
 import json
-import time
-from unidecode import unidecode
-from playwright.sync_api import Page, BrowserContext, sync_playwright
 import requests
-
+from unidecode import unidecode
 from modules.logger.Logger import Logger
+from playwright.sync_api import BrowserContext
+
 
 class BuscarDadosUfCidadeUseCase:
     def __init__(

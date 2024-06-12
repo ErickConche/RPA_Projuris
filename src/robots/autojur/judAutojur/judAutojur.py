@@ -1,20 +1,17 @@
 
-
 import time
-from models.cliente.cliente import Cliente
 from modules.logger.Logger import Logger
+from playwright.sync_api import sync_playwright
 from modules.robotCore.__model__.RobotModel import RobotModel
-from playwright.sync_api import Page, BrowserContext, sync_playwright
-from robots.judLegalone.useCases.criarPasta.criarPastaUseCase import CriarPastaUseCase
-from robots.judLegalone.useCases.inserirArquivos.inserirArquivosUseCase import InserirArquivosUseCase
-from robots.judLegalone.useCases.login.login import LoginJudLegaloneUseCase
-from robots.judLegalone.useCases.logout.logoutUseCase import LogoutUseCase
-from robots.judLegalone.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
-from robots.judLegalone.useCases.validarPasta.validarPastaUseCase import ValidarPastaJudUseCase
-from robots.judLegalone.useCases.verificacaoEnvolvidos.verificacaoEnvolvidosUseCase import VerificacaoEnvolvidosUseCase
+from models.cliente.__model__.ClienteModel import ClienteModel
+from robots.autojur.judAutojur.useCases.verificacaoEnvolvidos.verificacaoEnvolvidosUseCase import VerificacaoEnvolvidosUseCase
+from robots.autojur.useCases.login.login import LoginAutojurUseCase
+from robots.autojur.judAutojur.useCases.criarCodigo.criarCodigoUseCase import CriarCodigoUseCase
+from robots.autojur.judAutojur.useCases.validarPastaAutojur.validarPastaAutojurUseCase import ValidarPastaAutojurUseCase
+from robots.autojur.judAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
 
 
-class judLegalone:
+class JudAutojur:
     def __init__(
         self,
         con_rd,
@@ -22,7 +19,7 @@ class judLegalone:
         json_recebido:str,
         task_id:str,
         identifier_tenant:str,
-        cliente:Cliente,
+        cliente:ClienteModel,
         id_queue: int
     ) -> None:
         self.con_rd = con_rd
@@ -42,84 +39,72 @@ class judLegalone:
             data_input = ValidarEFormatarEntradaUseCase(
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,
-                cliente=self.cliente
+                cliente=self.cliente,
+                con_rd=self.con_rd
             ).execute()
             response_data = []
             with sync_playwright() as playwright:
                 browser = playwright.chromium.launch(headless=True)
                 context = browser.new_context(ignore_https_errors=True)
                 page = context.new_page()
+                context.add_cookies([{"name":"footprint", "value": data_input.footprint, "url": data_input.url_cookie}])
                 page.on("request", lambda response: response_data.append(response))
-                page.goto('https://signon.thomsonreuters.com/?productId=L1LC&returnto=https%3a%2f%2fwww.nextlegalone.com.br%2fOnePass%2fLoginOnePass%2f&bhcp=1')
-                page.set_default_timeout(600000)
+                page.set_default_timeout(300000)
+                page.goto('https://baz.autojur.com.br/login.jsf')
                 time.sleep(8)      
-                LoginJudLegaloneUseCase(
+                LoginAutojurUseCase(
                     page=page,
                     username=data_input.username,
                     password=data_input.password,
                     classLogger=self.classLogger
                 ).execute()
                 try:
-                    response = ValidarPastaJudUseCase(
+                    response = ValidarPastaAutojurUseCase(
                         page=page,
-                        nome_envolvido=data_input.nome_envolvido,
+                        pasta=data_input.pasta,
                         processo=data_input.processo,
-                        processo_originario=data_input.processo_originario,
                         classLogger=self.classLogger,
                         context=context
                     ).execute()
                     if response.found:
-                        InserirArquivosUseCase(
-                            arquivo_principal=data_input.arquivo_principal,
-                            context=context,
-                            url_pasta=response.url_pasta,
-                            classLogger=self.classLogger,
-                            processo=data_input.processo
-                        ).execute()
                         data.error = False
                         data.data_return = [
                             {
-                                "Pasta":response.pasta,
-                                "Protocolo":response.protocolo,
+                                "Protocolo":response.codigo,
                                 "DataCadastro":response.data_cadastro
                             }
                         ]
-                    else: 
+                    else:
                         data_input = VerificacaoEnvolvidosUseCase(
                             classLogger=self.classLogger,
-                            data_input=data_input,
+                            data_input=data_input.__dict__,
                             context=context
                         ).execute()
-                        response = CriarPastaUseCase(
+                        response = CriarCodigoUseCase(
                             page=page,
                             data_input=data_input,
                             classLogger=self.classLogger,
-                            context=context,
-                            url_pasta_originaria=response.url_pasta_originaria
+                            context=context
                         ).execute()
                         data.error = False
                         data.data_return = [
                             {
-                                "Pasta":response.pasta,
-                                "Protocolo":response.protocolo,
+                                "Protocolo":response.codigo,
                                 "DataCadastro":response.data_cadastro
                             }
                         ]
                 except Exception as error:
                     raise error
-                
                 browser.close()
 
         except Exception as error:
             message = f"Erro: {error}"
             self.classLogger.message(message)
             data_error = [{
-                "Pasta":"SITE INDISPONÍVEL",
-                "Protocolo":"",
+                "Protocolo":"SITE INDISPONÍVEL",
                 "DataCadastro":""
             }]
             data.data_return = data_error
 
         finally:
             return data
-

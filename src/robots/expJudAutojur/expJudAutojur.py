@@ -74,6 +74,8 @@ class ExpJudAutojur:
                     cookies=data_input.cookie_session,
                     nome=data_input.responsavel
                 ).execute()
+                if not data_input.id_responsavel:
+                    raise Exception("Não foi possivel encontrar o responsavel")
                 response = IniciandoProcessoExpAutojurUseCase(
                     data_input=data_input,
                     classLogger=classLogger,

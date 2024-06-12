@@ -1,13 +1,5 @@
-
-import json
-import os
-from random import randint
-import time
-from typing import List
-
-import pika
 import requests
-from modules.logger.Logger import Logger
+from random import randint
 
 
 class DownloadS3:
