@@ -18,10 +18,14 @@ class InserirDadosParteUseCase:
 
     def execute(self):
         try:
+            message = BeautifulSoup(self.page.content(), 'html.parser').text
+            self.classLogger.message(f"Pré-Adicionar Envolvido {message}")
             self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
-            time.sleep(4)
+            time.sleep(8)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
+            message = site_html.text
+            self.classLogger.message(f"Pos-Adicionar Envolvido {message}")
             frame = self.page.frame(url=url_iframe)
             self.classLogger.message(f"Frame da parte acessada")
             frame.fill('#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:txt-conteudo',self.data_input.nome_envolvido)
