@@ -44,7 +44,7 @@ class EnviarPlataforma:
             
         except Exception as error:
             pass
-        time.sleep(5)
+        time.sleep(1)
         channel.close()
         connection.close()
         
