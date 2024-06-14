@@ -2,15 +2,14 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
-from playwright.sync_api import Cookie
 from modules.logger.Logger import Logger
-from robots.expJudAutojur.useCases.criarTarefa.criarTarefaUseCase import CriarTarefaUseCase
-from robots.expJudAutojur.useCases.validarTarefas.validarTarefasUseCase import ValidarTarefasUseCase
-from robots.expJudAutojur.useCases.buscarProcesso.buscarProcessoUseCase import BuscarProcessoUseCase
-from robots.expJudAutojur.useCases.acessarAgendamentos.acessarAgendamentosUseCase import AcessarAgendamentosUseCase
-from robots.expJudAutojur.useCases.encontrarTokenProcesso.encontrarTokenProcessoUseCase import EncontrarTokenProcessoUseCase
-from robots.expJudAutojur.useCases.iniciandoProcessoExpAutojur.__model__.CodigoModel import CodigoModel, InfosRequisicaoModel
-from robots.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+from robots.autojur.expJudAutojur.useCases.criarTarefa.criarTarefaUseCase import CriarTarefaUseCase
+from robots.autojur.expJudAutojur.useCases.validarTarefas.validarTarefasUseCase import ValidarTarefasUseCase
+from robots.autojur.expJudAutojur.useCases.buscarProcesso.buscarProcessoUseCase import BuscarProcessoUseCase
+from robots.autojur.expJudAutojur.useCases.acessarAgendamentos.acessarAgendamentosUseCase import AcessarAgendamentosUseCase
+from robots.autojur.expJudAutojur.useCases.encontrarTokenProcesso.encontrarTokenProcessoUseCase import EncontrarTokenProcessoUseCase
+from robots.autojur.expJudAutojur.useCases.iniciandoProcessoExpAutojur.__model__.CodigoModel import CodigoModel, InfosRequisicaoModel
+from robots.autojur.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
 
 class IniciandoProcessoExpAutojurUseCase:

@@ -1,6 +1,6 @@
 from typing import List
 from modules.robotCore.__model__.RobotModel import RobotModelParalel
-from robots.expJudAutojur.expJudAutojur import ExpJudAutojur
+from robots.autojur.expJudAutojur.expJudAutojur import ExpJudAutojur
 
 
 class RobotCoreParalel:

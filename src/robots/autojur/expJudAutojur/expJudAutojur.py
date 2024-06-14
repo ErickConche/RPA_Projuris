@@ -1,21 +1,17 @@
-from datetime import datetime
 import json
-from threading import Thread
 import time
-from typing import List
-from global_variables.login_exp_autojur import get_execution_login, update_execution_login
+from threading import Thread
+from datetime import datetime
+from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from models.cookies.cookiesUseCase import CookiesUseCase
-from modules.logger.Logger import Logger
-from playwright.sync_api import sync_playwright
 from modules.robotCore.__model__.RobotModel import RobotModelParalel
-from models.cliente.__model__.ClienteModel import ClienteModel
-from robots.expJudAutojur.useCases.login.login import LoginJudAutojurUseCase
-from robots.expJudAutojur.useCases.buscarPessoa.buscarPessoaUseCase import BuscarPessoaUseCase
-from robots.expJudAutojur.useCases.novoLogin.novoLoginUseCase import NovoLoginUseCase
-from robots.expJudAutojur.useCases.validarCookies.validarCookiesUseCase import ValidarCookiesUseCase
-from robots.expJudAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
-from robots.expJudAutojur.useCases.iniciandoProcessoExpAutojur.iniciandoProcessoExpAutojurUseCase import IniciandoProcessoExpAutojurUseCase
+from global_variables.login_exp_autojur import get_execution_login, update_execution_login
+from robots.autojur.expJudAutojur.useCases.novoLogin.novoLoginUseCase import NovoLoginUseCase
+from robots.autojur.expJudAutojur.useCases.buscarPessoa.buscarPessoaUseCase import BuscarPessoaUseCase
+from robots.autojur.expJudAutojur.useCases.validarCookies.validarCookiesUseCase import ValidarCookiesUseCase
+from robots.autojur.expJudAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
+from robots.autojur.expJudAutojur.useCases.iniciandoProcessoExpAutojur.iniciandoProcessoExpAutojurUseCase import IniciandoProcessoExpAutojurUseCase
 
 
 class ExpJudAutojur:

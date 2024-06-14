@@ -82,7 +82,7 @@ class InserirDadosCadastraisUseCase:
                 capital = self.depara.depara_estado_capital(self.data_input.uf)
                 self.page.locator("#form-dados-cadastrais\\:j_idt324\\:8\\:j_idt325\\:ff\\:ac-cidade_input").clear()
                 time.sleep(2)
-                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:8\\:j_idt325\\:ff\\:ac-cidade_input").type(capital.upper())
+                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:8\\:j_idt325\\:ff\\:ac-cidade_input").type(capital)
                 time.sleep(2)
                 self.page.locator(f'li[data-item-label="{capital}"]').click()
             else:

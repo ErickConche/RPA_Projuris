@@ -1,9 +1,9 @@
 import time
-from models.cookies.cookiesUseCase import CookiesUseCase
 from modules.logger.Logger import Logger
 from playwright.sync_api import sync_playwright
-from robots.expJudAutojur.useCases.login.login import LoginJudAutojurUseCase
-from robots.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+from models.cookies.cookiesUseCase import CookiesUseCase
+from robots.autojur.useCases.login.login import LoginAutojurUseCase
+from robots.autojur.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
 
 class NovoLoginUseCase:
@@ -29,7 +29,7 @@ class NovoLoginUseCase:
                 page.set_default_timeout(300000)
                 page.goto('https://baz.autojur.com.br/login.jsf')
                 time.sleep(8)      
-                LoginJudAutojurUseCase(
+                LoginAutojurUseCase(
                     page=page,
                     username=self.data_input.username,
                     password=self.data_input.password,

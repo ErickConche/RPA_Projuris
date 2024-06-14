@@ -1,6 +1,6 @@
 import requests
 from urllib.parse import urlencode
-from robots.expJudAutojur.useCases.iniciandoProcessoExpAutojur.__model__.CodigoModel import InfosRequisicaoModel
+from robots.autojur.expJudAutojur.useCases.iniciandoProcessoExpAutojur.__model__.CodigoModel import InfosRequisicaoModel
 
 
 class InserirTipoEventoUseCase:

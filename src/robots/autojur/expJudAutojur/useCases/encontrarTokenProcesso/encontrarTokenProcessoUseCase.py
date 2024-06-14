@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
-from unidecode import unidecode
 from modules.logger.Logger import Logger
-from robots.expJudAutojur.useCases.acessarProcesso.acessarProcessoUseCase import AcessarProcessoUseCase
+from robots.autojur.expJudAutojur.useCases.acessarProcesso.acessarProcessoUseCase import AcessarProcessoUseCase
 
 
 class EncontrarTokenProcessoUseCase:

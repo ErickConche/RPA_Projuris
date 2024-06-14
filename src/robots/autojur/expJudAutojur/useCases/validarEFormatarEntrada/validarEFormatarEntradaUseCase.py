@@ -1,14 +1,12 @@
-
-import json
-from models.cookies.cookiesUseCase import CookiesUseCase
-from models.eventos_exp_jud.main import EventosExpJud
-from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from modules.validacao.validacao import Validacao
-from robots.expJudAutojur.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
-from robots.expJudAutojur.useCases.deparas.deparas import Deparas
-from robots.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+from modules.formatacao.formatacao import Formatacao
+from models.eventos_exp_jud.main import EventosExpJud
+from models.cookies.cookiesUseCase import CookiesUseCase
+from robots.autojur.expJudAutojur.useCases.deparas.deparas import Deparas
+from robots.autojur.expJudAutojur.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
+from robots.autojur.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
 
 class ValidarEFormatarEntradaUseCase:

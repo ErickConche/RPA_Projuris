@@ -1,6 +1,6 @@
-from models.cookies.useCases.alterarCookieSessionUseCase.alterarCookieSessionUseCase import AlterarCookieSessionUseCase
 from models.cookies.useCases.buscarCookiesUseCase.buscarCookiesUseCase import BuscarCookiesUseCase
 from models.cookies.useCases.existeCookieQueueUseCase.existeCookieQueueUseCase import ExisteCookieQueueUseCase
+from models.cookies.useCases.alterarCookieSessionUseCase.alterarCookieSessionUseCase import AlterarCookieSessionUseCase
 from models.cookies.useCases.inserirCookieSessionUseCase.inserirCookieSessionUseCase import InserirCookieSessionUseCase
 
 

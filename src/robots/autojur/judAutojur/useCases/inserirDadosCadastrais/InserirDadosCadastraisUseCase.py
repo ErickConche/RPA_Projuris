@@ -107,7 +107,7 @@ class InserirDadosCadastraisUseCase:
                 time.sleep(3)
 
             else:
-                capital = self.depara.depara_estado_capital(self.data_input.uf)
+                capital = unidecode(self.depara.depara_estado_capital(self.data_input.uf)).upper()
                 self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo_input").clear()
                 time.sleep(2)
                 self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo_input").type(capital.upper())
