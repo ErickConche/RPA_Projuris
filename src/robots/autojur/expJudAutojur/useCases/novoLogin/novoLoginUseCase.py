@@ -1,6 +1,7 @@
 import time
 from modules.logger.Logger import Logger
 from playwright.sync_api import sync_playwright
+from modules.excecoes.excecao import ExcecaoGeral
 from models.cookies.cookiesUseCase import CookiesUseCase
 from robots.autojur.useCases.login.login import LoginAutojurUseCase
 from robots.autojur.expJudAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
@@ -49,6 +50,7 @@ class NovoLoginUseCase:
                 page.close()
                 return cookie_session
         except Exception as error:
+            error_excecao_geral = ExcecaoGeral(str(error),"Erro ao realizar login")
             message = "Erro ao realizar novo login"
             self.classLogger.message(message)
-            raise error
+            raise error_excecao_geral

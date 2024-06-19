@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode
 from modules.logger.Logger import Logger
+from modules.excecoes.excecao import ExcecaoGeral
 from robots.autojur.expJudAutojur.useCases.criarTarefa.criarTarefaUseCase import CriarTarefaUseCase
 from robots.autojur.expJudAutojur.useCases.validarTarefas.validarTarefasUseCase import ValidarTarefasUseCase
 from robots.autojur.expJudAutojur.useCases.buscarProcesso.buscarProcessoUseCase import BuscarProcessoUseCase
@@ -48,7 +49,7 @@ class IniciandoProcessoExpAutojurUseCase:
             if trs[0].text == 'Nenhum registro encontrado':
                 message = f"Não foi encontrado nenhum cadastro para o processo {self.data_input.processo}"
                 self.classLogger.message(message)
-                raise Exception (message)
+                raise ExcecaoGeral(message,"Pasta não localizada")
             
             data_rk, codigo_encontrado = EncontrarTokenProcessoUseCase(
                 processo=self.data_input.processo,
@@ -78,7 +79,7 @@ class IniciandoProcessoExpAutojurUseCase:
                 if tarefa_existe:
                     data_codigo: CodigoModel = CodigoModel(
                         found=True,
-                        codigo="Já Cadastrado"
+                        codigo="Indício de tarefa já cadastrada"
                     )
                     return data_codigo
 
@@ -141,8 +142,10 @@ class IniciandoProcessoExpAutojurUseCase:
                     codigo=codigo_encontrado
                 )
                 return data_codigo
-            raise Exception("Erro ao inserir pasta")
+            message = "Erro ao inserir pasta"
+            raise ExcecaoGeral(message,message)
         
+        except ExcecaoGeral as error:
+            raise error
         except Exception as error:
-            raise Exception(str(error))
-        
+            raise ExcecaoGeral(str(error))

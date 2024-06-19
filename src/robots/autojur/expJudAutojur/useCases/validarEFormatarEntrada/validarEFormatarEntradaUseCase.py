@@ -1,5 +1,6 @@
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
+from modules.excecoes.excecao import ExcecaoGeral
 from modules.validacao.validacao import Validacao
 from modules.formatacao.formatacao import Formatacao
 from models.eventos_exp_jud.main import EventosExpJud
@@ -34,23 +35,23 @@ class ValidarEFormatarEntradaUseCase:
         fields:dict = self.json_recebido.get("Fields")
 
         if not fields.get("Processo") or fields.get("Processo") is None:
-            raise Exception("Informe o número do processo")
+            raise ExcecaoGeral("Informe o número do processo","Processo inválido")
         
         if not fields.get("Evento") or fields.get("Evento") is None:
-            raise Exception("Informe o evento")
+            raise ExcecaoGeral("Informe o evento","Evento inválido")
         
         evento = fields.get("Evento").strip()
         if not self.depara.depara_evento(evento,self.eventos):
-            raise Exception("O Evento informado não foi mapeado")
+            raise ExcecaoGeral("O Evento informado não foi mapeado", "Evento não mapeado inválido")
         
         if not fields.get("DataExpediente") or fields.get("DataExpediente") is None:
-            raise Exception("Informe a data")
+            raise ExcecaoGeral("Informe a data", "Data inválida")
         
         if not fields.get("HoraExpediente") and fields.get("HoraExpediente") is None:
-            raise Exception("A hora informada é invalida")
+            raise ExcecaoGeral("A hora informada é invalida", "Hora inválida")
         
         if not fields.get("Responsavel") or fields.get("Responsavel") is None:
-            raise Exception("Informe o responsavel")
+            raise ExcecaoGeral("Informe o responsavel","Responsável inválido")
         
         arquivo = fields.get("Files") or '.'
 
@@ -69,7 +70,7 @@ class ValidarEFormatarEntradaUseCase:
         )
 
         if not cookie:
-            raise Exception("O sessão está expirada, favor entrar em contato do equipe de desenvolvimento para renovar sessão")
+            raise ExcecaoGeral("O sessão está expirada, favor entrar em contato do equipe de desenvolvimento para renovar sessão","Sessão expirada")
         
         data = self.formatacao.formatarData(fields.get("DataExpediente").strip())
         hora = fields.get("HoraExpediente").strip() or '00:00'
@@ -78,7 +79,7 @@ class ValidarEFormatarEntradaUseCase:
             hora = hora_split[0] + ":" + hora_split[1]
 
         if not self.validacao.validar_hora(hora):
-            raise Exception("O formato da hora está incorreto")
+            raise ExcecaoGeral("O formato da hora está incorreto")
         
         data_formatada = f"{data} {hora}" \
             if self.depara.depara_usa_data_hora_evento(evento,self.eventos) \

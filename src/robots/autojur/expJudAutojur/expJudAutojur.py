@@ -4,6 +4,7 @@ from threading import Thread
 from datetime import datetime
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
+from modules.excecoes.excecao import ExcecaoGeral
 from models.cookies.cookiesUseCase import CookiesUseCase
 from modules.robotCore.__model__.RobotModel import RobotModelParalel
 from global_variables.login_exp_autojur import get_execution_login, update_execution_login
@@ -71,7 +72,7 @@ class ExpJudAutojur:
                     nome=data_input.responsavel
                 ).execute()
                 if not data_input.id_responsavel:
-                    raise Exception("Não foi possivel encontrar o responsavel")
+                    raise ExcecaoGeral("Não foi possivel encontrar o responsavel","Responsável inválido")
                 response = IniciandoProcessoExpAutojurUseCase(
                     data_input=data_input,
                     classLogger=classLogger,
@@ -83,13 +84,15 @@ class ExpJudAutojur:
                         "Protocolo":response.codigo
                     }
                 ]
-            except Exception as error:
+            except ExcecaoGeral as error:
                 raise error
-        except Exception as error:
-            message = f"Erro: {error}"
+            except Exception as error:
+                raise ExcecaoGeral(str(error))
+        except ExcecaoGeral as error:
+            message = f"Erro: {error.log_erro}"
             classLogger.message(message)
             data_error = [{
-                "Protocolo":"SITE INDISPONÍVEL"
+                "Protocolo":error.msg_erro
             }]
             data.data_return = data_error
         finally:

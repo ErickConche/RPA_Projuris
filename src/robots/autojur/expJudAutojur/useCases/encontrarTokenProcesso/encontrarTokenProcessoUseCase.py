@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from modules.logger.Logger import Logger
+from modules.excecoes.excecao import ExcecaoGeral
 from robots.autojur.expJudAutojur.useCases.acessarProcesso.acessarProcessoUseCase import AcessarProcessoUseCase
 
 
@@ -42,8 +43,10 @@ class EncontrarTokenProcessoUseCase:
                 if processo_encontrado == self.processo and count > 1:
                     message = f"O processo {self.processo} possui duas ou mais pastas cadastradas."
                     self.classLogger.message(message)
-                    raise Exception (message)
+                    raise ExcecaoGeral(message, "Mais de uma pasta encontrada")
             return data_rk, codigo_encontrado
+        except ExcecaoGeral as error:
+            raise error
         except Exception as error:
             message = f"Erro ao encontrar os tokens do processo"
             self.classLogger.message(message)
