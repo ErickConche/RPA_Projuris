@@ -73,7 +73,8 @@ class IniciandoProcessoExpAutojurUseCase:
                 tarefa_existe = ValidarTarefasUseCase(
                     evento=self.data_input.evento,
                     site_html=site_html,
-                    classLogger=self.classLogger
+                    classLogger=self.classLogger,
+                    data_final=self.data_input.data_final
                 ).execute()
 
                 if tarefa_existe:
@@ -83,7 +84,7 @@ class IniciandoProcessoExpAutojurUseCase:
                     )
                     return data_codigo
 
-            message = f"Processo: {self.data_input.processo}.Não existe nenhum lançamento com menos de 7 dias para esse evento."
+            message = f"Processo: {self.data_input.processo}.Não existe nenhum lançamento com menos de 30 dias para esse evento."
             self.classLogger.message(message)
 
             body = urlencode({
