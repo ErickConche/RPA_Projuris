@@ -1,9 +1,10 @@
 import time
-from playwright.sync_api import Page, BrowserContext, sync_playwright
-
 from modules.logger.Logger import Logger
+from playwright.sync_api import Page, BrowserContext
 from robots.judLegalone.useCases.buscarEnvolvido.buscarEnvolvidoUseCase import BuscarEnvolvidoUseCase
+from robots.judLegalone.useCases.paginarElemento.paginarElementoUseCase import PaginarElementoUseCase
 from robots.judLegalone.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
+
 
 class InserirDadosEnvolvidoUseCase:
     def __init__(
@@ -38,6 +39,14 @@ class InserirDadosEnvolvidoUseCase:
             self.page.locator("#Contrario_EnvolvidoText").press("Enter")
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+            PaginarElementoUseCase(
+                page=self.page,
+                classLogger=self.classLogger,
+                context=self.context,
+                id_elemento=usuario.get("Id"),
+                valor_elemento=nome_usuario,
+                data_val_field='ContatoNome'
+            ).execute()
             elemento_dropdown.locator(f'tr[data-val-id="{usuario.get("Id")}"] td[data-val-field="ContatoNome"]:text("{nome_usuario}")').click()
             time.sleep(2)
         except Exception as error:
