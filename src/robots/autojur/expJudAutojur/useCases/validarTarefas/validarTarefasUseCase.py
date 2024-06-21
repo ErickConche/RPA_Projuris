@@ -23,8 +23,6 @@ class ValidarTarefasUseCase:
 
     def execute(self):
         try:
-            if 'AUDIENCIA' in self.evento:
-                print("Audiencia")
             trs_agendamento = self.site_html.select_one("#tabview-pasta\\:aba-tarefa\\:form-tarefas\\:tabela_data").select("tr")
             for tr_agendamento in trs_agendamento:
                 evento_encontrado = tr_agendamento.select(".lg-dado")[0].next
