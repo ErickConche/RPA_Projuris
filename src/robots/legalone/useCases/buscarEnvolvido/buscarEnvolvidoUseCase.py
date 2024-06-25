@@ -1,5 +1,6 @@
 import json
 import requests
+import urllib.parse
 from unidecode import unidecode
 from modules.logger.Logger import Logger
 from playwright.sync_api import BrowserContext
@@ -23,7 +24,7 @@ class BuscarEnvolvidoUseCase:
 
     def execute(self)->dict:
         try:
-            nomereclamante_format = self.nome_envolvido.replace(" ","+")
+            nomereclamante_format = urllib.parse.quote(self.nome_envolvido)
             cookies = self.context.cookies()
             cookies_str = ''
             for cookie in cookies:

@@ -59,9 +59,7 @@ class BuscarComarcaUseCase:
                 response = requests.get(url=url,headers=headers)
 
                 json_response = json.loads(response.text)
-
-                ### Insere os resultados no banco
-
+                
                 for row in json_response.get('Rows'):
                     if unidecode(row.get("Value")) == unidecode(self.comarca):
                         list_comarcas.append(row)
@@ -74,6 +72,6 @@ class BuscarComarcaUseCase:
 
             raise Exception ("comarca não encontrada")
         except Exception as error:
-            message = "Erro ao buscar o cadastro da comarca no Legalone"
+            message = "Erro ao buscar a comarca no Legalone"
             self.classLogger.message(message)
             raise error

@@ -1,5 +1,3 @@
-
-
 from logging import Logger
 from models.cliente.cliente import Cliente
 from robots.autojur.judAutojur.judAutojur import JudAutojur
