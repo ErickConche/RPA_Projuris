@@ -9,13 +9,15 @@ class ExisteCookieQueueUseCase:
         self,
         con_rd,
         queue: str,
+        idcliente: int
     ) -> None:
         self.con_rd = con_rd
         self.queue = queue
+        self.idcliente = idcliente
 
     def execute(self)->bool:
         try:
-            df = pandas.read_sql_query(ExisteCookieQueueQuery(self.queue), con=self.con_rd)
+            df = pandas.read_sql_query(ExisteCookieQueueQuery(self.queue, self.idcliente), con=self.con_rd)
             df = df.where(df.notnull(), None)
             df.replace({pandas.NaT: None}, inplace=True)
             df.replace({numpy.NaN: None}, inplace=True)

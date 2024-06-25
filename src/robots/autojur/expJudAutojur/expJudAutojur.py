@@ -127,7 +127,8 @@ class ExpJudAutojur:
             classLogger=classLogger,
             queue=self.queue,
             data_input=data_input,
-            con_rd=self.con_rd
+            con_rd=self.con_rd,
+            idcliente=cliente_id
         ).execute()
 
         update_execution_login(False)

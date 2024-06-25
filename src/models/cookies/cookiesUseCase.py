@@ -11,21 +11,24 @@ class CookiesUseCase:
     ) -> None:
         self.con_rd = con_rd
 
-    def alterarCookieSession(self, queue, cookie_session):
+    def alterarCookieSession(self, idcliente, queue, cookie_session):
         existeCookieQueue = ExisteCookieQueueUseCase(
             con_rd=self.con_rd,
-            queue=queue
+            queue=queue,
+            idcliente=idcliente
         ).execute()
         if existeCookieQueue:
             return AlterarCookieSessionUseCase(
                 con=self.con_rd,
                 queue=queue,
-                cookie_session=cookie_session
+                cookie_session=cookie_session,
+                idcliente=idcliente
             ).execute()
         return InserirCookieSessionUseCase(
             con=self.con_rd,
             queue=queue,
-            cookie_session=cookie_session
+            cookie_session=cookie_session,
+            idcliente=idcliente
         ).execute()
         
     def buscarCookies(self, queue, idcliente):

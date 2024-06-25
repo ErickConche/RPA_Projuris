@@ -43,7 +43,7 @@ class judLegalone:
             ).execute()
             response_data = []
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=True)
+                browser = playwright.chromium.launch(headless=False)
                 context = browser.new_context(ignore_https_errors=True)
                 page = context.new_page()
                 page.on("request", lambda response: response_data.append(response))

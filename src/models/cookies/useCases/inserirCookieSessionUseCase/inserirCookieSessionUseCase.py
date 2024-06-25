@@ -7,10 +7,12 @@ class InserirCookieSessionUseCase:
     def __init__(self,
                  con,
                  queue,
-                 cookie_session):
+                 cookie_session,
+                 idcliente):
         self.con = con
         self.cookie_session = cookie_session
         self.queue = queue
+        self.idcliente = idcliente
         
     def execute(self):
         cont = 0
@@ -19,7 +21,7 @@ class InserirCookieSessionUseCase:
         while cont == 0:
             try:
                 cursor = self.con.cursor()
-                cursor.execute(InserirCookieSessionQuery(self.queue, self.cookie_session))
+                cursor.execute(InserirCookieSessionQuery(self.queue, self.cookie_session, self.idcliente))
                 self.con.commit()
                 cont = 1
                 return

@@ -1,5 +1,6 @@
 
-def ExisteCookieQueueQuery(queue: str):
-    return """select * 
+def ExisteCookieQueueQuery(queue: str, idcliente: int):
+    return f"""select * 
                 from session_cookies
-               where queue = '"""+queue+"""'"""
+               where queue = '{queue}'
+                 and idcliente = {str(idcliente)}"""

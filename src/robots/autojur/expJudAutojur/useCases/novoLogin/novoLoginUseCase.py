@@ -13,12 +13,14 @@ class NovoLoginUseCase:
         classLogger: Logger,
         queue: str,
         data_input: DadosEntradaFormatadosModel,
-        con_rd
+        con_rd,
+        idcliente
     ) -> None:
         self.classLogger = classLogger
         self.data_input = data_input
         self.queue = queue
         self.con_rd = con_rd
+        self.idcliente = idcliente
 
     def execute(self):
         try:
@@ -45,7 +47,8 @@ class NovoLoginUseCase:
                     con_rd=self.con_rd
                 ).alterarCookieSession(
                     queue=self.queue,
-                    cookie_session=cookie_session
+                    cookie_session=cookie_session,
+                    idcliente=self.idcliente
                 )
                 page.close()
                 return cookie_session
