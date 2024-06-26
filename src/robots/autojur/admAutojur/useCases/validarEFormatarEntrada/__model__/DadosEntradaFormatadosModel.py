@@ -1,12 +1,13 @@
 from typing import List
 from pydantic import BaseModel
 
+
 class DadosEntradaFormatadosModel(BaseModel):
     username: str
     password: str
     footprint: str
     url_cookie: str
-    numero_reclamacao:str
+    numero_reclamacao: str
     pasta: str
     data_solicitacao: str
     uf: str

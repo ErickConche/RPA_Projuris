@@ -26,7 +26,8 @@ class BuscarClienteUseCase:
                 id=df[0]['id'],
                 nome=df[0]['nome'],
                 tenant=df[0]['tenant'],
-                config_add=df[0]['config_add']
+                config_add=df[0]['config_add'],
+                base_url=df[0]['base_url']
             )
             return return_sistem
         except Exception as error:
