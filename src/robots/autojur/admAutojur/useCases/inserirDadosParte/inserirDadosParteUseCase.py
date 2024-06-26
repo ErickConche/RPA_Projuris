@@ -19,7 +19,7 @@ class InserirDadosParteUseCase:
     def execute(self):
         try:
             self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
-            time.sleep(8)
+            time.sleep(15)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
             frame = self.page.frame(url=url_iframe)
