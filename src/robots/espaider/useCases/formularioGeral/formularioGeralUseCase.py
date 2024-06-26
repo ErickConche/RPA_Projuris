@@ -1,3 +1,4 @@
+from datetime import datetime
 from playwright.sync_api import Page
 from robots.espaider.useCases.inserirDadosClassificacao.inserirDadosClassificacaoUseCase import (
     InserirDadosClassificacaoUseCase)
@@ -83,12 +84,13 @@ class FormularioGeralUseCase:
                 data_input=self.data_input, 
                 classLogger=self.classLogger
             ).execute()
-            InserirDadosPedidoPrincipalUseCase(
-                page=self.page,
-                frame=frame,
-                data_input=self.data_input, 
-                classLogger=self.classLogger
-            ).execute()
+            if self.data_input.categoria == 'Cível':
+                InserirDadosPedidoPrincipalUseCase(
+                    page=self.page,
+                    frame=frame,
+                    data_input=self.data_input, 
+                    classLogger=self.classLogger
+                ).execute()
 
             '''
             *** Informações Tópico Valores | Prognóstico ***
@@ -107,16 +109,16 @@ class FormularioGeralUseCase:
             '''
             *** Informações Tópico Valores | Prognóstico ***
             '''
+            if self.data_input.categoria == 'Cível':
+                frame.wait_for_selector('button:has-text("Atualização monetária")').click()
+                frame.wait_for_timeout(2000)
 
-            frame.wait_for_selector('button:has-text("Atualização monetária")').click()
-            frame.wait_for_timeout(2000)
-
-            InserirDadosMonetáriaUseCase(
-                page=self.page,
-                frame=frame,
-                data_input=self.data_input, 
-                classLogger=self.classLogger
-            ).execute()
+                InserirDadosMonetáriaUseCase(
+                    page=self.page,
+                    frame=frame,
+                    data_input=self.data_input, 
+                    classLogger=self.classLogger
+                ).execute()
 
             '''
             *** Salvar cadastro principal ***
@@ -129,9 +131,13 @@ class FormularioGeralUseCase:
 
             pasta = frame.wait_for_selector("Pasta").inner_text()
 
+
+            current_time = datetime.now().strftime("%d/%m/%Y")
+
             return {
                 "Pasta": pasta,
-                "Processo": self.data_input.processo
+                "Processo": self.data_input.processo,
+                "DataCadastro": current_time
             }
         except Exception as e:
             raise e

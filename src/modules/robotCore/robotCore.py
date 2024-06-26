@@ -6,6 +6,7 @@ from modules.robotCore.__model__.RobotModel import RobotModel
 from robots.legalone.judLegalone.judLegalone import judLegalone
 from robots.legalone.admLegalone.admLegalone import AdmLegalone
 from robots.espaider.civeis.civeisEspaider import CiveisEspaider
+from robots.espaider.trabalhista.trabalhistaEspaider import TrabalhistaEspaider
 
 class RobotCore:
     def __init__(
@@ -75,6 +76,17 @@ class RobotCore:
         
         elif 'app-civeis-espaider' in self.queue:
             return CiveisEspaider(
+                con_rd=self.con_rd,
+                classLogger=self.classLogger,
+                json_recebido=self.json_recebido,
+                task_id=self.task_id,
+                identifier_tenant=self.identifier_tenant,
+                queue=self.queue,
+                client=self.cliente
+            ).execute()
+
+        elif 'app-trabalhista-espaider' in self.queue:
+            return TrabalhistaEspaider(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,

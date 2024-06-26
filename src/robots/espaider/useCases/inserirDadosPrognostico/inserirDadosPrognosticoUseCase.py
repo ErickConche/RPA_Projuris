@@ -44,6 +44,8 @@ class InserirDadosPrognosticoUseCase:
                 self.page.wait_for_timeout(2000)
                 if name in [ "DataBaseCalculo", "CLI_DataInicioVigencia", "DataInicioContabil"]:
                     continue
+                if self.data_input.categoria == 'Trabalhista':
+                    continue
                 self.frame.wait_for_selector(f'[name={name}]').click()
 
                 select_single(page=self.page, value=value)

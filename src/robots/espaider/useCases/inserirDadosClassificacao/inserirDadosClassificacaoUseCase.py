@@ -26,7 +26,8 @@ class InserirDadosClassificacaoUseCase:
             "Categoria", 
             "Tipo", 
             "Assunto", 
-            "CLI_Contingencia"
+            "CLI_Contingencia",
+            "CLI_UnidadeNova"
         ]
 
         de_para = {
@@ -35,7 +36,8 @@ class InserirDadosClassificacaoUseCase:
             "Categoria":"categoria", 
             "Tipo":"tipo_acao", 
             "Assunto":"assunto", 
-            "CLI_Contingencia":"contingencia"
+            "CLI_Contingencia":"contingencia",
+            "CLI_UnidadeNova": "centro_custo"
         }
 
         try:
