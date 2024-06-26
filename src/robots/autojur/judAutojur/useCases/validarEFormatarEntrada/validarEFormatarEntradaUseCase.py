@@ -89,6 +89,8 @@ class ValidarEFormatarEntradaUseCase:
             password=senha,
             footprint=cookie.conteudo,
             url_cookie=cookie.url,
+            nome_responsavel="Marcelo Kowalski Teske",
+            id_responsavel="23685",
             processo=fields.get("Processo").strip(),
             pasta=fields.get("Pasta").strip(),
             titulo=fields.get("Titulo").replace("-"," ").strip(),

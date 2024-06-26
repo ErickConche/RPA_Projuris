@@ -6,6 +6,7 @@ from robots.autojur.judAutojur.useCases.validarPastaAutojur.validarPastaAutojurU
 from robots.autojur.judAutojur.useCases.inserirDadosCadastrais.InserirDadosCadastraisUseCase import InserirDadosCadastraisUseCase
 from robots.autojur.judAutojur.useCases.inserirDadosEnvolvidos.inserirDadosEnvolvidosUseCase import InserirDadosEnvolvidosUseCase
 from robots.autojur.judAutojur.useCases.inserirDadosComentarios.inserirDadosComentariosUseCAse import InserirDadosComentariosUseCAse
+from robots.autojur.judAutojur.useCases.inserirDadosResponsavel.inserirDadosResponsavelUseCase import InserirDadosResponsavelUseCase
 from robots.autojur.judAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 from robots.autojur.judAutojur.useCases.inserirDadosOutrosEnvolvidos.inserirDadosOutrosEnvolvidosUseCase import InserirDadosOutrosEnvolvidosUseCase
 
@@ -49,6 +50,13 @@ class CriarCodigoUseCase:
 
                     self.classLogger.message("Inserindo dados cadastrais")
                     InserirDadosCadastraisUseCase(
+                        page=self.page,
+                        data_input=self.data_input,
+                        classLogger=self.classLogger
+                    ).execute()
+
+                    self.classLogger.message("Inserindo dados responsável")
+                    InserirDadosResponsavelUseCase(
                         page=self.page,
                         data_input=self.data_input,
                         classLogger=self.classLogger

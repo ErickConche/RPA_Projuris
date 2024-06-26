@@ -29,6 +29,8 @@ class DadosEntradaFormatadosModel(BaseModel):
     descricao_objeto: str
     portfolio: str
     competencia: str
+    nome_responsavel: str
+    id_responsavel: str = ''
     situacao_outros_envolvidos1: str
     posicao_outros_envolvidos1: str
     nome_outros_envolvidos1: str
