@@ -19,17 +19,20 @@ from robots.espaider.useCases.inserirDadosPrognostico.inserirDadosPrognosticoUse
     InserirDadosPrognosticoUseCase)
 from robots.espaider.useCases.inserirDadosMonetária.inserirDadosMonetáriaUseCase import (
     InserirDadosMonetáriaUseCase)
+from robots.espaider.useCases.helpers.type_robot import is_autos, is_civel
 
 class FormularioGeralUseCase:
     def __init__(
         self,
         page: Page,
         data_input: DadosEntradaEspaiderModel,
-        classLogger: Logger
+        classLogger: Logger,
+        robot: str
     ):
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
+        self.robot = robot
 
     def execute(self):
         try:
@@ -84,7 +87,7 @@ class FormularioGeralUseCase:
                 data_input=self.data_input, 
                 classLogger=self.classLogger
             ).execute()
-            if self.data_input.categoria == 'Cível':
+            if is_civel(self.robot):
                 InserirDadosPedidoPrincipalUseCase(
                     page=self.page,
                     frame=frame,
@@ -109,7 +112,7 @@ class FormularioGeralUseCase:
             '''
             *** Informações Tópico Valores | Prognóstico ***
             '''
-            if self.data_input.categoria == 'Cível':
+            if is_civel(self.robot):
                 frame.wait_for_selector('button:has-text("Atualização monetária")').click()
                 frame.wait_for_timeout(2000)
 

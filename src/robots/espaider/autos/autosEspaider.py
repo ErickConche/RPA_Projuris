@@ -4,7 +4,7 @@ from models.cliente.__model__.ClienteModel import ClienteModel
 from robots.espaider.useCases.initRegister.initRegisterUseCase import InitRegisterUseCase
 
 
-class CiveisEspaider:
+class AutosEspaider:
     def __init__(
         self,
         con_rd,
@@ -38,7 +38,7 @@ class CiveisEspaider:
                 json_recebido=self.json_recebido,
                 queue=self.queue,
                 task_id=self.task_id,
-                robot='Cível'
+                robot='Autos'
             ).execute()
 
             data.error = False

@@ -2,7 +2,6 @@ from playwright.sync_api import Frame, Page
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderModel import (
     DadosEntradaEspaiderModel)
 from modules.logger.Logger import Logger
-from unidecode import unidecode
 from robots.espaider.useCases.helpers.selectOptionHelper import select_option
 
 class InserirOutrosPedidosUseCase:
@@ -49,11 +48,6 @@ class InserirOutrosPedidosUseCase:
                         raise(f'Erro ao preencher dados, campo: {name}')
 
             self.classLogger.message("[Espaider-Civil]: Preenchimento dos campos pedidos do processo [outros] finalizado")
-            ###
-            self.frame.wait_for_selector("#bm-Save").click()
-            self.frame.wait_for_timeout(2000)
-            
-            self.frame.wait_for_selector("#Close")
             return
         except Exception as e:
             message = e.args[0]

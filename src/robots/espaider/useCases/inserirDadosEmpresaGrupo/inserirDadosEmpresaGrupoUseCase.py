@@ -25,7 +25,8 @@ class InserirDadosEmpresaGrupoUseCase:
             "CLI_EmpresaFilial",
             "CondicaoCliente",
             "Nucleo",
-            "Advogado"
+            "Advogado",
+            "CLI_UnidadeNova"
         ]
 
         de_para = {
@@ -33,7 +34,8 @@ class InserirDadosEmpresaGrupoUseCase:
             "CLI_EmpresaFilial":"unidade",
             "CondicaoCliente":"condicao",
             "Nucleo":"escritorio",
-            "Advogado":"advogado"
+            "Advogado":"advogado",
+            "CLI_UnidadeNova":"centro_custo"
         }
         
         try:

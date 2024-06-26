@@ -13,12 +13,14 @@ class DadosEntradaEspaiderModel(BaseModel):
     tipo_acao: str
     assunto: str
     contingencia: str
+    numero_rastreio: str
     empresa: str
     unidade: str
     condicao: str
     escritorio: str
     advogado: str
     parte_contraria: str
+    centro_custo: str
     cpf_cnpj_parte_contraria: str
     litisconsorte: str
     orgao: str
@@ -41,6 +43,10 @@ class DadosEntradaEspaiderModel(BaseModel):
     nome_documento: str
     data_documento: str
     file: str
+    regra: str
+    valor_tributo: str
+    valor_multa: str
+    valor_juros: str
     parte_contraria_1: str
     cpf_cnpj_parte_processo_1: str
     condicao_parte_processo_1: str

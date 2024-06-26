@@ -9,6 +9,11 @@ from robots.espaider.useCases.inserirOutrosPedidos.inserirOutrosPedidosUseCase i
     InserirOutrosPedidosUseCase)
 from robots.espaider.useCases.inserirDocumentos.inserirDocumentosUseCase import (
     InserirDocumentosUseCase)
+from robots.espaider.useCases.inserirOutrosPedidosMonetario.inserirOutrosPedidosMonetárioUseCase import (
+    InserirOutrosPedidosMonetárioUseCase)
+from robots.espaider.useCases.inserirDadosTributário.inserirDadosTributárioUseCase import (
+    InserirDadosTributárioUseCase)
+from robots.espaider.useCases.helpers.type_robot import is_autos, is_civel
 
 class FormularioPartesProcessoUseCase:
     def __init__(
@@ -16,11 +21,12 @@ class FormularioPartesProcessoUseCase:
         page: Page,
         data_input: DadosEntradaEspaiderModel,
         classLogger: Logger,
-        data_output
+        robot: str
     ):
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
+        self.robot = robot
 
     def execute(self):
         try:
@@ -65,7 +71,7 @@ class FormularioPartesProcessoUseCase:
 
             for index, pedido in enumerate(pedidos):
                 value = getattr(self.data_input, pedido)
-                if index == 0:
+                if is_civel(self.robot) and index == 0:
                     continue
                 if not value:
                     continue
@@ -82,6 +88,35 @@ class FormularioPartesProcessoUseCase:
                         data_input=self.data_input, 
                         classLogger=self.classLogger
                     ).execute(indice=i)
+
+                    frame.wait_for_selector('button:has-text("Atualização monetária")').click()
+
+                    if is_autos(self.robot):
+                        InserirOutrosPedidosMonetárioUseCase(
+                            page=self.page,
+                            frame=frame,
+                            data_input=self.data_input, 
+                            classLogger=self.classLogger
+                        ).execute()
+
+                    ###
+                    frame.wait_for_selector("#bm-Save").click()
+                    frame.wait_for_timeout(2000)
+
+                    if 'Tributário' == self.data_input.categoria:
+                        frame = self.change_frame(frame_main=frame, tab="Valores tributários")
+
+                        InserirDadosTributárioUseCase(
+                            page=self.page,
+                            frame=frame,
+                            data_input=self.data_input, 
+                            classLogger=self.classLogger
+                        ).execute()
+
+                        frame.wait_for_selector("#bm-Save").click()
+                        frame.wait_for_timeout(2000)
+                    
+                    frame.wait_for_selector("#Close").click()
 
             if self.data_input.file:
                 '''
@@ -117,12 +152,12 @@ class FormularioPartesProcessoUseCase:
 
         return frame
 
-    def change_frame(self, frame_main: Frame, tab) -> Frame:
+    def change_frame(self, frame_main: Frame, tab, action="Novo") -> Frame:
         frame_main.wait_for_selector(f'button:has-text("{tab}")').click()
         frame_main.wait_for_timeout(2000)
 
         frame_main_top = frame_main.child_frames.pop()
         
-        frame_main_top.get_by_text("Novo").click()
+        frame_main_top.get_by_text(action).click()
 
         return self.set_frame()

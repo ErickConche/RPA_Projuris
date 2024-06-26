@@ -39,19 +39,13 @@ class InserirDadosPrognosticoUseCase:
         try:
             self.classLogger.message("[Espaider-Civil]: Preenchimento dos campos Valores | Prognóstico iniciado")
             for name in name_inputs:
-                selected = False
                 value = insert_value(data_input=self.data_input, de_para=de_para, name=name, frame=self.frame)
                 self.page.wait_for_timeout(2000)
                 if name in [ "DataBaseCalculo", "CLI_DataInicioVigencia", "DataInicioContabil"]:
                     continue
-                if self.data_input.categoria == 'Trabalhista':
-                    continue
                 self.frame.wait_for_selector(f'[name={name}]').click()
 
                 select_single(page=self.page, value=value)
-                
-                if not selected:
-                    raise(f'Erro ao preencher dados, campo: {name}')
             self.classLogger.message("[Espaider-Civil]: Preenchimento dos campos Valores | Prognóstico finalizado")
             return
         except Exception as e:

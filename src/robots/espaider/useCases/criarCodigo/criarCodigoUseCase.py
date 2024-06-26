@@ -16,11 +16,13 @@ class CriarCodigoUseCase:
         data_input: DadosEntradaEspaiderModel,
         classLogger: Logger,
         context: BrowserContext,
+        robot: str
     ) -> None:
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
         self.context = context
+        self.robot = robot
 
     def execute(self):
         try:
@@ -28,6 +30,7 @@ class CriarCodigoUseCase:
                 page=self.page,
                 classLogger=self.classLogger,
                 data_input=self.data_input,
+                robot=self.robot
             ).execute()
             
             if not form_response:
@@ -36,7 +39,8 @@ class CriarCodigoUseCase:
             form_parts_response = FormularioPartesProcessoUseCase(
                 page=self.page,
                 classLogger=self.classLogger,
-                data_input=self.data_input
+                data_input=self.data_input,
+                robot=self.robot
             ).execute()
 
             if not form_parts_response:

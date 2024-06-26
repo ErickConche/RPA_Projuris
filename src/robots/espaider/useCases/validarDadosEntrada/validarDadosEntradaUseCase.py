@@ -22,8 +22,14 @@ class ValidarDadosEntradaUseCase:
         if not credentials.get("Username") or not credentials.get("Password"):
             raise Exception("Dados de login incorretos")
 
-        if 'Cível' in type_robot and not fields.get("TipoAcao"):
+        if type_robot in ['Cível', 'Autos'] and not fields.get("TipoAcao"):
             raise Exception("Informe o tipo de ação")
+
+        if 'Autos' == type_robot and not fields.get("Natureza"):
+            raise Exception("Informe o natureza")
+
+        if 'Autos' == type_robot and not fields.get("Categoria"):
+            raise Exception("Informe o categoria")
 
         if not fields.get("Assunto"):
             raise Exception("Informe o assunto")
@@ -61,28 +67,28 @@ class ValidarDadosEntradaUseCase:
         if not fields.get("DataDistribuicao"):
             raise Exception("Informe a data de distribuição")
 
-        if not fields.get("Juizo"):
+        if not 'Autos' in type_robot and not fields.get("Juizo"):
             raise Exception("Informe o juízo")
 
-        if not fields.get("DescricaoAssunto"):
+        if not 'Autos' in type_robot and not fields.get("DescricaoAssunto"):
             raise Exception("Informe a descrição do assunto")
 
         if not fields.get("pedido_1"):
             raise Exception("Informe o pedido 1")
 
-        if not fields.get("valor_pedido_1"):
+        if 'Autos' != type_robot and not fields.get("valor_pedido_1"):
             raise Exception("Informe o valor do pedido 1")
 
         if not 'Cível' in type_robot and not fields.get("DataInicioVigencia"):
             raise Exception("Informe a data de início de vigência")
 
-        if not fields.get("PrognosticoOriginal"):
+        if not 'Autos' in type_robot and not fields.get("PrognosticoOriginal"):
             raise Exception("Informe o prognóstico original")
 
-        if not fields.get("Inestimavel"):
+        if not 'Autos' in type_robot and not fields.get("Inestimavel"):
             raise Exception("Informe o inestimável")
 
-        if not fields.get("MoedaIndice"):
+        if not 'Autos' in type_robot and not fields.get("MoedaIndice"):
             raise Exception("Informe a moeda/índice")
 
         if not fields.get("Files"):

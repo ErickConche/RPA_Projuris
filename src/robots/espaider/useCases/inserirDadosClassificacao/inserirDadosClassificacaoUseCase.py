@@ -27,7 +27,7 @@ class InserirDadosClassificacaoUseCase:
             "Tipo", 
             "Assunto", 
             "CLI_Contingencia",
-            "CLI_UnidadeNova"
+            "CLI_NumRastreamento"
         ]
 
         de_para = {
@@ -37,7 +37,7 @@ class InserirDadosClassificacaoUseCase:
             "Tipo":"tipo_acao", 
             "Assunto":"assunto", 
             "CLI_Contingencia":"contingencia",
-            "CLI_UnidadeNova": "centro_custo"
+            "CLI_NumRastreamento":"numero_rastreio"
         }
 
         try:

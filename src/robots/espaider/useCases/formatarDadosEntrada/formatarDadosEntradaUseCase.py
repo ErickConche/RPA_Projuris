@@ -46,7 +46,7 @@ class FormatarDadosEntradaUseCase:
             assunto=fields.get("Assunto") if self.robot in ['Cível', 'Autos'] else "",
             contingencia=fields.get("Contingencia") if fields.get(
                 "Contingencia") else "Passiva",
-            # NumeroRastreio=fields.get("NumeroRastreio"),
+            numero_rastreio=fields.get("NumeroRastreio") if fields.get("NumeroRastreio") else "",
             empresa=fields.get("NomeEmpresa"),
             unidade=fields.get("Unidade"),
             condicao=fields.get("CondicaoCliente") if fields.get(
@@ -54,8 +54,8 @@ class FormatarDadosEntradaUseCase:
             escritorio=fields.get("Escritorio"),
             advogado=fields.get("AdvogadoInterno"),
             parte_contraria=fields.get("ParteContraria"),
-            # CentroCusto=fields.get(
-            #     "CentroCusto") if self.robot == 'Trabalhista' else "",
+            centro_custo=fields.get(
+                "CentroCusto") if self.robot == 'Trabalhista' else "",
             cpf_cnpj_parte_contraria=fields.get("CpfCnpjParteContraria"),
             litisconsorte=fields.get("Litisconsorte"),
             orgao=fields.get("Orgao"),
@@ -74,16 +74,16 @@ class FormatarDadosEntradaUseCase:
             data_inicio_vigencia=fields.get("DataInicioVigencia") if fields.get(
                 "DataInicioVigencia") else current_time,
             data_inicio_contabil=fields.get("DataDistribuicao"),
-            risco_original=fields.get("PrognosticoOriginal"),
-            inestimavel=fields.get("Inestimavel"),
-            moeda_indice=fields.get("MoedaIndice"),
+            risco_original=fields.get("PrognosticoOriginal") if fields.get("PrognosticoOriginal") else "",
+            inestimavel=fields.get("Inestimavel") if fields.get("Inestimavel") else "",
+            moeda_indice=fields.get("MoedaIndice") if self.robot != 'Autos' else "",
             juros='0,00' if fields.get("MoedaIndice") == "SELIC" else '1,00',
             desdobramento="Ação de Repetição de Indébito",
             classe_partes="Litisconsorte",
-            # Regra="Sobre Principal e Multa",
-            # ValorTributo=fields.get("ValorTributo"),
-            # ValorMulta=fields.get("ValorMulta"),
-            # ValorJuros=fields.get("ValorJuros"),
+            regra="Sobre Principal e Multa",
+            valor_tributo=fields.get("ValorTributo") if self.robot == 'Autos' else "0,00",
+            valor_multa=fields.get("ValorMulta") if self.robot == 'Autos' else "0,00",
+            valor_juros=fields.get("ValorJuros") if self.robot == 'Autos' else "0,00",
             nome_documento="Íntegra do processo",
             data_documento=fields.get("DataDistribuicao"),
             file=fields.get("Files") if fields.get("Files") else "",
