@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from unidecode import unidecode
 from urllib.parse import urlencode
 from modules.logger.Logger import Logger
 from playwright.sync_api import Page, BrowserContext
@@ -19,7 +20,7 @@ class ValidarPastaAutojurUseCase:
     ) -> None:
         self.page = page
         self.pasta = pasta
-        self.processo = processo
+        self.processo = processo.replace("-","").replace(".","")
         self.classLogger = classLogger
         self.retry = retry
         self.context = context
@@ -102,9 +103,9 @@ class ValidarPastaAutojurUseCase:
                         pasta_encontrada_split = f"Cont{pasta_encontrada_split[1]}" if len(pasta_encontrada_split) > 1 else pasta_encontrada
                         pasta_split = pasta.split("Cont")
                         pasta_split = f"Cont{pasta_split[1]}" if len(pasta_split) > 1 else pasta
-                        processo = tr.select('.lg-dado')[4].next
+                        processo = tr.select('.lg-dado')[4].next.replace("-","").replace(".","")
                         codigo_encontrado = tr.select('.lg-dado')[0].next
-                        if pasta_encontrada_split == pasta_split and processo == self.processo:
+                        if pasta_encontrada_split == pasta_split and unidecode(processo) == unidecode(self.processo):
                             message = f"A pasta informada possui um codigo já existente. Codigo: {codigo_encontrado}"
                             self.classLogger.message(message)
                             data_cadastro_encontrado = BuscarDataCadastroUseCase(
