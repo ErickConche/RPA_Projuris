@@ -1,7 +1,6 @@
 import json
 from datetime import datetime
 from modules.logger.Logger import Logger
-from modules.formatacao.formatacao import Formatacao
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderModel import (
     DadosEntradaEspaiderModel)
 from models.cookies.cookiesUseCase import CookiesUseCase
@@ -90,18 +89,18 @@ class FormatarDadosEntradaUseCase:
             parte_contraria_1=fields.get("parte_contraria_1") if fields.get("parte_contraria_1") else "",
             cpf_cnpj_parte_processo_1=fields.get("cpf_cnpj_parte_processo_1") if fields.get("parte_contraria_1") else "",
             condicao_parte_processo_1=fields.get("condicao_parte_processo_1") if fields.get("parte_contraria_1") else "",
-            parte_contraria_2=fields.get("parte_contraria_1") if fields.get("parte_contraria_2") else "",
-            cpf_cnpj_parte_processo_2=fields.get("cpf_cnpj_parte_processo_1") if fields.get("parte_contraria_2") else "",
-            condicao_parte_processo_2=fields.get("condicao_parte_processo_1") if fields.get("parte_contraria_2") else "",
-            parte_contraria_3=fields.get("parte_contraria_1") if fields.get("parte_contraria_3") else "",
-            cpf_cnpj_parte_processo_3=fields.get("cpf_cnpj_parte_processo_1") if fields.get("parte_contraria_3") else "",
-            condicao_parte_processo_3=fields.get("condicao_parte_processo_1") if fields.get("parte_contraria_3") else "",
-            parte_contraria_4=fields.get("parte_contraria_1") if fields.get("parte_contraria_4") else "",
-            cpf_cnpj_parte_processo_4=fields.get("cpf_cnpj_parte_processo_1") if fields.get("parte_contraria_4") else "",
-            condicao_parte_processo_4=fields.get("condicao_parte_processo_1") if fields.get("parte_contraria_4") else "",
-            parte_contraria_5=fields.get("parte_contraria_1") if fields.get("parte_contraria_5") else "",
-            cpf_cnpj_parte_processo_5=fields.get("cpf_cnpj_parte_processo_1") if fields.get("parte_contraria_5") else "",
-            condicao_parte_processo_5=fields.get("condicao_parte_processo_1") if fields.get("parte_contraria_5") else "",
+            parte_contraria_2=fields.get("parte_contraria_2") if fields.get("parte_contraria_2") else "",
+            cpf_cnpj_parte_processo_2=fields.get("cpf_cnpj_parte_processo_2") if fields.get("parte_contraria_2") else "",
+            condicao_parte_processo_2=fields.get("condicao_parte_processo_2") if fields.get("parte_contraria_2") else "",
+            parte_contraria_3=fields.get("parte_contraria_3") if fields.get("parte_contraria_3") else "",
+            cpf_cnpj_parte_processo_3=fields.get("cpf_cnpj_parte_processo_3") if fields.get("parte_contraria_3") else "",
+            condicao_parte_processo_3=fields.get("condicao_parte_processo_3") if fields.get("parte_contraria_3") else "",
+            parte_contraria_4=fields.get("parte_contraria_4") if fields.get("parte_contraria_4") else "",
+            cpf_cnpj_parte_processo_4=fields.get("cpf_cnpj_parte_processo_4") if fields.get("parte_contraria_4") else "",
+            condicao_parte_processo_4=fields.get("condicao_parte_processo_4") if fields.get("parte_contraria_4") else "",
+            parte_contraria_5=fields.get("parte_contraria_5") if fields.get("parte_contraria_5") else "",
+            cpf_cnpj_parte_processo_5=fields.get("cpf_cnpj_parte_processo_5") if fields.get("parte_contraria_5") else "",
+            condicao_parte_processo_5=fields.get("condicao_parte_processo_5") if fields.get("parte_contraria_5") else "",
             pedido_2=fields.get("pedido_2") if fields.get("pedido_2") else "",
             valor_pedido_2=fields.get("valor_pedido_2") if fields.get("pedido_2") else "",
             pedido_3=fields.get("pedido_3") if fields.get("pedido_3") else "",

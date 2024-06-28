@@ -2,7 +2,6 @@ from playwright.sync_api import BrowserContext, Page
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderModel import (
     DadosEntradaEspaiderModel)
 from modules.logger.Logger import Logger
-import time
 from robots.espaider.useCases.formularioGeral.formularioGeralUseCase import (
     FormularioGeralUseCase)
 from robots.espaider.useCases.formularioPartesProcesso.formularioPartesProcessoUseCase import (
