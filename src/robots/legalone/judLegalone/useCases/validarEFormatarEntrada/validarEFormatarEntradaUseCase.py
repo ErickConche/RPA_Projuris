@@ -60,6 +60,9 @@ class ValidarEFormatarEntradaUseCase:
         if not fields.get("ArquivoPrincipal") or fields.get("ArquivoPrincipal") is None:
             raise Exception("Informe a url do arquivo principal")
         
+        if not fields.get("Vara") or fields.get("Vara") is None:
+            raise Exception("Informe a vara")
+        
         if fields.get("ProcessoOriginario") == '' and (fields.get("Titulo")=='Cumprimento de Sentença' or fields.get("Titulo")=='Carta Precatória'):
             titulo = fields.get("Titulo")
             message = f"O Titulo do processo é {titulo} porém não foi informado o processo originário"
@@ -89,7 +92,7 @@ class ValidarEFormatarEntradaUseCase:
             complemento_comarca=fields.get("ComplementoComarca") or 'Não',
             numero_vara=fields.get("NumeroVara") or '',
             complemento_vara=fields.get("ComplementoVara").strip() if fields.get("ComplementoVara") and fields.get("ComplementoVara") is not None else 'Não',
-            vara=fields.get("Vara").strip() or '',
+            vara=fields.get("Vara").strip() if fields.get("Vara") else '',
             empresa=fields.get("NomeEmpresa").strip() if fields.get("NomeEmpresa") and fields.get("NomeEmpresa") is not None else 'Booking.com Brasil Serviços de Reserva de Hotéis Ltda',
             nome_envolvido=fields.get("NomeEnvolvido").strip(),
             cpf_cnpj_envolvido=fields.get("CpfCnpjEnvolvido").replace(" ",""),
