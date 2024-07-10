@@ -8,6 +8,7 @@ from models.cookies.cookiesUseCase import CookiesUseCase
 from robots.espaider.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
 from models.cliente.__model__.ClienteModel import ClienteModel
 from robots.espaider.useCases.criarCodigo.criarCodigoUseCase import CriarCodigoUseCase
+from robots.espaider.useCases.criarCodigo.criarCodigoExpUseCase import CriarCodigoExpUseCase
 
 
 class InitRegisterUseCase:
@@ -89,13 +90,22 @@ class InitRegisterUseCase:
                         queue=queue_organization,
                         cookie_session=cookie_session
                     )
-                return CriarCodigoUseCase(
-                    page=page,
-                    data_input=data_input,
-                    classLogger=self.classLogger,
-                    context=context,
-                    robot=self.robot
-                ).execute()
+                if self.robot != 'Expediente':
+                    return CriarCodigoUseCase(
+                        page=page,
+                        data_input=data_input,
+                        classLogger=self.classLogger,
+                        context=context,
+                        robot=self.robot
+                    ).execute()
+                else:
+                    return CriarCodigoExpUseCase(
+                        page=page,
+                        data_input=data_input,
+                        classLogger=self.classLogger,
+                        context=context,
+                        robot=self.robot
+                    ).execute()
         except Exception as e:
             raise e
 
