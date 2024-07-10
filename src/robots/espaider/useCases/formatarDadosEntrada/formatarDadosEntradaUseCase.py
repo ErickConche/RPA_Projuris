@@ -60,7 +60,7 @@ class FormatarDadosEntradaUseCase:
             orgao=fields.get("Orgao"),
             comarca=fields.get("Comarca"),
             processo=fields.get("Processo"),
-            data_distribuicao=fields.get("DataDistribuicao"),
+            data_distribuicao=fields.get("DataDistribuicao") if fields.get("DataDistribuicao") else fields.get("DataCitacao"),
             juizo=fields.get("Juizo"),
             instancia='1ª Instância',
             peticionamento=fields.get("Peticionamento") if fields.get(
@@ -69,10 +69,10 @@ class FormatarDadosEntradaUseCase:
             pedido_1=fields.get("pedido_1"),
             valor_pedido_1=fields.get("valor_pedido_1") if fields.get(
                 "pedido_1") else '0,00',
-            data_base_calculo=fields.get("DataDistribuicao"),
+            data_base_calculo=fields.get("DataDistribuicao") if fields.get("DataDistribuicao") else fields.get("DataCitacao"),
             data_inicio_vigencia=fields.get("DataInicioVigencia") if fields.get(
                 "DataInicioVigencia") else current_time,
-            data_inicio_contabil=fields.get("DataDistribuicao"),
+            data_inicio_contabil=fields.get("DataDistribuicao") if fields.get("DataDistribuicao") else fields.get("DataCitacao"),
             risco_original=fields.get("PrognosticoOriginal") if fields.get("PrognosticoOriginal") else "",
             inestimavel=fields.get("Inestimavel") if fields.get("Inestimavel") else "",
             moeda_indice=fields.get("MoedaIndice") if self.robot != 'Autos' else "",
@@ -84,7 +84,7 @@ class FormatarDadosEntradaUseCase:
             valor_multa=fields.get("ValorMulta") if self.robot == 'Autos' else "0,00",
             valor_juros=fields.get("ValorJuros") if self.robot == 'Autos' else "0,00",
             nome_documento="Íntegra do processo",
-            data_documento=fields.get("DataDistribuicao"),
+            data_documento=fields.get("DataDistribuicao") if fields.get("DataDistribuicao") else fields.get("DataCitacao"),
             file=fields.get("Files") if fields.get("Files") else "",
             parte_contraria_1=fields.get("parte_contraria_1") if fields.get("parte_contraria_1") else "",
             cpf_cnpj_parte_processo_1=fields.get("cpf_cnpj_parte_processo_1") if fields.get("parte_contraria_1") else "",

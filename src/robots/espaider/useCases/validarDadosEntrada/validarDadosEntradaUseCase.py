@@ -64,8 +64,11 @@ class ValidarDadosEntradaUseCase:
         if not fields.get("Processo"):
             raise Exception("Informe o número do processo")
 
-        if not fields.get("DataDistribuicao"):
+        if not fields.get("DataDistribuicao") and not fields.get("DataCitacao"):
             raise Exception("Informe a data de distribuição")
+
+        if not fields.get("DataCitacao") and not fields.get("DataDistribuicao"):
+            raise Exception("Informe a data de citação")
 
         if not 'Autos' in type_robot and not fields.get("Juizo"):
             raise Exception("Informe o juízo")
