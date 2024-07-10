@@ -16,10 +16,23 @@ class InserirDadosParteUseCase:
         self.data_input = data_input
         self.classLogger = classLogger
 
+    def esperar_iframe(self, retry: int = 0):
+        if retry > 30:
+            message = "Erro ao abrir pagina das partes principais"
+            self.classLogger.message(message)
+            raise Exception(message)
+        site_html = BeautifulSoup(self.page.content(), 'html.parser')
+        if site_html.select_one('iframe'):
+            return True
+        time.sleep(2)
+        return self.esperar_iframe(retry + 1)
+
     def execute(self):
         try:
             self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
-            time.sleep(15)
+            time.sleep(5)
+            self.classLogger.message("Aguadaremos 60 segundos até abertura do modal de partes")
+            self.esperar_iframe()
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
             frame = self.page.frame(url=url_iframe)
