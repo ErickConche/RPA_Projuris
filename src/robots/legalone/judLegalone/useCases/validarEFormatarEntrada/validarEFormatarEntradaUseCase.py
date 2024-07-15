@@ -20,6 +20,7 @@ class ValidarEFormatarEntradaUseCase:
         self.json_recebido = json_recebido
         self.cliente = cliente
         self.formatacao = Formatacao()
+        self.varas_disponiveis = ["Vara Cível - VC","Juizado Especial Cível - JEC"]
 
     def execute(self)-> DadosEntradaFormatadosModel:
         message = "Iniciando validação dos campos de entrada"
@@ -67,6 +68,11 @@ class ValidarEFormatarEntradaUseCase:
             titulo = fields.get("Titulo")
             message = f"O Titulo do processo é {titulo} porém não foi informado o processo originário"
             raise Exception(message)
+        
+        vara = fields.get("Vara")
+
+        if vara not in self.varas_disponiveis:
+            raise Exception("A vara informada é invalida. As varas validas são Vara Cível - VC e Juizado Especial Cível - JEC")
 
         usuario = "BazLegalOne"
         senha = "@Baz1978"
