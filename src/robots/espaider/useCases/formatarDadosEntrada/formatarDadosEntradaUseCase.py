@@ -5,6 +5,7 @@ from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaide
     DadosEntradaEspaiderModel)
 from models.cookies.cookiesUseCase import CookiesUseCase
 from models.cliente.__model__.ClienteModel import ClienteModel
+from modules.decodePassword.decodePassword import DecodePassword
 
 
 class FormatarDadosEntradaUseCase:
@@ -35,7 +36,7 @@ class FormatarDadosEntradaUseCase:
             url_cookie="",
             cookie_session="",
             username=credentials.get("Username"),
-            password=credentials.get("Password"),
+            password=DecodePassword(classLogger=self.classLogger, password=credentials.get("Password")).decrypt(),
             fase="Conhecimento" if self.robot in ['Cível', 'Trabalhista'] else "Inicial",
             natureza=fields.get("Natureza") if fields.get(
                 "Natureza") else "Judicial",

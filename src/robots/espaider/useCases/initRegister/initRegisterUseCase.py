@@ -79,6 +79,8 @@ class InitRegisterUseCase:
                         password=data_input.password,
                         classLogger=self.classLogger
                     ).execute()
+                    if not status_response.get('success'):
+                        raise("Site indisponivel")
                     cookies = context.cookies()
                     cookie_session = ""
                     for cookie in cookies:

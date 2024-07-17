@@ -4,6 +4,7 @@ from models.cookies.cookiesUseCase import CookiesUseCase
 from models.cliente.__model__.ClienteModel import ClienteModel
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderExpModel import (
     DadosEntradaEspaiderExpModel)
+from modules.decodePassword.decodePassword import DecodePassword
 
 class FormatarDadosEntradaExpUseCase:
     def __init__(
@@ -30,7 +31,7 @@ class FormatarDadosEntradaExpUseCase:
         data_input: DadosEntradaEspaiderExpModel = DadosEntradaEspaiderExpModel(
             cookie_session="",
             username=credentials.get("Username"),
-            password=credentials.get("Password"),
+            password=DecodePassword(classLogger=self.classLogger, password=credentials.get("Password")).decrypt(),
             data_expediente=fields.get("DataExpediente"),
             processo=fields.get("Processo"),
             andamento=fields.get("Andamento"),
