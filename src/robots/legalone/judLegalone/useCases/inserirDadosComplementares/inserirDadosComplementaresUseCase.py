@@ -14,13 +14,15 @@ class InserirDadosComplementaresUseCase:
         data_input: DadosEntradaFormatadosModel,
         classLogger: Logger,
         context: BrowserContext,
-        id_uf: int
+        id_uf: int,
+        id_cidade:int 
     ) -> None:
         self.page = page
         self.data_input = data_input
         self.classLogger = classLogger
         self.context = context
         self.id_uf = id_uf
+        self.id_cidade = id_cidade
 
     def execute(self):
         try:
@@ -43,7 +45,10 @@ class InserirDadosComplementaresUseCase:
                 classLogger=self.classLogger,
                 context=self.context,
                 id_uf=self.id_uf,
-                id_justica=Deparas.depara_justica(self.data_input.justica)
+                id_justica=Deparas.depara_justica(self.data_input.justica),
+                id_cidade=self.id_cidade,
+                uf=self.data_input.uf,
+                cidade=self.data_input.cidade
             ).execute()
             self.page.locator("#ForoText").click()
             time.sleep(1)

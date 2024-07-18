@@ -70,7 +70,7 @@ class CriarPastaCumprimentoSentencaUseCase:
             ).execute()
             
             self.classLogger.message("Inserindo dados principais")
-            id_uf = InserirDadosAreaPrincipalUseCase(
+            id_uf, id_cidade = InserirDadosAreaPrincipalUseCase(
                 page=self.page,
                 data_input=self.data_input,
                 classLogger=self.classLogger,
@@ -91,7 +91,8 @@ class CriarPastaCumprimentoSentencaUseCase:
                 data_input=self.data_input,
                 classLogger=self.classLogger,
                 context=self.context,
-                id_uf=id_uf
+                id_uf=id_uf,
+                id_cidade=id_cidade
             ).execute()
             
             self.classLogger.message("Inserindo dados personalizados")

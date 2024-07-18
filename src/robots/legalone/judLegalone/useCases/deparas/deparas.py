@@ -77,3 +77,13 @@ class Deparas:
         }
         return depara.get(justica)
     
+    def depara_id_justica(justica):
+        depara = {
+            "15":"Justiça do Trabalho",
+            "17":"Justiça Eleitoral",
+            "13":"Justiça Estadual",
+            "14":"Justiça Federal",
+            "15":"Justiça Militar"
+        }
+        return depara.get(justica)
+    

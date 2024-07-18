@@ -154,10 +154,11 @@ class InserirDadosAreaPrincipalUseCase:
                 elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
                 elemento_dropdown.locator(f'tr[data-val-id="{info_cidade.get("Id")}"] td[data-val-field="Value"]:text("{info_cidade.get("Value")}")').click()
                 time.sleep(5)
+                return info_uf.get("Id"), info_cidade.get("Id")
             except Exception as error:
                 message = "Erro ao buscar cidade. Continuará a execução porém sem a informação da cidade"
                 self.classLogger.message(message)
 
-            return info_uf.get("Id")
+            return info_uf.get("Id"), None
         except Exception as error:
             raise Exception("Erro ao inserir os dados na area principal do cadastro")
