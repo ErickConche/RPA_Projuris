@@ -1,3 +1,4 @@
+from datetime import datetime
 from playwright.sync_api import ElementHandle, Frame, Page
 from modules.logger.Logger import Logger
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderExpModel import (
@@ -19,7 +20,7 @@ class ValidarAndamentosUseCase:
     def execute(self) -> bool:
         try:
             progress_search_name = self.data_input.andamento.lower()
-            progress_search_date = self.data_input.data_expediente
+            progress_search_date = datetime.strptime(self.data_input.data_expediente, '%d/%m/%y').strftime('%d/%m/%Y')
 
             list_progress = self.frame.query_selector_all('table > tbody > tr')
 

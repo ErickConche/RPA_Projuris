@@ -41,13 +41,13 @@ class ExpedienteEspaider:
             ).execute()
 
             data.error = False
-            data.data_return = data_return
+            data.data_return = [data_return]
         except Exception as error:
-            message = f"Erro: {error}"
-            self.classLogger.message(message)
+            message = error.args[0]
+            self.classLogger.message(f'Erro: {message}')
             data_error = [{
                 "Pasta": "",
-                "Processo": "SITE INDISPONÍVEL",
+                "Processo": message,
                 "DataCadastro": "",
             }]
             data.data_return = data_error

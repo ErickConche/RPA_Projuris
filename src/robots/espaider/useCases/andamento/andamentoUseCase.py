@@ -36,7 +36,7 @@ class AndamentoUseCase:
             if ValidarAndamentosUseCase(page=self.page, frame=frame_list, data_input=self.data_input, classLogger=self.classLogger).execute():
                 raise Exception("Expediente já cadastrado")
 
-            self.create_expediente(frame_list)
+            return self.create_expediente(frame_list)
 
         except Exception as e:
             self.classLogger.message(f"Erro ao executar AndamentoUseCase: {str(e)}")
@@ -72,7 +72,8 @@ class AndamentoUseCase:
         frame_prov.wait_for_timeout(1000)
         frame_prov_details = self.set_frame()
 
-        InserirDadosProvidenciaUseCase(page=self.page, frame=frame_prov_details, data_input=self.data_input, classLogger=self.classLogger).execute()
+        if self.data_input.compromisso:
+            InserirDadosProvidenciaUseCase(page=self.page, frame=frame_prov_details, data_input=self.data_input, classLogger=self.classLogger).execute()
 
         return {
             "Pasta": pasta,

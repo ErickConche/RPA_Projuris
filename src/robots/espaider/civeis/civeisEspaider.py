@@ -30,7 +30,7 @@ class CiveisEspaider:
         )
 
         try:
-            data_return = InitRegisterUseCase(
+            data_return = [InitRegisterUseCase(
                 con_rd=self.con_rd,
                 client=self.client,
                 classLogger=self.classLogger,
@@ -39,7 +39,7 @@ class CiveisEspaider:
                 queue=self.queue,
                 task_id=self.task_id,
                 robot='Cível'
-            ).execute()
+            ).execute()]
 
             data.error = False
             data.data_return = data_return

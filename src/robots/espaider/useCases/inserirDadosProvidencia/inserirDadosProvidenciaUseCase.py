@@ -45,8 +45,11 @@ class InserirDadosProvidenciaUseCase:
 
     def process_responsavel(self, name: str):
         try:
+            self.frame.wait_for_timeout(1000)
             self.frame.wait_for_selector(f'[name={name}]').click()
+            self.frame.wait_for_timeout(1000)
             table_element = self.page.query_selector_all('table > tbody')[-1]
+            self.frame.wait_for_timeout(1000)
             table_element.query_selector('tr').click()
             self.frame.wait_for_timeout(1000)
         except Exception as e:
