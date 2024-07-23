@@ -25,7 +25,7 @@ class InserirDadosProvidenciaUseCase:
                 elif name == "Responsavel":
                     self.process_responsavel(name)
                 else:
-                    if not ['None'] in data_hora:
+                    if 'None' not in data_hora:
                         self.process_data_inicio(name, data_hora)
             self.process_save()
             self.classLogger.message("Inserção de dados de providência concluída com sucesso")
