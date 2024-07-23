@@ -20,7 +20,9 @@ class ValidarAndamentosUseCase:
     def execute(self) -> bool:
         try:
             progress_search_name = self.data_input.andamento.lower()
-            progress_search_date = datetime.strptime(self.data_input.data_expediente, '%d/%m/%y').strftime('%d/%m/%Y')
+            progress_search_date = self.data_input.data_expediente
+            if len(self.data_input.data_expediente.split('/')[-1]) == 2:
+                progress_search_date = datetime.strptime(self.data_input.data_expediente, '%d/%m/%y').strftime('%d/%m/%Y')
 
             list_progress = self.frame.query_selector_all('table > tbody > tr')
 

@@ -25,7 +25,8 @@ class InserirDadosProvidenciaUseCase:
                 elif name == "Responsavel":
                     self.process_responsavel(name)
                 else:
-                    self.process_data_inicio(name, data_hora)
+                    if ['None'] not in data_hora:
+                        self.process_data_inicio(name, data_hora)
             self.process_save()
             self.classLogger.message("Inserção de dados de providência concluída com sucesso")
         except Exception as e:
@@ -58,7 +59,9 @@ class InserirDadosProvidenciaUseCase:
 
     def process_data_inicio(self, name: str, data_hora: str):
         try:
+            self.frame.wait_for_timeout(1000)
             self.frame.wait_for_selector(f'[name={name}]').fill(data_hora)
+            self.frame.wait_for_timeout(1000)
         except Exception as e:
             self.classLogger.message(f"Erro ao processar campo {name}: {str(e)}")
             raise
