@@ -19,6 +19,9 @@ class ValidarDadosEntradaExpUseCase:
         
         if not credentials.get("Username") or not credentials.get("Password"):
             raise Exception("Dados de login incorretos")
+
+        if not fields.get("Instancia"):
+            raise Exception("Informe a instância do processo")
         
         if not fields.get("Processo"):
             raise Exception("Informe o número do processo")

@@ -5,6 +5,7 @@ class DadosEntradaEspaiderExpModel(BaseModel):
     cookie_session: str
     username: str
     password: str
+    instancia: str
     data_expediente: str
     processo: str
     andamento: str

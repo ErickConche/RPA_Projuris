@@ -33,6 +33,7 @@ class FormatarDadosEntradaExpUseCase:
             username=credentials.get("Username"),
             password=DecodePassword(classLogger=self.classLogger, password=credentials.get("Password")).decrypt(),
             data_expediente=fields.get("DataExpediente"),
+            instancia=fields.get("Instancia"),
             processo=fields.get("Processo"),
             andamento=fields.get("Andamento"),
             complementos=fields.get("Complementos") if fields.get("Complementos") else None,

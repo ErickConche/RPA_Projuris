@@ -3,6 +3,7 @@ from modules.logger.Logger import Logger
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderExpModel import DadosEntradaEspaiderExpModel
 from robots.espaider.useCases.helpers.insertValueHelper import insert_value
 from robots.espaider.useCases.helpers.selectOptionHelper import select_option
+from unidecode import unidecode
 
 class CriarExpedienteUseCase:
     def __init__(self, page: Page, frame: Frame, data_input: DadosEntradaEspaiderExpModel, classLogger: Logger) -> None:
@@ -41,7 +42,26 @@ class CriarExpedienteUseCase:
             if name == "Evento":
                 select_option(page=self.page, name=name, value=value)
             elif name == "Desdobramento":
-                self.page.get_by_text(value).dblclick()
+                instance = self.data_input.instancia
+                
+                options = self.page.query_selector_all('table > tbody > tr')
+                
+                if not options:
+                    raise(f'Erro ao preencher dados, campo: {name}')
+
+                selected = False
+
+                for option in options:
+                    td_option = option.query_selector_all('td')
+                    option_text_1 = unidecode(td_option[3].inner_text()).lower()
+                    option_text_2 = unidecode(td_option[1].inner_text()).lower()
+                    if value == option_text_1 and instance in option_text_2:
+                        option.dblclick()
+                        selected = True
+                        break
+                if not selected:
+                    raise Exception("Não foi selecionado nenhum desdobramento!")
+                # self.page.get_by_text(value).dblclick()
             self.frame.wait_for_timeout(1000)
         except Exception as e:
             self.classLogger.message(f"Erro ao preencher o campo {name}: {str(e)}")

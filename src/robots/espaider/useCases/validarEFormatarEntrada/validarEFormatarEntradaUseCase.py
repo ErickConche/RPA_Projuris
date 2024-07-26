@@ -33,28 +33,34 @@ class ValidarEFormatarEntradaUseCase:
         self.queue = queue
 
     def execute(self) -> Union[DadosEntradaEspaiderModel, DadosEntradaEspaiderExpModel]:
-        message = "Iniciando validação dos campos de entrada"
-        self.classLogger.message(message)
-        if self.robot != 'Expediente':
-            ValidarDadosEntradaUseCase(
-                classLogger=self.classLogger,
-                json_recebido=self.json_recebido
-            ).execute(type_robot=self.robot)
-            return FormatarDadosEntradaUseCase(
-                classLogger=self.classLogger,
-                json_recebido=self.json_recebido,
-                client=self.client,
-                con_rd=self.con_rd,
-                robot=self.robot,
-                queue=self.queue
-            ).execute()
-        else:
-            ValidarDadosEntradaExpUseCase
-            return FormatarDadosEntradaExpUseCase(
-                classLogger=self.classLogger,
-                json_recebido=self.json_recebido,
-                client=self.client,
-                con_rd=self.con_rd,
-                robot=self.robot,
-                queue=self.queue
-            ).execute()
+        try:
+            message = "Iniciando validação dos campos de entrada"
+            self.classLogger.message(message)
+            if self.robot != 'Expediente':
+                ValidarDadosEntradaUseCase(
+                    classLogger=self.classLogger,
+                    json_recebido=self.json_recebido
+                ).execute(type_robot=self.robot)
+                return FormatarDadosEntradaUseCase(
+                    classLogger=self.classLogger,
+                    json_recebido=self.json_recebido,
+                    client=self.client,
+                    con_rd=self.con_rd,
+                    robot=self.robot,
+                    queue=self.queue
+                ).execute()
+            else:
+                ValidarDadosEntradaExpUseCase(
+                    classLogger=self.classLogger,
+                    json_recebido=self.json_recebido
+                ).execute()
+                return FormatarDadosEntradaExpUseCase(
+                    classLogger=self.classLogger,
+                    json_recebido=self.json_recebido,
+                    client=self.client,
+                    con_rd=self.con_rd,
+                    robot=self.robot,
+                    queue=self.queue
+                ).execute()
+        except Exception as e:
+            raise e
