@@ -51,7 +51,7 @@ class InserirDadosProvidenciaUseCase:
             self.frame.wait_for_timeout(1000)
             table_element = self.page.query_selector_all('table > tbody')[-1]
             self.frame.wait_for_timeout(1000)
-            table_element.query_selector('tr').click()
+            table_element.query_selector('tr').dblclick()
             self.frame.wait_for_timeout(1000)
         except Exception as e:
             self.classLogger.message(f"Erro ao processar campo {name}: {str(e)}")
@@ -59,12 +59,17 @@ class InserirDadosProvidenciaUseCase:
 
     def process_data_inicio(self, name: str, data_hora: str):
         try:
-            self.frame.wait_for_timeout(1000)
-            self.frame.wait_for_selector(f'[name={name}]').fill(data_hora)
-            self.frame.wait_for_timeout(1000)
+            self.fill_date_field(name, data_hora)
         except Exception as e:
-            self.classLogger.message(f"Erro ao processar campo {name}: {str(e)}")
+            self.classLogger.message(f"Erro ao processar campo 'DataFinal': {str(e)}")
             raise
+
+    def fill_date_field(self, field_name, data_hora):
+        try:
+            self.frame.wait_for_selector(f'[name={field_name}]', timeout=5000).fill(data_hora)
+        except Exception as e:
+            self.classLogger.message(f"Erro ao processar campo {field_name}: {str(e)}. Tentando preencher 'DataFinal'.")
+            self.frame.wait_for_selector(f'[name="DataFinal"]', timeout=5000).fill(data_hora)
 
     def process_save(self):
         try:

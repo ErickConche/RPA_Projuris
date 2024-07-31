@@ -35,5 +35,5 @@ class ValidarDadosEntradaExpUseCase:
         if fields.get("Compromisso") and not fields.get("DataAudiencia"):
             raise Exception("Informe a data de audiência")
 
-        if fields.get("Compromisso") and not fields.get("HorarioAudiencia"):
+        if fields.get("Compromisso") and not fields.get("HoraAudiencia"):
             raise Exception("Informe o horário de audiência")
