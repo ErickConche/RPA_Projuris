@@ -53,7 +53,7 @@ class BuscarComarcaUseCase:
             ### Insere os resultados no banco
             list_comarcas = []
             for row in json_response.get('Rows'):
-                if unidecode(row.get("Value")) == unidecode(self.comarca):
+                if unidecode(row.get("Value").upper()) == unidecode(self.comarca.upper()):
                     list_comarcas.append(row)
 
             qtde_comarcas = json_response.get("Count")
@@ -71,7 +71,7 @@ class BuscarComarcaUseCase:
                 json_response = json.loads(response.text)
                 
                 for row in json_response.get('Rows'):
-                    if unidecode(row.get("Value")) == unidecode(self.comarca):
+                    if unidecode(row.get("Value").upper()) == unidecode(self.comarca.upper()):
                         list_comarcas.append(row)
 
                 time.sleep(0.5)
