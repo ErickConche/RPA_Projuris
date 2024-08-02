@@ -57,11 +57,18 @@ class InserirDadosComplementaresUseCase:
             self.page.locator("#ForoText").press("Enter")
             time.sleep(3)
             elemento_dropdown = self.page.locator('.lookup-dropdown[style*="display: block"]')
+            encontrou_comarca = False
             for info_comarca in list_info_comarca:
                  if elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').is_visible():
-                     elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').click()
-                     break
+                    elemento_dropdown.locator(f'tr[data-val-id="{info_comarca.get("Id")}"] td[data-val-field="Value"]:text("{info_comarca.get("Value")}")').click()
+                    encontrou_comarca = True
+                    break
             time.sleep(3)
+
+            if not encontrou_comarca:
+                message = f"Erro ao encontrar Comarca."
+                self.classLogger.message(message)
+                raise Exception(message)
 
             if self.data_input.vara != '':
                 info_vara = BuscarVaraUseCase(

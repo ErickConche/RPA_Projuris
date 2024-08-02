@@ -105,9 +105,10 @@ class BuscarComarcaUseCase:
             }
 
             response = requests.post(url=url,data=body,headers=headers)
-
+            json_response = json.loads(response.text)
             if response.status_code == 200:
                 time.sleep(5)
+                json_response['Value'] = json_response['Text']
                 return [json_response]
             
             raise Exception ("Erro ao inserir Comarca")
