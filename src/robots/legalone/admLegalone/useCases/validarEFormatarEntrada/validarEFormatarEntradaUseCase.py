@@ -26,7 +26,7 @@ class ValidarEFormatarEntradaUseCase:
         fields:dict = json_recebido.get("Fields")
         
         ##Deparas
-        if not fields.get("Sistema") or not Deparas.depara_sistema(fields.get("Sistema")) or fields.get("Sistema") is None:
+        if not fields.get("SistemaConsumidor") or not Deparas.depara_sistema(fields.get("SistemaConsumidor")) or fields.get("SistemaConsumidor") is None:
             raise Exception("Informe o tipo do sistema")
     
         
@@ -76,7 +76,7 @@ class ValidarEFormatarEntradaUseCase:
         data_input: DadosEntradaFormatadosModel = DadosEntradaFormatadosModel(
             username=usuario,
             password=senha,
-            tipo_sistema=fields.get("Sistema"),
+            tipo_sistema=fields.get("SistemaConsumidor"),
             uf=fields.get("UF").replace("-"," "),
             cidade=fields.get("Cidade"),
             data_solicitacao=Formatacao().formatarData(fields.get("DataSolicitacao")),

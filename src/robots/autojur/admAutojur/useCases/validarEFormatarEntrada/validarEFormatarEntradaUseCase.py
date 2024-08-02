@@ -54,7 +54,7 @@ class ValidarEFormatarEntradaUseCase:
         if len(fields.get("CpfCnpjEnvolvido"))!=14 and len(fields.get("CpfCnpjEnvolvido"))!=11:
             raise Exception("CPF invalido")
         
-        if not fields.get("Sistema") or fields.get("Sistema") is None:
+        if not fields.get("SistemaConsumidor") or fields.get("SistemaConsumidor") is None:
             raise Exception("Informe o tipo do sistema")
         
         if not fields.get("NomeProcon") or fields.get("NomeProcon") is None:
@@ -105,7 +105,7 @@ class ValidarEFormatarEntradaUseCase:
             cpf_cnpj_envolvido=Formatacao().formatarCpfCnpj(fields.get("CpfCnpjEnvolvido")),
             tipo_envolvido=fields.get("TipoEnvolvido") if fields.get("TipoEnvolvido") and fields.get("TipoEnvolvido") is not None else 'Fisico',
             qualificacao_envolvido='PARTE ADVERSA - PARTE_CONTRARIA',
-            tipo_sistema=fields.get("Sistema"),
+            tipo_sistema=fields.get("SistemaConsumidor"),
             qualificacao_sistema='NOTIFICANTE',
             nome_procon=fields.get("NomeProcon"),
             tipo_reclamacao=fields.get("TipoReclamacao") if fields.get("TipoReclamacao") and fields.get("TipoReclamacao") is not None else 'Digital',
