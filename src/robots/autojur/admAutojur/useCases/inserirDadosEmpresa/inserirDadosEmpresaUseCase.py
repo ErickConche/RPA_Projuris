@@ -18,7 +18,7 @@ class InserirDadosEmpresaUseCase:
 
     def execute(self):
         try:
-            self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:panel-envolvido-principal\\:btn-adicionar-pessoa-vazio").click()
+            self.page.locator('a[aria-label="Adicionar Cliente Principal"]').click()
             time.sleep(5)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
@@ -33,12 +33,12 @@ class InserirDadosEmpresaUseCase:
             frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
             time.sleep(5)
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_empresa)
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_empresa)
             time.sleep(1)
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(5)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()

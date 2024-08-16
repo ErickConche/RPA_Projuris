@@ -19,7 +19,7 @@ class InserirDadosAutoridadeUseCase:
 
     def execute(self):
         try:
-            self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt494\\:btn-adicionar-pessoa-vazio").click()
+            self.page.locator('a[aria-label="Adicionar Autoridade"]').click()
             time.sleep(5)
 
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
@@ -37,12 +37,12 @@ class InserirDadosAutoridadeUseCase:
             time.sleep(2)
 
             ### Arrumar
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_sistema)
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_sistema)
             time.sleep(1)
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(5)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()

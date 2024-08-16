@@ -16,15 +16,15 @@ class InserirDadosPersonalizadosUseCase:
 
     def execute(self):
         try:
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt983\\:0\\:j_idt985\\:0\\:cp-texto--").click()
+            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:0\\:cp-texto--").click()
             time.sleep(1)
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt983\\:0\\:j_idt985\\:0\\:cp-texto--").type(self.data_input.nome_procon)
+            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:0\\:cp-texto--").type(self.data_input.nome_procon)
             time.sleep(1)
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt983\\:0\\:j_idt985\\:3\\:cp-texto--").click()
+            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:3\\:cp-texto--").click()
             time.sleep(1)
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt983\\:0\\:j_idt985\\:3\\:cp-texto--").type(self.data_input.dados_reserva)
+            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:3\\:cp-texto--").type(self.data_input.dados_reserva)
             time.sleep(1)
-            self.page.locator('button[data-id="form-campos-personalizados:cp-novo-processo:j_idt983:0:j_idt985:1:cp-list--"]').click()
+            self.page.locator('button[data-id="form-campos-personalizados:cp-novo-processo:j_idt982:0:j_idt984:1:cp-list--"]').click()
             time.sleep(3)
             self.page.locator('li:has-text("Digital")').click()
             time.sleep(3)

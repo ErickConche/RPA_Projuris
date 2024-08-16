@@ -29,7 +29,7 @@ class InserirDadosParteUseCase:
 
     def execute(self):
         try:
-            self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
+            self.page.locator('a[aria-label="Adicionar Parte Contrária"]').click()
             time.sleep(5)
             self.classLogger.message("Aguadaremos 60 segundos até abertura do modal de partes")
             self.esperar_iframe()
@@ -110,13 +110,13 @@ class InserirDadosParteUseCase:
                     time.sleep(5)
             
             self.classLogger.message(f"Vinculando o envolvido {self.data_input.nome_envolvido} a pasta")
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
             time.sleep(1)
             self.classLogger.message(f"Inserida a qualificação {self.data_input.qualificacao_envolvido}")
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(5)
             self.classLogger.message(f"Envolvido vinculado a pasta")
 
