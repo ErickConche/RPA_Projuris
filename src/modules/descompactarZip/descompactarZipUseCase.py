@@ -2,6 +2,8 @@ import os
 import zipfile
 from typing import List
 from random import randint
+from unidecode import unidecode
+from modules.formatacao.formatacao import Formatacao
 from modules.logger.Logger import Logger
 from modules.descompactarZip.__model__.ZipDescompactadoModel import ZipDescompactadoModel
 
@@ -24,7 +26,8 @@ class DescompactarZipUseCase:
                     # Lê o conteúdo do arquivo
                     conteudo_arquivo = zip_ref.read(nome_arquivo)
                     posicao_do_ultimo_ponto = nome_arquivo.rfind('.')
-                    nome_arquivo_sem_extensao= nome_arquivo[:posicao_do_ultimo_ponto]
+                    nome_arquivo_sem_extensao_sem_format = nome_arquivo[:posicao_do_ultimo_ponto]
+                    nome_arquivo_sem_extensao= Formatacao().formatarNomeArquivo(nome_arquivo[:posicao_do_ultimo_ponto])
                     extensao = nome_arquivo[posicao_do_ultimo_ponto + 1:]
                     novo_nome_arquivo = f"{nome_arquivo_sem_extensao}_{randint(50000,1000000)}.{extensao}"
                     # Salva o arquivo
@@ -32,7 +35,8 @@ class DescompactarZipUseCase:
                         arquivo_destino.write(conteudo_arquivo)
                     obj: ZipDescompactadoModel = ZipDescompactadoModel(
                         nome_original=nome_arquivo_sem_extensao,
-                        novo_nome_arquivo=novo_nome_arquivo
+                        novo_nome_arquivo=novo_nome_arquivo,
+                        nome_original_sem_format=nome_arquivo_sem_extensao_sem_format
                     )
                     list_names.append(obj)
             os.remove(self.name_file_zip)

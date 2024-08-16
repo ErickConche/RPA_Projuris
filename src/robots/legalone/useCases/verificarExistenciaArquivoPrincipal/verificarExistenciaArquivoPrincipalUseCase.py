@@ -1,10 +1,8 @@
-import time
 from typing import List
-from bs4 import BeautifulSoup
-from playwright.sync_api import Page, BrowserContext, sync_playwright
-from modules.downloadS3.downloadS3 import DownloadS3
-
 from modules.logger.Logger import Logger
+from modules.downloadS3.downloadS3 import DownloadS3
+from modules.formatacao.formatacao import Formatacao
+
 
 class VerificarExistenciaArquivoPrincipal:
     def __init__(
@@ -25,12 +23,14 @@ class VerificarExistenciaArquivoPrincipal:
             infos_split = self.arquivo_principal.split("/")
             name_file = infos_split[len(infos_split)-1]
             last_point_position = name_file.rfind('.')
-            name_file_main = name_file[:last_point_position]
+            name_file_main = Formatacao().formatarNomeArquivo(name_file[:last_point_position])
+            name_file_main_not_format = name_file[:last_point_position]
 
             file_main_found = False
             name_file_main_download = None
             for files_legalone in list_files_legalone:
-                if self.processo != '' and self.processo in files_legalone or name_file_main in files_legalone:
+                if self.processo != '' and self.processo in files_legalone \
+                   or name_file_main in files_legalone or name_file_main_not_format in files_legalone:
                     file_main_found = True
                     message = "Arquivo principal já existe"
                     self.classLogger.message(message)

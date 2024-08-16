@@ -3,6 +3,7 @@ from modules.logger.Logger import Logger
 from playwright.sync_api import Page, BrowserContext
 from robots.legalone.admLegalone.useCases.deparas.deparas import Deparas
 from robots.legalone.useCases.buscarEnvolvido.buscarEnvolvidoUseCase import BuscarEnvolvidoUseCase
+from robots.legalone.useCases.paginarElemento.paginarElementoUseCase import PaginarElementoUseCase
 
 class InserirDadosEnvolvidosUseCase:
     def __init__(
@@ -53,6 +54,14 @@ class InserirDadosEnvolvidosUseCase:
             elemento_envolvido = self.page.locator(f'#OutrosEnvolvidos_{id_do_cliente_envolvido}__LookupContato')
             elemento_envolvido.locator('.lookup-button.lookup-filter').click()
             time.sleep(5)
+            PaginarElementoUseCase(
+                page=self.page,
+                classLogger=self.classLogger,
+                context=self.context,
+                id_elemento=usuario.get("Id"),
+                valor_elemento=self.nome_envolvido,
+                data_val_field='ContatoNome'
+            ).execute()
             self.page.locator(f'tr[data-val-id="{usuario.get("Id")}"]').click() 
             time.sleep(3)
 

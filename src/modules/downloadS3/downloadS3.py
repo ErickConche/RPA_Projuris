@@ -1,5 +1,6 @@
 import requests
 from random import randint
+from modules.formatacao.formatacao import Formatacao
 
 
 class DownloadS3:
@@ -19,7 +20,7 @@ class DownloadS3:
         infos_split = self.url.split("/")
         name_file = infos_split[len(infos_split)-1]
         posicao_do_ultimo_ponto = name_file.rfind('.')
-        nome_arquivo_sem_extensao= name_file[:posicao_do_ultimo_ponto]
+        nome_arquivo_sem_extensao= Formatacao().formatarNomeArquivo(name_file[:posicao_do_ultimo_ponto])
         extensao = name_file[posicao_do_ultimo_ponto + 1:]
         name_file = f"{nome_arquivo_sem_extensao}_{randint(50000,1000000)}.{extensao}"
         if self.complemento_nome != '':
