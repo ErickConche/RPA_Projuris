@@ -31,7 +31,7 @@ class LoginAutojurUseCase:
             time.sleep(5)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             if site_html.select("#form-derrubar-usuario"):
-                self.page.query_selector("#form-derrubar-usuario\\:j_idt90").click()
+                self.page.query_selector("#form-derrubar-usuario\\:j_idt74").click()
                 time.sleep(5)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             if site_html.select("#user-header"):

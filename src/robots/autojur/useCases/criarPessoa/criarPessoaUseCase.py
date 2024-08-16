@@ -26,13 +26,13 @@ class CriarPessoaUseCase:
             url = "https://baz.autojur.com.br/sistema/pessoa/pessoa.jsf"
             body = urlencode({
                 "javax.faces.partial.ajax": "true",
-                "javax.faces.source": "cadastro:j_idt361",
+                "javax.faces.source": "cadastro:j_idt356",
                 "javax.faces.partial.execute": "@all",
-                "cadastro:j_idt361": "cadastro:j_idt361",
+                "cadastro:j_idt356": "cadastro:j_idt356",
                 "cadastro": "cadastro",
                 "javax.faces.ViewState": self.view_state,
                 "cadastro:componente-pesquisa:cmb-campo-pesquisa-rapida": self.pesquisa_campo_rapido,
-                "cadastro:componente-pesquisa:j_idt296": "1",
+                "cadastro:componente-pesquisa:j_idt295": "1",
                 "cadastro:componente-pesquisa:txt-conteudo": "",
                 "cadastro:cmbCategoriaPessoa": "-",
                 "cadastro:ativo": "0",
@@ -102,9 +102,9 @@ class CriarPessoaUseCase:
 
             body = urlencode({
                 "javax.faces.partial.ajax": "true",
-                "javax.faces.source": "form-salvar-pessoa:j_idt662",
-                "javax.faces.partial.execute": "form-tipo-pessoa form-salvar-pessoa:j_idt662",
-                "form-salvar-pessoa:j_idt662": "form-salvar-pessoa:j_idt662",
+                "javax.faces.source": "form-salvar-pessoa:j_idt658",
+                "javax.faces.partial.execute": "form-tipo-pessoa form-salvar-pessoa:j_idt658",
+                "form-salvar-pessoa:j_idt658": "form-salvar-pessoa:j_idt658",
                 "form-tipo-pessoa": "form-tipo-pessoa",
                 "javax.faces.ViewState": view_state,
                 "form-tipo-pessoa:j_idt26:tipo": tipo_pessoa,
