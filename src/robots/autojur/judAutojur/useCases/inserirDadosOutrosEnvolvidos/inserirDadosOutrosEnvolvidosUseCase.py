@@ -132,14 +132,14 @@ class InserirDadosOutrosEnvolvidosUseCase:
                             frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
                             time.sleep(5)
 
-                    self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+                    self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
                     time.sleep(1)
-                    self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(obj.get(posicao))
+                    self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(obj.get(posicao))
                     time.sleep(1)
                     self.page.locator(f'li[data-item-value="{Deparas.depara_posicao(obj.get(posicao))}"]').click()
                     time.sleep(1)
 
-                    self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
+                    self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
                     time.sleep(10)
                     index += 1
                 else:
