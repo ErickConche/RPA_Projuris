@@ -20,14 +20,14 @@ class InserirDadosCadastraisUseCase:
 
     def execute(self):
         try:
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:0\\:j_idt325\\:ff\\:txt-cnj").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:0\\:j_idt324\\:ff\\:txt-cnj").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:0\\:j_idt325\\:ff\\:txt-cnj").type(self.data_input.processo)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:0\\:j_idt324\\:ff\\:txt-cnj").type(self.data_input.processo)
             time.sleep(2)
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:1\\:j_idt325\\:ff\\:txt-numero-processo").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:1\\:j_idt324\\:ff\\:txt-numero-processo").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:1\\:j_idt325\\:ff\\:txt-numero-processo").type(self.data_input.processo)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:1\\:j_idt324\\:ff\\:txt-numero-processo").type(self.data_input.processo)
             time.sleep(2)
 
             if self.page.locator("#modal-duplicados").is_visible():
@@ -38,22 +38,22 @@ class InserirDadosCadastraisUseCase:
                     tag="#modal-duplicados"
                 ).execute()
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:28\\:j_idt325\\:ff\\:txt-numero-processo-originario").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:28\\:j_idt324\\:ff\\:txt-numero-processo-originario").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:28\\:j_idt325\\:ff\\:txt-numero-processo-originario").type(self.data_input.processo_originario)
-            time.sleep(2)
-
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:3\\:j_idt325\\:ff\\:txt-localizador").click()
-            time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:3\\:j_idt325\\:ff\\:txt-localizador").type(self.data_input.pasta)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:28\\:j_idt324\\:ff\\:txt-numero-processo-originario").type(self.data_input.processo_originario)
             time.sleep(2)
 
-            self.page.fill('#form-dados-cadastrais\\:j_idt324\\:21\\:j_idt325\\:ff\\:cal-data-acao_input',self.data_input.data_distribuicao)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:3\\:j_idt324\\:ff\\:txt-localizador").click()
+            time.sleep(2)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:3\\:j_idt324\\:ff\\:txt-localizador").type(self.data_input.pasta)
             time.sleep(2)
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:5\\:j_idt325\\:ff\\:ac-tipo-acao_input").click()
+            self.page.fill('#form-dados-cadastrais\\:j_idt323\\:21\\:j_idt324\\:ff\\:cal-data-acao_input',self.data_input.data_distribuicao)
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:5\\:j_idt325\\:ff\\:ac-tipo-acao_input").type(self.data_input.titulo)
+
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:5\\:j_idt324\\:ff\\:ac-tipo-acao_input").click()
+            time.sleep(2)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:5\\:j_idt324\\:ff\\:ac-tipo-acao_input").type(self.data_input.titulo)
             time.sleep(2)
             if self.data_input.titulo == 'Cumprimento de Sentença':
                 self.page.locator(f'li[data-item-label="{self.data_input.titulo}"]').click()
@@ -62,37 +62,37 @@ class InserirDadosCadastraisUseCase:
                 self.page.locator(f'li[data-item-label="{unidecode(self.data_input.titulo)}"]').click()
                 time.sleep(3)
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:7\\:j_idt325\\:ff\\:ac-fase_input").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:7\\:j_idt324\\:ff\\:ac-fase_input").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:7\\:j_idt325\\:ff\\:ac-fase_input").type(self.data_input.fase)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:7\\:j_idt324\\:ff\\:ac-fase_input").type(self.data_input.fase)
             time.sleep(2)
             self.page.locator(f'li[data-item-label="{self.data_input.fase}"]').click()
             time.sleep(2)
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:6\\:j_idt325\\:ff\\:ac-natureza_input").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:6\\:j_idt324\\:ff\\:ac-natureza_input").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:6\\:j_idt325\\:ff\\:ac-natureza_input").type(self.data_input.natureza)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:6\\:j_idt324\\:ff\\:ac-natureza_input").type(self.data_input.natureza)
             time.sleep(2)
             self.page.locator(f'li[data-item-label="{self.data_input.natureza}"]').click()
             time.sleep(2)
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:19\\:j_idt325\\:ff\\:ac-situacao_input").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:19\\:j_idt324\\:ff\\:ac-situacao_input").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:19\\:j_idt325\\:ff\\:ac-situacao_input").type(self.data_input.situacao)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:19\\:j_idt324\\:ff\\:ac-situacao_input").type(self.data_input.situacao)
             time.sleep(2)
             self.page.locator(f'li[data-item-label="{self.data_input.situacao}"]').click()
             time.sleep(2)
 
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo-uf_input").click()
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo-uf_input").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo-uf_input").type(self.data_input.uf)
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo-uf_input").type(self.data_input.uf)
             time.sleep(2)
             self.page.locator(f'li[data-item-label="{self.data_input.uf}"]').click()
             time.sleep(2)
-            
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo_input").click()
+
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo_input").click()
             time.sleep(2)
-            self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo_input").type(self.data_input.cidade.upper())
+            self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo_input").type(self.data_input.cidade.upper())
             time.sleep(2)
             if self.page.locator(f'li[data-item-label="{self.data_input.cidade.upper()}"]').is_visible():
                 self.page.locator(f'li[data-item-label="{self.data_input.cidade.upper()}"]').click()
@@ -108,9 +108,9 @@ class InserirDadosCadastraisUseCase:
 
             else:
                 capital = unidecode(self.depara.depara_estado_capital(self.data_input.uf)).upper()
-                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo_input").clear()
+                self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:j_idt323").clear()
                 time.sleep(2)
-                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:13\\:j_idt325\\:ff\\:ac-juizo_input").type(capital.upper())
+                self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo_input").type(capital.upper())
                 time.sleep(2)
                 self.page.locator(f'li[data-item-label="{capital.upper()}"]').click()
 
@@ -125,7 +125,7 @@ class InserirDadosCadastraisUseCase:
             max_attemp = 3
             while attemp < max_attemp:
                 attemp += 1
-                self.page.locator("#form-dados-cadastrais\\:j_idt324\\:32\\:j_idt325\\:j_idt326\\:ff-tag\\:btn-tag-vazia").click()
+                self.page.locator("#form-dados-cadastrais\\:j_idt323\\:32\\:j_idt324\\:j_idt325\\:ff-tag\\:btn-tag-vazia").click()
                 time.sleep(5)
                 if self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:linha").is_visible():
                     attemp = max_attemp

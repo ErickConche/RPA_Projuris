@@ -21,7 +21,7 @@ class InserirDadosParteUseCase:
         try:
             has_cpf_cnpj = True  if self.data_input.cpf_cnpj_envolvido != '' else False
 
-            self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt418\\:btn-adicionar-pessoa-vazio").click()
+            self.page.locator("#painel-envolvidos\\:form-principais-envolvidos\\:j_idt417\\:btn-adicionar-pessoa-vazio").click()
             time.sleep(8)
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
             url_iframe = f"https://baz.autojur.com.br{site_html.select_one('iframe').attrs.get('src')}"
@@ -126,14 +126,14 @@ class InserirDadosParteUseCase:
                     time.sleep(5)
             
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
             time.sleep(1)
             self.page.locator(f'li[data-item-value="53"]').click()
             time.sleep(1)
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(10)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()

@@ -34,21 +34,20 @@ class InserirDadosEmpresaUseCase:
             frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
             time.sleep(5)
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_empresa)
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_empresa)
             time.sleep(1)
             self.page.locator(f'li[data-item-label="{unidecode(self.data_input.qualificacao_empresa.upper())}"]').click()
             time.sleep(1)
 
 
-            self.page.locator("#j_idt1250\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(5)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()
             if popup:
                 self.page.locator('#modal-litispendencia button:has-text("Fechar")').click()
                 time.sleep(5)
-            
         except Exception as erro:
             raise Exception("Erro ao inserir dados da empresa")
