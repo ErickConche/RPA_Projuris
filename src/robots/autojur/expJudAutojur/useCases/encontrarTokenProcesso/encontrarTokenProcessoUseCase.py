@@ -28,7 +28,7 @@ class EncontrarTokenProcessoUseCase:
             for tr in self.trs:
                 processo_encontrado = tr.select(".lg-dado")[4].next.replace("-","").replace(".","").strip()
                 data_rk = tr.attrs.get("data-rk")
-                if processo_encontrado == '':
+                if processo_encontrado == '' or processo_encontrado != self.processo:
                     processo_encontrado = AcessarProcessoUseCase(
                         view_state=self.view_state,
                         url=self.url,
