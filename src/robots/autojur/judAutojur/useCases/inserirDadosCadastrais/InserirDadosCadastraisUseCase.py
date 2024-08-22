@@ -102,13 +102,13 @@ class InserirDadosCadastraisUseCase:
                 self.page.locator(f'li[data-item-label="{unidecode(self.data_input.cidade.upper())}"]').click()
                 time.sleep(3)
 
-            elif self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').is_visible():
+            elif self.page.locator(f'li[data-item-label="{unidecode(self.data_input.cidade.upper())}"]').is_visible():
                 self.page.locator(f'li[data-item-label="{self.data_input.cidade}"]').click()
                 time.sleep(3)
 
             else:
                 capital = unidecode(self.depara.depara_estado_capital(self.data_input.uf)).upper()
-                self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:j_idt323").clear()
+                self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo_input").clear()
                 time.sleep(2)
                 self.page.locator("#form-dados-cadastrais\\:j_idt323\\:13\\:j_idt324\\:ff\\:ac-juizo_input").type(capital.upper())
                 time.sleep(2)
