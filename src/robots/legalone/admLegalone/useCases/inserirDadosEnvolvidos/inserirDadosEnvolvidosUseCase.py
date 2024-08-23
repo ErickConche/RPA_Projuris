@@ -60,7 +60,9 @@ class InserirDadosEnvolvidosUseCase:
                 context=self.context,
                 id_elemento=usuario.get("Id"),
                 valor_elemento=self.nome_envolvido,
-                data_val_field='ContatoNome'
+                valor_elemento_doc=self.cpf_cnpj_envolvido,
+                data_val_field='ContatoNome',
+                data_val_field_doc='ContatoCPF_CNPJ'
             ).execute()
             self.page.locator(f'tr[data-val-id="{usuario.get("Id")}"]').click() 
             time.sleep(3)
