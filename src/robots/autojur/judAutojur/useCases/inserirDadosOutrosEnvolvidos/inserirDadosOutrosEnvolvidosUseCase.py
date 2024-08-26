@@ -1,3 +1,4 @@
+import re
 import time
 from bs4 import BeautifulSoup
 from unidecode import unidecode
@@ -93,7 +94,7 @@ class InserirDadosOutrosEnvolvidosUseCase:
                     else:
                         for tr in trs:
                             tds = tr.select("td")
-                            if has_cpf_cnpj and tds[7].text == obj.get(chave):
+                            if has_cpf_cnpj and re.sub(r'[./-]', '', tds[7].text) == re.sub(r'[./-]', '', obj.get(chave)):
                                 codigo = tds[1].text
                                 nome_envolvido = tds[3].previous
                                 break

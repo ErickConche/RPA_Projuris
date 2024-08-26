@@ -1,3 +1,4 @@
+import re
 import requests
 from bs4 import BeautifulSoup
 from unidecode import unidecode
@@ -109,7 +110,7 @@ class BuscarPessoaUseCase:
         else:
             for tr in trs:
                 tds = tr.select("td")
-                if has_cpf_cnpj and tds[7].text == self.envolvido.cpf_cnpj:
+                if has_cpf_cnpj and re.sub(r'[./-]', '', tds[7].text) == re.sub(r'[./-]', '', self.envolvido.cpf_cnpj):
                     self.envolvido.nome = tds[3].previous
                     return self.envolvido
                     
