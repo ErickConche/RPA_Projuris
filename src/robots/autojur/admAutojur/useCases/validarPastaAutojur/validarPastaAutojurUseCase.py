@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from playwright.sync_api import Page
 from modules.logger.Logger import Logger
 from robots.autojur.__model__.CodigoModel import CodigoModel
+from robots.autojur.admAutojur.useCases.buscarDataCadastro.buscarDataCadastroUseCase import BuscarDataCadastroUseCase
 
 
 class ValidarPastaAutojurUseCase:
@@ -50,9 +51,15 @@ class ValidarPastaAutojurUseCase:
                     if pasta_encontrada == self.pasta and numero_reclamacao_encontrada == self.numero_reclamacao:
                         message = f"A pasta informada possui um codigo já existente. Codigo: {codigo_encontrado}"
                         self.classLogger.message(message)
+                        data_cadastro_encontrado = BuscarDataCadastroUseCase(
+                            page=self.page,
+                            classLogger=self.classLogger,
+                            tr=tr
+                        ).execute()
                         data_codigo: CodigoModel = CodigoModel(
                             found=True,
-                            codigo=codigo_encontrado
+                            codigo=codigo_encontrado,
+                            data_cadastro=data_cadastro_encontrado
                         )
                         return data_codigo
             
@@ -60,7 +67,8 @@ class ValidarPastaAutojurUseCase:
             self.classLogger.message(message)
             data_codigo: CodigoModel = CodigoModel(
                 found=False,
-                codigo=None
+                codigo=None,
+                data_cadastro=None
             )
             return data_codigo
             

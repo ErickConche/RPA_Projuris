@@ -68,7 +68,8 @@ class AdmAutoJur:
                         data.error = False
                         data.data_return = [
                             {
-                                "Protocolo":response.codigo
+                                "Protocolo":response.codigo,
+                                "DataCadastro":response.data_cadastro
                             }
                         ]
                     else:
@@ -86,7 +87,8 @@ class AdmAutoJur:
                         data.error = False
                         data.data_return = [
                             {
-                                "Protocolo":response.codigo
+                                "Protocolo":response.codigo,
+                                "DataCadastro":response.data_cadastro
                             }
                         ]
                 except Exception as error:
