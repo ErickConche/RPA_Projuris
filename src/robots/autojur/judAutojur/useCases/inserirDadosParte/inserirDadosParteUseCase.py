@@ -54,7 +54,7 @@ class InserirDadosParteUseCase:
             codigo = None
             time.sleep(5)
             if trs[0].text == 'Nenhum registro encontrado':
-                frame.locator("#form-pesquisa-pessoa\\:j_idt91").click()
+                frame.locator("#form-pesquisa-pessoa\\:j_idt87").click()
                 time.sleep(5)
                 site_html = BeautifulSoup(self.page.content(), 'html.parser')
                 url_iframe = f"https://baz.autojur.com.br{site_html.select('iframe')[1].attrs.get('src')}"
@@ -74,17 +74,17 @@ class InserirDadosParteUseCase:
                 if frame.locator("#modal-duplicados").is_visible():
                     frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                     time.sleep(3)
-                frame.locator("#form-salvar-pessoa\\:j_idt662").click()
+                frame.locator("#form-salvar-pessoa\\:j_idt658").click()
                 time.sleep(5)
-                if frame.locator("#form-salvar-pessoa\\:j_idt662").is_visible():
+                if frame.locator("#form-salvar-pessoa\\:j_idt658").is_visible():
                     frame.locator('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29').clear()
                     time.sleep(1)
-                    frame.locator("#form-salvar-pessoa\\:j_idt662").click()
+                    frame.locator("#form-salvar-pessoa\\:j_idt658").click()
                     time.sleep(5)
             else:
                 for tr in trs:
                     tds = tr.select("td")
-                    if has_cpf_cnpj and re.sub(r'[./-]', '', tds[7].text) == re.sub(r'[./-]', '', self.data_input.cpf_cnpj_envolvido):
+                    if has_cpf_cnpj and re.sub(r'[‐./-]', '', tds[7].text) == re.sub(r'[‐./-]', '', self.data_input.cpf_cnpj_envolvido):
                         codigo = tds[1].text
                         nome_envolvido = tds[3].previous
                         break
