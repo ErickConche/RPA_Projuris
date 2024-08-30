@@ -78,7 +78,7 @@ class ValidarEFormatarEntradaUseCase:
             password=senha,
             tipo_sistema=fields.get("SistemaConsumidor"),
             uf=fields.get("UF").replace("-"," "),
-            cidade=fields.get("Cidade"),
+            cidade=' '.join(fields.get("Cidade").strip().split()),
             data_solicitacao=Formatacao().formatarData(fields.get("DataSolicitacao")),
             empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',
             posicao_envolvido=fields.get("PosicaoEnvolvido") if fields.get("PosicaoEnvolvido") and fields.get("PosicaoEnvolvido") is not None else 'Reclamante',

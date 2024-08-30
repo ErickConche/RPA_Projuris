@@ -90,7 +90,7 @@ class ValidarEFormatarEntradaUseCase:
             data_distribuicao=fields.get("DataDistribuicao").strip(),
             procedimento=fields.get("Procedimento").strip(),
             uf=fields.get("UF").strip(),
-            cidade=fields.get("Cidade").strip(),
+            cidade=' '.join(fields.get("Cidade").strip().split()),
             orgao_julgador=fields.get("OrgaoJulgador").strip(),
             natureza=fields.get("Natureza").strip() if fields.get("Natureza") and fields.get("Natureza") is not None else 'Cível',
             fase=fields.get("Fase").strip() if fields.get("Fase") and fields.get("Fase") is not None else 'Inicial',
