@@ -63,7 +63,7 @@ class InitRegisterUseCase:
                 classLogger=self.classLogger
             ).execute()
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=False)
+                browser = playwright.chromium.launch(headless=True)
                 context = browser.new_context(ignore_https_errors=True)
                 if data_input.cookie_session:
                     context.add_cookies(playwright_cookies)
