@@ -2,9 +2,9 @@ from pydantic import BaseModel
 
 
 class DadosEntradaEspaiderModel(BaseModel):
-    footprint:str
-    url_cookie:str
-    cookie_session:str
+    footprint: str
+    url_cookie: str
+    cookie_session: str
     username: str
     password: str
     fase: str

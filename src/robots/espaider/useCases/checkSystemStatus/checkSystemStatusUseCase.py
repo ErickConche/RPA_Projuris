@@ -1,5 +1,5 @@
-from modules.logger.Logger import Logger
 from requests import Session
+from modules.logger.Logger import Logger
 
 
 class CheckSystemStatusUseCase:
@@ -15,13 +15,13 @@ class CheckSystemStatusUseCase:
 
     def execute(self):
         response = {
-            "success":True,
+            "success": True,
         }
-        
+
         try:
             self.classLogger.message('Validando status do sistema')
-            status_response = self.session.get(f'{self.system_url}/@mvc/Modules/GetModules?', allow_redirects=True)
-            if status_response.status_code < 302 and not 'errorTitle' in status_response.text:
+            status_response = self.session.get(f'{self.system_url}/login', allow_redirects=True)
+            if status_response.status_code < 302 and 'errorTitle' not in status_response.text:
                 message = "Sistema está online"
                 self.classLogger.message(message)
                 return response

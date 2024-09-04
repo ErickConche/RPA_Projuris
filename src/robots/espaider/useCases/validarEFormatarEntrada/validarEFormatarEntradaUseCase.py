@@ -1,5 +1,6 @@
 from typing import Union
 from modules.logger.Logger import Logger
+from robots.espaider.useCases.formatarDadosEntrada.formatarDadosEntradaCadastroUseCase import formatarDadosEntradaCadastroUseCase
 from robots.espaider.useCases.validarDadosEntrada.validarDadosEntradaUseCase import (
     ValidarDadosEntradaUseCase)
 from robots.espaider.useCases.formatarDadosEntrada.formatarDadosEntradaUseCase import (
@@ -36,7 +37,16 @@ class ValidarEFormatarEntradaUseCase:
         try:
             message = "Iniciando validação dos campos de entrada"
             self.classLogger.message(message)
-            if self.robot != 'Expediente':
+            if self.robot == 'Cadastro':
+                return formatarDadosEntradaCadastroUseCase(
+                    classLogger=self.classLogger,
+                    json_recebido=self.json_recebido,
+                    client=self.client,
+                    con_rd=self.con_rd,
+                    robot=self.robot,
+                    queue=self.queue
+                ).execute()
+            elif self.robot != 'Expediente':
                 ValidarDadosEntradaUseCase(
                     classLogger=self.classLogger,
                     json_recebido=self.json_recebido

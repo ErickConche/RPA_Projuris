@@ -1,14 +1,14 @@
-from playwright.sync_api import sync_playwright
 import requests
 from modules.logger.Logger import Logger
-from modules.robotCore.__model__.RobotModel import RobotModel
-from robots.espaider.useCases.login.loginEspaiderUseCase import LoginEspaiderUseCase
-from robots.espaider.useCases.checkSystemStatus.checkSystemStatusUseCase import CheckSystemStatusUseCase
+from playwright.sync_api import sync_playwright
 from models.cookies.cookiesUseCase import CookiesUseCase
-from robots.espaider.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
 from models.cliente.__model__.ClienteModel import ClienteModel
+from robots.espaider.useCases.login.loginEspaiderUseCase import LoginEspaiderUseCase
 from robots.espaider.useCases.criarCodigo.criarCodigoUseCase import CriarCodigoUseCase
 from robots.espaider.useCases.criarCodigo.criarCodigoExpUseCase import CriarCodigoExpUseCase
+from robots.espaider.useCases.criarCodigo.criarCodigoCadastroUseCase import criarCodigoCadastroUseCase
+from robots.espaider.useCases.checkSystemStatus.checkSystemStatusUseCase import CheckSystemStatusUseCase
+from robots.espaider.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
 
 
 class InitRegisterUseCase:
@@ -63,16 +63,16 @@ class InitRegisterUseCase:
                 classLogger=self.classLogger
             ).execute()
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=True)
+                browser = playwright.chromium.launch(headless=False)
                 context = browser.new_context(ignore_https_errors=True)
                 if data_input.cookie_session:
                     context.add_cookies(playwright_cookies)
                 page = context.new_page()
                 page.on("request", lambda response: response_data.append(response))
                 page.set_default_timeout(30000)
-                page.goto(system_url + '#processos/processos',
+                page.goto(system_url,
                           wait_until='load')
-                if not status_response.get('success'):
+                if not status_response.get('success') or not data_input.cookie_session or '/login/' in page.url:
                     status_response = LoginEspaiderUseCase(
                         page=page,
                         username=data_input.username,
@@ -80,7 +80,7 @@ class InitRegisterUseCase:
                         classLogger=self.classLogger
                     ).execute()
                     if not status_response.get('success'):
-                        raise("Site indisponivel")
+                        raise ("Site indisponivel")
                     cookies = context.cookies()
                     cookie_session = ""
                     for cookie in cookies:
@@ -92,13 +92,23 @@ class InitRegisterUseCase:
                         queue=queue_organization,
                         cookie_session=cookie_session
                     )
-                if self.robot != 'Expediente':
+                if self.robot == 'Cadastro':
+                    return criarCodigoCadastroUseCase(
+                        page=page,
+                        data_input=data_input,
+                        classLogger=self.classLogger,
+                        context=context,
+                        robot=self.robot,
+                        system_url=system_url
+                    ).execute()
+                elif self.robot != 'Expediente':
                     return CriarCodigoUseCase(
                         page=page,
                         data_input=data_input,
                         classLogger=self.classLogger,
                         context=context,
-                        robot=self.robot
+                        robot=self.robot,
+                        system_url=system_url
                     ).execute()
                 else:
                     return CriarCodigoExpUseCase(
