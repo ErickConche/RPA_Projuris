@@ -103,7 +103,7 @@ class InserirDadosOutrosEnvolvidosUseCase:
                                 codigo = tds[1].text
                                 break
                         if not codigo:
-                            frame.locator("#form-pesquisa-pessoa\\:j_idt91").click()
+                            frame.query_selector('a:has-text("Adicionar Pessoa")').click()
                             time.sleep(3)
                             site_html = BeautifulSoup(self.page.content(), 'html.parser')
                             url_iframe = f"https://baz.autojur.com.br{site_html.select('iframe')[1].attrs.get('src')}"
