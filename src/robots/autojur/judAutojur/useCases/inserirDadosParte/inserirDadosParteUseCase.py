@@ -34,6 +34,11 @@ class InserirDadosParteUseCase:
                 time.sleep(1)
                 frame.locator('li:has-text("CPF/CNPJ")').click()
                 time.sleep(5)
+                if self.data_input.cpf_cnpj_envolvido == '00.000.000/0001-91':
+                    frame.locator('[id="form-pesquisa-pessoa:componente-pesquisa-pessoa:operador"]>div>div>button').click()
+                    time.sleep(5)
+                    frame.locator('li:has-text("Igual")').nth(0).click()
+                    time.sleep(3)
                 frame.fill('#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:txt-conteudo',self.data_input.cpf_cnpj_envolvido)
                 time.sleep(3)
             else:

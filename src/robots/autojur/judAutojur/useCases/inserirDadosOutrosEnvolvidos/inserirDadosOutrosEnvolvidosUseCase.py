@@ -47,8 +47,14 @@ class InserirDadosOutrosEnvolvidosUseCase:
                         time.sleep(1)
                         frame.locator('li:has-text("CPF/CNPJ")').click()
                         time.sleep(5)
+                        if obj.get(chave) == '00.000.000/0001-91':
+                            frame.locator('[id="form-pesquisa-pessoa:componente-pesquisa-pessoa:operador"]>div>div>button').click()
+                            time.sleep(5)
+                            frame.locator('li:has-text("Igual")').nth(0).click()
+                            time.sleep(3)
                         frame.fill('#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:txt-conteudo',obj.get(chave))
                         time.sleep(3)
+
                     else: 
                         frame.fill('#form-pesquisa-pessoa\\:componente-pesquisa-pessoa\\:txt-conteudo',obj.get(nome))
                         time.sleep(3)
