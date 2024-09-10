@@ -33,16 +33,17 @@ class InserirDadosEmpresaUseCase:
             time.sleep(1)
             frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
             time.sleep(5)
-
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            input_qualificacao_id = self.page.query_selector('label:has-text("Qualificação")').get_attribute('for')
+            input_qualificacao_id = input_qualificacao_id.replace(':', '\\:')
+            self.page.query_selector(f"[id={input_qualificacao_id}] > input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_empresa)
+            self.page.query_selector(f"[id={input_qualificacao_id}] > input").type(self.data_input.qualificacao_empresa)
             time.sleep(1)
             self.page.locator(f'li[data-item-label="{unidecode(self.data_input.qualificacao_empresa.upper())}"]').click()
             time.sleep(1)
 
-
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            jidt_btn_salvar = input_qualificacao_id.split('\\:')[0]
+            self.page.locator(f"#{jidt_btn_salvar}\\:form-envolvidos\\:btn-salvar-envolvido").click()
             time.sleep(5)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()

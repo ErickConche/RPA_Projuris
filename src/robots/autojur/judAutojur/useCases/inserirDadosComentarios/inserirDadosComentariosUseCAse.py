@@ -27,10 +27,12 @@ class InserirDadosComentariosUseCAse:
             time.sleep(1)
             modal.locator("#comments-dialog\\:form-cad-comentario\\:ff-descricao\\:txt-descricao_editor").type(mensagem)
             time.sleep(10)
-            modal.locator("#comments-dialog\\:form-cad-comentario\\:j_idt1353").click()
+            modal.locator("a:has-text(' Salvar')").click()
             time.sleep(5)
 
         except Exception as error:
             message = "Erro ao inserir dados do comentario"
+            print(message + ' ' + error)
             self.classLogger.message(message)
-            raise Exception ("Erro ao inserir dados do comentario")
+            self.classLogger.message(message)
+            raise Exception("Erro ao inserir dados do comentario")

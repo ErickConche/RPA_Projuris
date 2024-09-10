@@ -74,7 +74,7 @@ class InserirDadosOutrosEnvolvidosUseCase:
                     codigo = None
                     time.sleep(5)
                     if trs[0].text == 'Nenhum registro encontrado':
-                        frame.locator("#form-pesquisa-pessoa\\:j_idt91").click()
+                        frame.locator("a:has-text(' Adicionar Pessoa')").click()
                         time.sleep(5)
                         site_html = BeautifulSoup(self.page.content(), 'html.parser')
                         url_iframe = f"https://baz.autojur.com.br{site_html.select('iframe')[1].attrs.get('src')}"
@@ -83,18 +83,20 @@ class InserirDadosOutrosEnvolvidosUseCase:
                         time.sleep(5)
                         frame.locator("#form-tipo-pessoa\\:ff-nome\\:nome").type(obj.get(nome))
                         time.sleep(5)
-                        if len(obj.get(chave)) >14:
-                            frame.locator("#form-tipo-pessoa\\:j_idt26\\:tipo\\:1").click()
+                        if len(obj.get(chave)) > 14:
+                            frame.locator("[value='JURIDICA']").click()
                             time.sleep(1)
                         if frame.locator("#modal-duplicados").is_visible():
                             frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                             time.sleep(3)
-                        frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',obj.get(chave))
+                        id_txt_cpf_cnpj = frame.query_selector('label:has-text("CPF")').get_attribute('for')
+                        id_txt_cpf_cnpj = id_txt_cpf_cnpj.replace(':', '\\:')
+                        frame.fill(f'#{id_txt_cpf_cnpj}', obj.get(chave))
                         time.sleep(5)
                         if frame.locator("#modal-duplicados").is_visible():
                             frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                             time.sleep(3)
-                        frame.locator("#form-salvar-pessoa\\:j_idt662").click()
+                        frame.locator("[id='form-salvar-pessoa'] > a:has-text(' Salvar')").click()
                         time.sleep(5)
                     
                     else:
@@ -118,20 +120,22 @@ class InserirDadosOutrosEnvolvidosUseCase:
                             time.sleep(1)
                             frame.locator("#form-tipo-pessoa\\:ff-nome\\:nome").type(nome_envolvido)
                             time.sleep(3)
-                            if len(obj.get(chave)) >14:
-                                frame.locator("#form-tipo-pessoa\\:j_idt26\\:tipo\\:1").click()
+                            if len(obj.get(chave)) > 14:
+                                frame.locator("[value='JURIDICA']").click()
                                 time.sleep(1)
                             if frame.locator("#modal-duplicados").is_visible():
                                 frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                                 time.sleep(3)
-                            frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',obj.get(chave))
+                            id_txt_cpf_cnpj = frame.query_selector('label:has-text("CPF")').get_attribute('for')
+                            id_txt_cpf_cnpj = id_txt_cpf_cnpj.replace(':', '\\:')
+                            frame.fill(f'#{id_txt_cpf_cnpj}', obj.get(chave))
                             time.sleep(5)
                             if frame.locator("#modal-duplicados").is_visible():
                                 frame.locator("#modal-duplicados .ui-commandlink.ui-widget.btn.btn-default").click()
                                 time.sleep(3)
-                            frame.fill('#form-tipo-pessoa\\:ff-cpf-cnpj\\:j_idt29',obj.get(chave))
+                            frame.fill(f'#{id_txt_cpf_cnpj}', obj.get(chave))
                             time.sleep(3)
-                            frame.locator("#form-salvar-pessoa\\:j_idt662").click()
+                            frame.locator("[id='form-salvar-pessoa'] > a:has-text(' Salvar')").click()
                             time.sleep(5)
                         else:
                             frame.locator(f'tr[data-rk="{codigo}"]').click()
@@ -139,14 +143,17 @@ class InserirDadosOutrosEnvolvidosUseCase:
                             frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
                             time.sleep(5)
 
-                    self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
-                    time.sleep(1)
-                    self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(obj.get(posicao))
+                    input_qualificacao_id = self.page.query_selector('label:has-text("Qualificação")').get_attribute('for')
+                    input_qualificacao_id = input_qualificacao_id.replace(':', '\\:')
+                    self.page.query_selector(f"[id={input_qualificacao_id}] > input").click()
+                    time.sleep(1)   
+                    self.page.query_selector(f"[id={input_qualificacao_id}] > input").type(obj.get(posicao))
                     time.sleep(1)
                     self.page.locator(f'li[data-item-value="{Deparas.depara_posicao(obj.get(posicao))}"]').click()
                     time.sleep(1)
 
-                    self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
+                    jidt_btn_salvar = input_qualificacao_id.split('\\:')[0]
+                    self.page.query_selector(f"#{jidt_btn_salvar}\\:form-envolvidos\\:btn-salvar-envolvido").click()
                     time.sleep(10)
                     index += 1
                 else:

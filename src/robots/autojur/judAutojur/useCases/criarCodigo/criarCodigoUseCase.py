@@ -24,7 +24,7 @@ class CriarCodigoUseCase:
         self.classLogger = classLogger
         self.context = context
 
-    def execute(self)->CodigoModel:
+    def execute(self) -> CodigoModel:
         try:
             attemp = 0
             max_attemp = 1
@@ -32,7 +32,8 @@ class CriarCodigoUseCase:
             success = False
             while attemp < max_attemp:
                 try:
-                    self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=5")
+                    url = "https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=5"
+                    self.page.goto(url)
                     time.sleep(5)
 
                     self.classLogger.message("Inserindo Outros envolvidos")
@@ -41,7 +42,7 @@ class CriarCodigoUseCase:
                         data_input=self.data_input,
                         classLogger=self.classLogger
                     ).execute()
-                
+
                     InserirDadosEnvolvidosUseCase(
                         page=self.page,
                         data_input=self.data_input,
@@ -69,8 +70,8 @@ class CriarCodigoUseCase:
                         classLogger=self.classLogger
                     ).execute()
 
-                    ##Salvando codigo
-                    self.page.locator('#btn-save\\:j_idt1132').click()
+                    # Salvando codigo
+                    self.page.query_selector('[id="btn-save"]>div>div>a:has-text(" Salvar")').click()
                     time.sleep(5)
                     response = ValidarPastaAutojurUseCase(
                         page=self.page,
@@ -82,14 +83,14 @@ class CriarCodigoUseCase:
                     if not response.codigo:
                         message = 'Erro ao inserir a pasta'
                         self.classLogger.message(message)
-                        raise Exception (message)
+                        raise Exception(message)
 
                     message = "Pasta inserida, aguarde enquanto estamos pegando o codigo gerado"
                     self.classLogger.message(message)
                     attemp = max_attemp
                     success = True
                 except Exception as error:
-                    attemp +=1 
+                    attemp += 1
                     error_exec = error
 
             if not success:

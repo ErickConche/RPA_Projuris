@@ -29,7 +29,7 @@ class InserirDadosResponsavelUseCase:
             time.sleep(2)
             self.page.locator('#panel-responsaveis\\:form-responsavel\\:ff-etapa\\:ac-etapa').type("Única")
             time.sleep(1)
-            self.page.locator(f'li[data-item-label="ÚNICA"]').click()
+            self.page.locator('li[data-item-label="ÚNICA"]').click()
             time.sleep(2)
             self.page.locator('#panel-responsaveis\\:form-responsavel\\:ff-btn\\:btn-add-responsavel').click()
             time.sleep(3)
