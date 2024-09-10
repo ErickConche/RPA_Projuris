@@ -10,9 +10,12 @@ class CorrecaoErrosUsuarioUseCase:
         self.data_input = data_input
 
     def execute(self)->DadosEntradaFormatadosModel:
-        self.data_input.uf = self.data_input.uf.replace("-","")
+        self.data_input.uf = self.data_input.uf.replace("-", "")
 
-        if 'Justica' in self.data_input.justica: 
+        if self.data_input.cidade == 'Santa Bárbara dOeste':
+            self.data_input.cidade = "Santa Bárbara d'Oeste"
+
+        if 'Justica' in self.data_input.justica:
             self.data_input.justica = self.data_input.justica.replace("Justica","Justiça")
 
         if self.data_input.cpf_cnpj_envolvido == '0':
