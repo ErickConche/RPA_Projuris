@@ -152,6 +152,7 @@ class InserirDadosCadastraisUseCase:
                 time.sleep(5)
                 if self.page.locator("#modal-tags-processo\\:form-cad-tag-controle\\:repeat-tag\\:0\\:linha").is_visible():
                     attemp = max_attemp
+            time.sleep(5)
             self.page.locator('a[aria-label="ESCRITÓRIO"]').click()
             time.sleep(10)
             self.page.locator('a[aria-label="SP"]').click()
