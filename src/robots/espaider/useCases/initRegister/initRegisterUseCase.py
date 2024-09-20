@@ -63,7 +63,7 @@ class InitRegisterUseCase:
                 classLogger=self.classLogger
             ).execute()
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(headless=True)
+                browser = playwright.chromium.launch(headless=False)
                 context = browser.new_context(ignore_https_errors=True)
                 if data_input.cookie_session:
                     context.add_cookies(playwright_cookies)
@@ -92,6 +92,16 @@ class InitRegisterUseCase:
                         queue=queue_organization,
                         cookie_session=cookie_session
                     )
+                    
+                if page.get_by_text("Vídeo de boas vindas").is_visible():
+                    page.locator("button[data-icon='close']").click()
+                if not page.query_selector('#userOptionsBtn'):
+                    raise Exception('Credencial incorreta')
+                if page.locator('[data-icon="close"]').is_visible():
+                    page.query_selector('[data-icon="close"]').click()
+                if page.locator('tour-popup > tour-popup-actions > button').is_visible():
+                    page.query_selector('tour-popup > tour-popup-actions > button').click()
+                    
                 if self.robot == 'Cadastro':
                     return criarCodigoCadastroUseCase(
                         page=page,

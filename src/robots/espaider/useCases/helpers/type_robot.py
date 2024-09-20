@@ -8,3 +8,6 @@ def is_civel(robot):
 
 def is_labour(robot):
     return robot == 'Trabalhista'
+
+def is_cadastro(robot):
+    return robot == 'Cadastro'

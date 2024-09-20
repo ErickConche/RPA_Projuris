@@ -48,17 +48,7 @@ class LoginEspaiderUseCase:
                 self.page.fill('#userFieldEdt', self.username)
                 self.page.fill('#passwordFieldEdt', self.password)
                 self.page.locator('#loginButton').click()
-                self.page.wait_for_load_state('load')
-                if self.page.get_by_text("Vídeo de boas vindas").is_visible():
-                    self.page.locator("button[data-icon='close']").click()
-                self.page.wait_for_load_state('load')
                 time.sleep(15)
-                if not self.page.query_selector('#userOptionsBtn'):
-                    raise Exception('Credencial incorreta')
-                if self.page.locator('[data-icon="close"]').is_visible():
-                    self.page.query_selector('[data-icon="close"]').click()
-                if self.page.locator('tour-popup > tour-popup-actions > button').is_visible():
-                    self.page.query_selector('tour-popup > tour-popup-actions > button').click()
             message = '[Espaider-Civil]: Login realizado com succeso'
             self.classLogger.message(message)
             response.update({

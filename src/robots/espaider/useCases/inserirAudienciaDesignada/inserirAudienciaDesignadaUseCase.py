@@ -3,6 +3,7 @@ from modules.logger.Logger import Logger
 from playwright.sync_api import Frame, Page
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderCadastroModel import DadosEntradaEspaiderCadastroModel
 from robots.espaider.useCases.inserirJuizo.inserirJuizoUseCase import InserirJuizoUseCase
+from robots.espaider.useCases.helpers.selectOptionHelper import select_option,select_single
 
 
 # CADASTRO DE JUÍZO
@@ -40,21 +41,21 @@ class InserirAudienciaDesignadaUseCase:
             gpa_providencias_iframe = self.page.frame(name=iframe_name)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAAndamento"]').type(self.data_input.em_andamento)
             time.sleep(2)
-            self.page.query_selector(f'[title="{self.data_input.em_andamento}"]').dblclick()
+            select_option(page=self.page, name="CLI_GPAAndamento", value=self.data_input.em_andamento)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_TipoAudiencia"]').type(self.data_input.tipo_audiencia)
             time.sleep(2)
-            self.page.query_selector(f'[title="{self.data_input.tipo_audiencia}"]').dblclick()
+            select_option(page=self.page, name="CLI_TipoAudiencia", value=self.data_input.tipo_audiencia)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_Modalidade"]').type(self.data_input.modalidade)
             time.sleep(2)
-            self.page.query_selector(f'[title="{self.data_input.modalidade}"]').dblclick()
+            select_option(page=self.page, name="CLI_Modalidade", value=self.data_input.modalidade)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAHora"]').type(self.data_input.hora_audiencia)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAProvidencia"]').type(self.data_input.providencia_audiencia)
             time.sleep(2)
-            self.page.query_selector(f'[title="{self.data_input.providencia_audiencia}"]').dblclick()
+            select_option(page=self.page, name="CLI_GPAProvidencia", value=self.data_input.providencia_audiencia)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAResponsavel"]').type(self.data_input.responsavel_audiencia)
             time.sleep(2)
@@ -68,24 +69,20 @@ class InserirAudienciaDesignadaUseCase:
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAVara"]').type(self.data_input.vara)
             time.sleep(2)
-            xpath = f"//div[text()='{self.data_input.vara}']"
-            input_list = self.page.query_selector_all(f"xpath={xpath}")
-            vara_input = input_list[len(input_list)-1]
-            vara_input.dblclick()
+            if self.data_input.vara:
+                select_option(page=self.page, name="CLI_GPAVara", value=self.data_input.vara)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAComarca"]').type(self.data_input.comarca)
             time.sleep(5)
-            self.page.query_selector(f'[title="{self.data_input.comarca}"]').dblclick()
+            select_option(page=self.page, name="CLI_GPAComarca", value=self.data_input.comarca)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_Status"]').type(self.data_input.status_audiencia)
             time.sleep(2)
-            self.page.query_selector(f'[title="{self.data_input.status_audiencia}"]').dblclick()
+            select_single(page=self.page, value=self.data_input.status_audiencia)
             time.sleep(2)
             gpa_providencias_iframe.query_selector('[name="CLI_GPAJuizo"]').type(self.data_input.juizo)
             time.sleep(5)
-            if self.page.query_selector(f'[title="{self.data_input.juizo}"]'):
-                self.page.query_selector(f'[title="{self.data_input.juizo}"]').dblclick()
-            else:
+            if not select_option(page=self.page, name="CLI_GPAJuizo", value=self.data_input.juizo):
                 InserirJuizoUseCase(
                     page=self.page,
                     data_input=self.data_input,

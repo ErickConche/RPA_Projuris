@@ -3,6 +3,7 @@ from modules.logger.Logger import Logger
 from playwright.sync_api import Frame, Page
 from robots.espaider.useCases.inserirJuizo.inserirJuizoUseCase import InserirJuizoUseCase
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderCadastroModel import DadosEntradaEspaiderCadastroModel
+from robots.espaider.useCases.helpers.selectOptionHelper import select_option
 
 
 # ABA VALOR
@@ -47,41 +48,41 @@ class FormularioValorUseCase:
             time.sleep(5)
             desdobramento_iframe.query_selector('[name="Desdobramento"]').type(self.data_input.desdobramento)
             time.sleep(5)
-            self.page.query_selector(f'[title="{self.data_input.desdobramento}"]').dblclick()
+            select_option(page=self.page, name="Desdobramento", value=self.data_input.desdobramento)
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Rito"]').type(self.data_input.procedimento)
             time.sleep(2)
-            self.page.query_selector(f'[title="{self.data_input.procedimento}"]').dblclick()
+            select_option(page=self.page, name="Rito", value=self.data_input.procedimento)
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Instancia"]').type(self.data_input.instancia)
             time.sleep(2)
-            list_selectors = self.page.query_selector_all(f'[title="{self.data_input.instancia}"]')
-            list_selectors[len(list_selectors)-1].dblclick()
+            if not select_option(page=self.page, name="Instancia", value=self.data_input.instancia):
+                raise Exception("Instancia não encontrada")
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Orgao"]').type(self.data_input.orgao)
             time.sleep(4)
-            self.page.query_selector(f'[title="{self.data_input.orgao}"]').dblclick()
+            select_option(page=self.page, name="Orgao", value=self.data_input.orgao)
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Comarca"]').type(self.data_input.comarca)
             time.sleep(3)
-            self.page.query_selector(f'[title="{self.data_input.comarca}"]').dblclick()
+            select_option(page=self.page, name="Comarca", value=self.data_input.comarca)
             time.sleep(3)
-            desdobramento_iframe.query_selector('[name="Numero"]').click()
             desdobramento_iframe.query_selector('[name="Numero"]').type(self.data_input.numero_do_processo)
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Juizo"]').type(self.data_input.juizo)
             time.sleep(3)
-            if self.page.query_selector(f'[title="{self.data_input.juizo}"]'):
-                self.page.query_selector(f'[title="{self.data_input.juizo}"]').dblclick()
+            if select_option(page=self.page, name="Juizo", value=self.data_input.juizo):
+                pass
             else:
-                InserirJuizoUseCase(
+                if not InserirJuizoUseCase(
                     page=self.page,
                     data_input=self.data_input,
                     classLogger=self.classLogger,
                     robot=self.robot,
                     iframe=desdobramento_iframe,
                     juiz_selector='[name="Juizo"]'
-                ).execute()
+                ).execute():
+                    raise Exception("Erro ao inserir Juizo")
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="DataDistribuicao"]').type(self.data_input.distribuido_em)
             time.sleep(2)

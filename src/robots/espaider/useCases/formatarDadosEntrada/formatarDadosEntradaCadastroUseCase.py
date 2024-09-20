@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from modules.logger.Logger import Logger
 from models.cookies.cookiesUseCase import CookiesUseCase
@@ -30,6 +31,7 @@ class formatarDadosEntradaCadastroUseCase:
         credentials: dict = json_recebido.get('Credentials')
         credentials['Username'] = 'R0600806'
         credentials['Password'] = '@Abc123456'
+        current_time = datetime.now().strftime("%d/%m/%Y")
 
         data_input: DadosEntradaEspaiderCadastroModel = DadosEntradaEspaiderCadastroModel(
             footprint="",
@@ -39,7 +41,7 @@ class formatarDadosEntradaCadastroUseCase:
             password=DecodePassword(classLogger=self.classLogger, password=credentials.get("Password")).decrypt(),
             natureza=fields.get("Natureza") or '',
             tipo_acao=fields.get("TipoAcao") or '',
-            cliente_principal=fields.get("ClientePricipal") or '',
+            cliente_principal=fields.get("Cliente") or '',
             condicao_cliente=fields.get("CondicaoCliente") or '',
             adverso_principal=fields.get("AdversoPrincipal") or '',
             condição_adverso=fields.get("CondicaoAdverso") or '',
@@ -51,7 +53,7 @@ class formatarDadosEntradaCadastroUseCase:
             valor_da_causa=fields.get("ValorCausa") or '',
             desdobramento=fields.get("Desdobramento") or '',
             procedimento=fields.get("Procedimento") or '',
-            instancia=fields.get("Instancia") or '',
+            instancia='1ª Instância',
             orgao=fields.get("Orgao") or '',
             juizo=fields.get("Juizo") or '',
             comarca=fields.get("Comarca") or '',
@@ -64,10 +66,10 @@ class formatarDadosEntradaCadastroUseCase:
             alerta_prazo_audiencia=fields.get("AlertaPrazoAudiencia") or '',
             vara=fields.get("Vara") or '',
             data_andamento=fields.get("DataAndamento1") or '',
-            distribuido_em=fields.get("DataDistribuicao") or '',
+            distribuido_em=fields.get("DataDistribuicao") or current_time,
             audiencia_designada=fields.get("AudienciaDesignada") or '',
             hora_audiencia=fields.get("HoraAudiencia") or '',
-            arquivo=fields.get("Files"),
+            arquivo=fields.get("Documento"),
             acao_especial="Em Cadastramento",
             unidade_controle="Em Cadastramento",
             status="Ativo",

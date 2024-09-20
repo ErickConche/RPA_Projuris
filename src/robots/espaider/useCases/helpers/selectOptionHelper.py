@@ -2,7 +2,9 @@ from unidecode import unidecode
 
 def select_single(page, value):
     try:
+        value = unidecode(value).lower()
         options_ul = page.query_selector_all('ul > li')
+        options_ul.reverse()
         for option in options_ul:
             option_title_1 = unidecode(option.get_attribute('title')).lower()
             if value == option_title_1:
@@ -13,6 +15,7 @@ def select_single(page, value):
 
 def select_option(page, name, value):
     try:
+        value = unidecode(value).lower()
         selected = False
         options = page.query_selector_all('table > tbody > tr')
                 

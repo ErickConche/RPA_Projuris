@@ -77,6 +77,7 @@ class FormularioGpaAreasUseCase:
                 iframe_name = iframe_list[len(iframe_list)-1].get_attribute('name')
                 home_iframe = self.page.frame(name=iframe_name)
                 home_iframe.query_selector('[data-icon="home"]').click()
+                time.sleep(5)
             return {
                 'status': True,
                 'iframe': home_iframe

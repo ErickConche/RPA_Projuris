@@ -52,29 +52,11 @@ class criarCodigoCadastroUseCase:
                 classLogger=self.classLogger
             ).execute(attempt=1)
             if not response.found:
-                iframe = response.iframe
-                button = iframe.query_selector('[data-icon="add_circle"]')
-                button.click()
-                self.page.wait_for_load_state('load')
-
-                self.page.wait_for_selector('iframe')
-                frames = self.page.query_selector_all('iframe')
-                if frames:
-                    last_frame = frames[-1]
-
-                    frame_name = last_frame.get_attribute('name')
-                    frame_id = last_frame.get_attribute('id')
-
-                    if frame_name or frame_id:
-                        iframe = self.page.frame(name=frame_name) if frame_name else self.page.frame(id=frame_id)
-                        iframe.wait_for_load_state("load")
-
-                FormularioGeralUseCase(
+                response = FormularioGeralUseCase(
                     page=self.page,
                     classLogger=self.classLogger,
                     data_input=self.data_input,
-                    robot=self.robot,
-                    iframe=iframe
+                    robot=self.robot
                 ).execute()
 
                 form_value_response = FormularioValorUseCase(
@@ -82,7 +64,7 @@ class criarCodigoCadastroUseCase:
                     classLogger=self.classLogger,
                     data_input=self.data_input,
                     robot=self.robot,
-                    iframe=iframe
+                    iframe=response.get('iframe')
                 ).execute()
 
                 files_response = FormularioArquivosUseCase(

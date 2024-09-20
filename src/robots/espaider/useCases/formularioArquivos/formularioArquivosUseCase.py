@@ -1,4 +1,6 @@
 import os
+import requests
+import tempfile
 import time
 from modules.logger.Logger import Logger
 from playwright.sync_api import Frame, Page
@@ -47,10 +49,11 @@ class FormularioArquivosUseCase:
             with self.page.expect_file_chooser() as fc_info:
                 arquivos_iframe.query_selector('[name="Documento"]').click()
             file_chooser = fc_info.value
-            file_chooser.set_files(os.path.join(os.getcwd(), self.data_input.arquivo))
-            time.sleep(7)
+            file = self.download_file(url=self.data_input.arquivo)
+            file_chooser.set_files(os.path.join(os.getcwd(), file))
+            time.sleep(60)
             arquivos_iframe.query_selector('[id="bm-Save"]').click()
-            time.sleep(4)
+            time.sleep(10)
             arquivos_iframe.query_selector('[id="Close"]').click()
             time.sleep(2)
             add_arquivos_iframe.query_selector('[title="Sair"]').click()
@@ -61,3 +64,13 @@ class FormularioArquivosUseCase:
         except Exception as e:
             print(str(e))
             raise Exception("Erro ao preencher os dados dos Arquivos")
+
+    def download_file(self, url):
+        temp_file = tempfile.NamedTemporaryFile(delete=False)
+        temp_file_name = temp_file.name
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()
+            for chunk in r.iter_content(chunk_size=8192):
+                temp_file.write(chunk)
+        temp_file.close()
+        return temp_file_name

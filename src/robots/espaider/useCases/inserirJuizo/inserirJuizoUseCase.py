@@ -2,6 +2,7 @@ import time
 from modules.logger.Logger import Logger
 from playwright.sync_api import Frame, Page
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderCadastroModel import DadosEntradaEspaiderCadastroModel
+from robots.espaider.useCases.helpers.selectOptionHelper import select_option
 
 
 # CADASTRO DE JUÍZO
@@ -29,8 +30,6 @@ class InserirJuizoUseCase:
             '''
             self.classLogger.message('Iniciando cadastro do Juízo')
             inserted = False
-            if self.iframe.query_selector(self.juiz_selector):
-                self.iframe.query_selector(self.juiz_selector).click()
             time.sleep(5)
             self.page.query_selector('[class="x-popup x-anim-fade x-popup-grid-menu x-elevation-z8 x-layout--container"] > div > div > div > div > button[data-icon="add_circle"]').click()
             time.sleep(4)
@@ -40,8 +39,7 @@ class InserirJuizoUseCase:
             cadastro_juizo_iframe.query_selector('[name="Nome"]').type(self.data_input.juizo)
             cadastro_juizo_iframe.query_selector('[name="Comarca"]').type(self.data_input.comarca)
             time.sleep(5)
-            selector_comarca_list = self.page.query_selector_all(f'[title="{self.data_input.comarca}"]')
-            selector_comarca_list[len(selector_comarca_list)-1].dblclick()
+            select_option(page=self.page, name="Comarca", value=self.data_input.comarca)
             time.sleep(3)
             cadastro_juizo_iframe.query_selector('[id="bm-Save"]').click()
             time.sleep(3)
@@ -51,11 +49,9 @@ class InserirJuizoUseCase:
             time.sleep(2)
             self.iframe.query_selector(self.juiz_selector).type(self.data_input.juizo)
             time.sleep(3)
-            if self.page.query_selector(f'[title="{self.data_input.juizo}"]'):
+            if select_option(page=self.page, name="Juizo", value=self.data_input.juizo):
                 inserted = True
-                self.page.query_selector(f'[title="{self.data_input.juizo}"]').dblclick()
                 self.classLogger.message(f'Juízo {self.data_input.juizo} inserido com sucesso!')
-            self.iframe.query_selector('[id="bm-Save"]').click()
             return inserted
         except Exception as e:
             print(str(e))
