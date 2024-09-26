@@ -9,6 +9,7 @@ from robots.espaider.civeis.civeisEspaider import CiveisEspaider
 from robots.espaider.cadastro.CadastroEspaider import CadastroEspaider
 from robots.espaider.trabalhista.trabalhistaEspaider import TrabalhistaEspaider
 from robots.espaider.expediente.expedienteEspaider import ExpedienteEspaider
+from robots.autojur.admAutojur.useCases.tarefaAdmAutojur import TarefaAdmAutoJur
 
 
 class RobotCore:
@@ -68,6 +69,17 @@ class RobotCore:
 
         elif 'app-adm-autojur' in self.queue:
             return AdmAutoJur(
+                con_rd=self.con_rd,
+                classLogger=self.classLogger,
+                json_recebido=self.json_recebido,
+                task_id=self.task_id,
+                identifier_tenant=self.identifier_tenant,
+                cliente=self.cliente,
+                id_queue=self.id_queue
+            ).execute()
+
+        elif 'app-adm-tarefa-autojur' in self.queue:
+            return TarefaAdmAutoJur(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,

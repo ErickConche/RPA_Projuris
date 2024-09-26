@@ -1,0 +1,25 @@
+from playwright.sync_api import Page
+from modules.logger.Logger import Logger
+from robots.autojur.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaTarefaFormatadosModel import (
+    DadosEntradaTarefaFormatadosModel)
+import time
+
+class InserirTarefaUseCase:
+
+    def __init__(self, page: Page, data_input: DadosEntradaTarefaFormatadosModel, classLogger: Logger) -> None:
+        self.page = page
+        self.data_input = data_input
+        self.classLogger = classLogger
+
+    def execute(self):
+        self.page.query_selector("#btnAcoes\\:btnAddTarefa").click()
+        time.sleep(5)
+        iframe_url = self.page.query_selector("iframe").get_attribute('src')
+        iframe = self.page.frame(url=f'https://baz.autojur.com.br{iframe_url}')
+        iframe.query_selector("#formDetalhesTarefa\\:cmb-evento\\:ac-evento\\:ac-evento_input").type(self.data_input.evento)
+        time.sleep(3)
+        iframe.query_selector("#formDetalhesTarefa\\:responsavel\\:responsavel_input").type(self.data_input.responsavel)
+        iframe.query_selector("#formDetalhesTarefa\\:data-final\\:datafinal_input").fill(f'{self.data_input.data} {self.data_input.hora}')
+        iframe.query_selector("#formDetalhesTarefa\\:ff-conteudo\\:conteudo").type(self.data_input.conteudo)
+        iframe.query_selector("#form-adicionar-tarefa\\:btn-salvar").click()
+        time.sleep(5)

@@ -9,6 +9,7 @@ def main():
     list_queues = [
         "app-adm-legalone",
         "app-adm-autojur",
+        "app-adm-tarefa-autojur",
         "app-jud-legalone",
         "app-jud-autojur",
         "app-exp-jud-autojur",
