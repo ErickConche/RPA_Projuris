@@ -49,7 +49,7 @@ class ValidarPastaEspaiderUseCase:
                 data_codigo: CodigoModel = CodigoModel(
                     found=True,
                     codigo=row_list[header_dict['Pasta']].inner_text(),
-                    data_cadastro=row_list[header_dict['Pré-cadastrado em']].inner_text()
+                    data_cadastro=row_list[header_dict['Pré-cadastrado em']].inner_text().split(' ')[0]
                 )
             self.classLogger.message(message)
             return data_codigo

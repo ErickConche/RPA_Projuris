@@ -109,7 +109,8 @@ class criarCodigoCadastroUseCase:
             data.error = False
             data.data_return = [
                 {
-                    "Protocolo": response.codigo,
+                    "Pasta": response.codigo,
+                    "Processo": self.data_input.numero_do_processo,
                     "DataCadastro": response.data_cadastro
                 }
             ]

@@ -23,7 +23,6 @@ class PesquisarProcessoUseCase:
             process_row = ''
             iframe_name = self.page.query_selector('[class="x-simpleiframe x-item"]').get_attribute('name')
             iframe = self.page.frame(name=iframe_name)
-            self.data_input.numero_processo_pre_cadastro = '00331227525418888844515001'
             iframe.query_selector('[placeholder="Pesquisar"]').type(self.data_input.numero_processo_pre_cadastro)
             self.page.keyboard.press("Enter")
             time.sleep(15)

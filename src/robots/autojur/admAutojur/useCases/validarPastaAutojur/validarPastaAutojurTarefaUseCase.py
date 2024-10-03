@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from playwright.sync_api import Page
 from modules.logger.Logger import Logger
 from robots.autojur.admAutojur.useCases.buscarDataCadastro.buscarDataCadastroUseCase import BuscarDataCadastroUseCase
+from robots.autojur.__model__.CodigoModel import CodigoModel
 
 
 class ValidarPastaAutojurTarefaUseCase:

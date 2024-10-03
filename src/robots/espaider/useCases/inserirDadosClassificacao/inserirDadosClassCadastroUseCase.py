@@ -47,7 +47,7 @@ class InserirDadosClassCadastroUseCase:
             time.sleep(5)
             select_option(page=self.page, name="CondicaoCliente", value=self.data_input.condicao_cliente)
             self.iframe.query_selector('[name="CLI_NumeroProcesso"]').type(self.data_input.numero_do_processo)
-            self.iframe.query_selector('[name="Adverso"]').type(self.data_input.adverso_principal)
+            self.iframe.query_selector('[name="Adverso"]').type(self.data_input.documento_adverso_principal)
             time.sleep(30)
             if not select_option(page=self.page, name="Adverso", value=self.data_input.adverso_principal):
                 raise Exception("Adverso não encontrado")
@@ -108,7 +108,7 @@ class InserirDadosClassCadastroUseCase:
                 self.page.query_selector('button:has-text("OK")').click()
             time.sleep(30)
             self.iframe.wait_for_selector('[name="AdvogadoAdverso"]')
-            self.iframe.query_selector('[name="AdvogadoAdverso"]').type(self.data_input.advogado_adverso)
+            self.iframe.query_selector('[name="AdvogadoAdverso"]').type(self.data_input.documento_advogado_adverso)
             time.sleep(30)
             if not select_option(page=self.page, name="AdvogadoAdverso", value=self.data_input.advogado_adverso):
                 raise Exception("AdvogadoAdverso não encontrado")

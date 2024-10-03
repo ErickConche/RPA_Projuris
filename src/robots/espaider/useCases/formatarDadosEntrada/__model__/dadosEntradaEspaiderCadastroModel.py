@@ -12,6 +12,7 @@ class DadosEntradaEspaiderCadastroModel(BaseModel):
     cliente_principal: str
     condicao_cliente: str
     adverso_principal: str
+    documento_adverso_principal: str
     condição_adverso: str
     advogado_interno_vale: str
     tipo: str
@@ -28,6 +29,7 @@ class DadosEntradaEspaiderCadastroModel(BaseModel):
     numero_do_processo: str
     numero_processo_pre_cadastro: str
     advogado_adverso: str
+    documento_advogado_adverso: str
     documento_cliente_principal: str
     tipo_audiencia: str
     modalidade: str
