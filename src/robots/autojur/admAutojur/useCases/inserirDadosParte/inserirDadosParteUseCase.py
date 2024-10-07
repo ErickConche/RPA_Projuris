@@ -108,18 +108,19 @@ class InserirDadosParteUseCase:
                     time.sleep(1)
                     frame.locator("#form-pesquisa-pessoa\\:btn-selecionar").click()
                     time.sleep(5)
-            
+
             self.classLogger.message(f"Vinculando o envolvido {self.data_input.nome_envolvido} a pasta")
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            id_input_qualificacao = self.page.query_selector('label:has-text("Qualificação *")').get_attribute('for')
+            id_input_qualificacao = id_input_qualificacao.replace(':', '\\:')
+            self.page.query_selector(f"#{id_input_qualificacao}_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_envolvido)
+            self.page.locator(f"#{id_input_qualificacao}_input").type(self.data_input.qualificacao_envolvido)
             time.sleep(1)
             self.classLogger.message(f"Inserida a qualificação {self.data_input.qualificacao_envolvido}")
-
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            id_btn_salvar = f"{id_input_qualificacao.split(':ff-qualificacao')[0]}:btn-salvar-envolvido"
+            self.page.locator(f"#{id_btn_salvar}").click()
             time.sleep(5)
-            self.classLogger.message(f"Envolvido vinculado a pasta")
-
+            self.classLogger.message("Envolvido vinculado a pasta")
             popup = self.page.locator("#modal-litispendencia").is_visible()
             if popup:
                 self.page.locator('#modal-litispendencia button:has-text("Fechar")').click()

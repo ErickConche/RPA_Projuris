@@ -37,12 +37,15 @@ class InserirDadosAutoridadeUseCase:
             time.sleep(2)
 
             ### Arrumar
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").click()
+            id_input_qualificacao = self.page.query_selector('label:has-text("Qualificação *")').get_attribute('for')
+            id_input_qualificacao = id_input_qualificacao.replace(':', '\\:').replace('localizador', 'cnj')
+            self.page.query_selector(f"#{id_input_qualificacao}_input").click()
             time.sleep(1)
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:ff-qualificacao\\:autocomplete_input").type(self.data_input.qualificacao_sistema)
+            self.page.locator(f"#{id_input_qualificacao}_input").type(self.data_input.qualificacao_sistema)
             time.sleep(1)
 
-            self.page.locator("#j_idt1257\\:form-envolvidos\\:btn-salvar-envolvido").click()
+            id_btn_salvar = f"{id_input_qualificacao.split(':ff-qualificacao')[0]}:btn-salvar-envolvido"
+            self.page.locator(f"#{id_btn_salvar}").click()
             time.sleep(5)
 
             popup = self.page.locator("#modal-litispendencia").is_visible()

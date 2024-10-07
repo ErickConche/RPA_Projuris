@@ -16,15 +16,30 @@ class InserirDadosPersonalizadosUseCase:
 
     def execute(self):
         try:
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:0\\:cp-texto--").click()
+            id_nome_orgao_adm = self.page.query_selector('label:has-text("Nome Órgão Administrativo")').get_attribute('id')
+            parts = id_nome_orgao_adm.split(":")
+            parts[-1] = "cp-texto--"
+            id_nome_orgao_adm = ":".join(parts)
+            id_nome_orgao_adm = id_nome_orgao_adm.replace(':', '\\:')
+            self.page.locator(f"#{id_nome_orgao_adm}").click()
             time.sleep(1)
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:0\\:cp-texto--").type(self.data_input.nome_procon)
+            self.page.locator(f"#{id_nome_orgao_adm}").type(self.data_input.nome_procon)
             time.sleep(1)
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:3\\:cp-texto--").click()
+            id_dados_reserva = self.page.query_selector('label:has-text("Demais Dados Reserva")').get_attribute('id')
+            parts = id_dados_reserva.split(":")
+            parts[-1] = "cp-texto--"
+            id_dados_reserva = ":".join(parts)
+            id_dados_reserva = id_dados_reserva.replace(':', '\\:')
+            self.page.locator(f"#{id_dados_reserva}").click()
             time.sleep(1)
-            self.page.locator("#form-campos-personalizados\\:cp-novo-processo\\:j_idt982\\:0\\:j_idt984\\:3\\:cp-texto--").type(self.data_input.dados_reserva)
+            self.page.locator(f"#{id_dados_reserva}").type(self.data_input.dados_reserva)
             time.sleep(1)
-            self.page.locator('button[data-id="form-campos-personalizados:cp-novo-processo:j_idt982:0:j_idt984:1:cp-list--"]').click()
+            id_tipo_reclamacao = self.page.query_selector('label:has-text("Tipo da Reclamação")').get_attribute('id')
+            parts = id_tipo_reclamacao.split(":")
+            parts[-1] = "cp-list--"
+            id_tipo_reclamacao = ":".join(parts)
+            id_tipo_reclamacao = id_tipo_reclamacao.replace(':', '\\:')
+            self.page.locator(f'button[data-id="{id_tipo_reclamacao}"]').click()
             time.sleep(3)
             self.page.locator('li:has-text("Digital")').click()
             time.sleep(3)
