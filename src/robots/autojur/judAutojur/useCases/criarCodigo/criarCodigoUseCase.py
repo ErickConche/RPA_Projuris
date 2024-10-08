@@ -73,6 +73,10 @@ class CriarCodigoUseCase:
                     # Salvando codigo
                     self.page.query_selector('[id="btn-save"]>div>div>a:has-text(" Salvar")').click()
                     time.sleep(5)
+                    if self.page.query_selector('[id="confirm-alteracao-numero-processo-originario"]').is_visible():
+                        print('EXIBIU MODAL PROCESSO ORIGINÁRIO')
+                        self.page.query_selector('[id="confirm-alteracao-numero-processo-originario"]>div>div>div>a').click()
+                        time.sleep(3)
                     response = ValidarPastaAutojurUseCase(
                         page=self.page,
                         pasta=self.data_input.pasta,
