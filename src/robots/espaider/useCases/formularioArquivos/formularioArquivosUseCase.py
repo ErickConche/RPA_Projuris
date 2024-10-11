@@ -41,7 +41,7 @@ class FormularioArquivosUseCase:
             list_iframe = self.page.query_selector_all('iframe')
             name_iframe = list_iframe[len(list_iframe)-1].get_attribute('name')
             arquivos_iframe = self.page.frame(name_iframe)
-            time.sleep(3)
+            time.sleep(10)
             arquivos_iframe.query_selector('[name="Nome"]').type(self.data_input.nome_assunto)
             arquivos_iframe.query_selector('[name="CLI_TipoDocumento"]').type(self.data_input.tipo_documento)
             time.sleep(2)
@@ -51,7 +51,7 @@ class FormularioArquivosUseCase:
             file_chooser = fc_info.value
             file = self.download_file(url=self.data_input.arquivo)
             file_chooser.set_files(os.path.join(os.getcwd(), file))
-            time.sleep(60)
+            time.sleep(30)
             arquivos_iframe.query_selector('[id="bm-Save"]').click()
             time.sleep(10)
             arquivos_iframe.query_selector('[id="Close"]').click()

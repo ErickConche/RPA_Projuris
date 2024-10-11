@@ -25,7 +25,7 @@ class PesquisarProcessoUseCase:
             iframe = self.page.frame(name=iframe_name)
             iframe.query_selector('[placeholder="Pesquisar"]').type(self.data_input.numero_processo_pre_cadastro)
             self.page.keyboard.press("Enter")
-            time.sleep(15)
+            time.sleep(5)
             table_rows = iframe.query_selector_all('tbody>tr')
             header_list = iframe.query_selector_all('[role="columnheader"]')
             for row in table_rows:

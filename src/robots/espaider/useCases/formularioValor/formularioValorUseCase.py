@@ -4,6 +4,7 @@ from playwright.sync_api import Frame, Page
 from robots.espaider.useCases.inserirJuizo.inserirJuizoUseCase import InserirJuizoUseCase
 from robots.espaider.useCases.formatarDadosEntrada.__model__.dadosEntradaEspaiderCadastroModel import DadosEntradaEspaiderCadastroModel
 from robots.espaider.useCases.helpers.selectOptionHelper import select_option
+from robots.espaider.useCases.criarOrgao.criarOrgaoUseCase import CriarOrgaoUseCase
 
 
 # ABA VALOR
@@ -61,7 +62,12 @@ class FormularioValorUseCase:
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Orgao"]').type(self.data_input.orgao)
             time.sleep(4)
-            select_option(page=self.page, name="Orgao", value=self.data_input.orgao)
+            if not select_option(page=self.page, name="Orgao", value=self.data_input.orgao):
+                CriarOrgaoUseCase(classLogger=self.classLogger, page=self.page, name=self.data_input.orgao).execute()
+                desdobramento_iframe.query_selector('[name="Orgao"]').type(self.data_input.orgao)
+                time.sleep(4)
+                if not select_option(page=self.page, name="Orgao", value=self.data_input.orgao):
+                    raise Exception("Erro: O Órgão não foi localizado ou criado corretamente")
             time.sleep(2)
             desdobramento_iframe.query_selector('[name="Comarca"]').type(self.data_input.comarca)
             time.sleep(3)

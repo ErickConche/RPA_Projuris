@@ -63,12 +63,12 @@ class FormularioGpaAreasUseCase:
                     robot=self.robot,
                     iframe=gpa_iframe
                 ).execute()
-                time.sleep(2)
+                time.sleep(10)
                 iframe_list = self.page.query_selector_all('iframe')
                 iframe_name = iframe_list[len(iframe_list)-1].get_attribute('name')
                 close_iframe = self.page.frame(name=iframe_name)
                 close_iframe.query_selector('[id="Close"]').click()
-                time.sleep(2)
+                time.sleep(5)
                 iframe_name = gpa_iframe.query_selector('iframe').get_attribute('name')
                 close_iframe = self.page.frame(name=iframe_name)
                 close_iframe.query_selector('[title="Sair"]').click()

@@ -29,9 +29,10 @@ class formatarDadosEntradaCadastroUseCase:
         json_recebido: dict = json.loads(self.json_recebido)
         fields: dict = json_recebido.get("Fields")
         credentials: dict = json_recebido.get('Credentials')
-        credentials['Username'] = 'R0600806'
-        credentials['Password'] = '@Abc123456'
+        credentials['Username'] = 'C0692082'
+        credentials['Password'] = 'doc@to2024'
         current_time = datetime.now().strftime("%d/%m/%Y")
+        alerta_prazo = datetime.strptime(fields.get("AlertaPrazoAudiencia"), "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y") if fields.get("AlertaPrazoAudiencia") else None
 
         data_input: DadosEntradaEspaiderCadastroModel = DadosEntradaEspaiderCadastroModel(
             footprint="",
@@ -56,7 +57,7 @@ class formatarDadosEntradaCadastroUseCase:
             procedimento=fields.get("Procedimento") or '',
             instancia='1ª Instância',
             orgao=fields.get("Orgao") or '',
-            juizo=fields.get("Juizo") or '',
+            juizo=fields.get("Vara"),
             comarca=fields.get("Comarca") or '',
             numero_do_processo=fields.get("Processo") or fields.get("ProcessoPreCadastro"),
             numero_processo_pre_cadastro=fields.get("ProcessoPreCadastro") or '',
@@ -65,8 +66,8 @@ class formatarDadosEntradaCadastroUseCase:
             documento_cliente_principal=fields.get("DocumentoClientePrincipal") or '',
             tipo_audiencia=fields.get("TipoAudiencia") or '',
             modalidade=fields.get("Modalidade") or '',
-            alerta_prazo_audiencia=fields.get("AlertaPrazoAudiencia") or '',
-            vara=fields.get("Vara") or '',
+            alerta_prazo_audiencia=alerta_prazo,
+            vara=fields.get("Vara"),
             data_andamento=fields.get("DataAndamento1") or '',
             distribuido_em=fields.get("DataDistribuicao") or current_time,
             audiencia_designada=fields.get("AudienciaDesignada") or '',

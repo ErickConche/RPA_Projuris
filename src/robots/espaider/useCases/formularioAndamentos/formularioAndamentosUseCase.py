@@ -33,7 +33,7 @@ class FormularioAndamentosUseCase:
             iframe_name = iframe_list[len(iframe_list)-1].get_attribute('name')
             add_iframe = self.page.frame(name=iframe_name)
             add_iframe.query_selector('[data-icon="add_circle"]').click()
-            time.sleep(2)
+            time.sleep(5)
             iframe_list = self.page.query_selector_all('iframe')
             iframe_name = iframe_list[len(iframe_list)-1].get_attribute('name')
             info_andamentos_iframe = self.page.frame(name=iframe_name)

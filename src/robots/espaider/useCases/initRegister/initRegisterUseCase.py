@@ -9,6 +9,7 @@ from robots.espaider.useCases.criarCodigo.criarCodigoExpUseCase import CriarCodi
 from robots.espaider.useCases.criarCodigo.criarCodigoCadastroUseCase import criarCodigoCadastroUseCase
 from robots.espaider.useCases.checkSystemStatus.checkSystemStatusUseCase import CheckSystemStatusUseCase
 from robots.espaider.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
+from robots.espaider.useCases.login.loginMicrosoftUseCase import LoginMicrosoftUseCase
 
 
 class InitRegisterUseCase:
@@ -78,6 +79,11 @@ class InitRegisterUseCase:
                         username=data_input.username,
                         password=data_input.password,
                         classLogger=self.classLogger
+                    ).execute() if not 'login.microsoftonline.com' in page.url else LoginMicrosoftUseCase(
+                        page=page, 
+                        classLogger=self.classLogger, 
+                        user=data_input.username,
+                        password=data_input.password
                     ).execute()
                     if not status_response.get('success'):
                         raise ("Site indisponivel")
