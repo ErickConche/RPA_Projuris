@@ -32,7 +32,7 @@ class formatarDadosEntradaCadastroUseCase:
         credentials['Username'] = 'C0692082'
         credentials['Password'] = 'doc@to2024'
         current_time = datetime.now().strftime("%d/%m/%Y")
-        alerta_prazo = datetime.strptime(fields.get("AlertaPrazoAudiencia"), "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y") if fields.get("AlertaPrazoAudiencia") else None
+        alerta_prazo = datetime.strptime(fields.get("AlertaPrazoAudiencia"), "%Y-%m-%dT%H:%M:%S").strftime("%d/%m/%Y") if fields.get("AlertaPrazoAudiencia") else ''
 
         data_input: DadosEntradaEspaiderCadastroModel = DadosEntradaEspaiderCadastroModel(
             footprint="",
