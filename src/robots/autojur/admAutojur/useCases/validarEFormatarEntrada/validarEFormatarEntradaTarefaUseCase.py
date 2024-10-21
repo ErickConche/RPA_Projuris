@@ -56,7 +56,7 @@ class ValidarEFormatarEntradaTarefaUseCase:
             password=senha,
             footprint=cookie.conteudo,
             url_cookie=cookie.url,
-            conteudo=fields.get("Conteudo"),
+            conteudo=fields.get("Documento"),
             dados_busca=fields.get("Localizador"),
             evento=fields.get("Evento") or "DEFESA ADMINISTRATIVA",
             data=current_time.strftime("%d/%m/%Y"),
