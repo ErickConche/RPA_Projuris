@@ -26,13 +26,13 @@ class ValidarPastaAutojurTarefaUseCase:
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .bs-searchbox input').click()
             time.sleep(1)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .bs-searchbox input').type("Localizador")
-            time.sleep(1)
+            time.sleep(2)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:campo .dropdown-menu a:has(span:text-is("Localizador"))').click()
             time.sleep(1)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').click()
             time.sleep(1)
             self.page.locator('#form-pesquisa\\:componente-pesquisa\\:txt-conteudo').type(self.pasta)
-            time.sleep(1)
+            time.sleep(2)
             self.page.locator('button[data-id="form-pesquisa:tipo-proc"]').click()
             time.sleep(3)
             self.page.locator('#form-pesquisa\\:pg-pesquisa-body .dropdown-menu a:has(span:text-is("Extrajudicial"))').click()
@@ -43,7 +43,7 @@ class ValidarPastaAutojurTarefaUseCase:
             if tr.inner_text() != 'Nenhum registro encontrado':
                 protocol = tr.query_selector('.lg-dado.tooltipstered').inner_text()
                 data_codigo = {
-                    'protocol': protocol
+                    'codigo': protocol
                 }
                 tr.dblclick()
                 time.sleep(5)

@@ -75,7 +75,7 @@ class TarefaAdmAutoJur:
                         ).execute()
                         data.data_return = [
                             {
-                                "Protocolo":response.codigo,
+                                "Protocolo":response.get('codigo'),
                                 "DataCadastro":data_input.data
                             }
                         ]
