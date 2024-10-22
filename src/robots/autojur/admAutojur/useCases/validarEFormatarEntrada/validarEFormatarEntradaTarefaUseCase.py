@@ -32,7 +32,7 @@ class ValidarEFormatarEntradaTarefaUseCase:
         if not fields.get("Localizador"):
             raise Exception("Informe o localizador")
         
-        if not fields.get("Conteudo"):
+        if not fields.get("Documento"):
             raise Exception("Informe o conteúdo")
         
         usuario = "docato"
