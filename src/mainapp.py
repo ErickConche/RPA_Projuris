@@ -39,7 +39,7 @@ def initApp(queue:str):
                 queue=queue
             )
             if len(requisicoes)>0:
-                if 'exp-jud' in queue:
+                if 'app-exp-jud' in queue:
                     MainCoreParalel(
                         queue=queue,
                         requisicoes=requisicoes,
