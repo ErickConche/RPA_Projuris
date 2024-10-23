@@ -6,12 +6,15 @@ import time
 
 class InserirTarefaUseCase:
 
-    def __init__(self, page: Page, data_input: DadosEntradaTarefaFormatadosModel, classLogger: Logger) -> None:
+    def __init__(self, page: Page, data_input: DadosEntradaTarefaFormatadosModel, localizador: str, classLogger: Logger) -> None:
         self.page = page
         self.data_input = data_input
+        self.localizador = localizador
         self.classLogger = classLogger
 
     def execute(self):
+        message='Cadastrando os dados da tarefa na pasta do processo.'
+        self.classLogger.message(message=message)
         self.page.query_selector("#btnAcoes\\:btnAddTarefa").click()
         time.sleep(5)
         iframe_url = self.page.query_selector("iframe").get_attribute('src')
@@ -27,7 +30,9 @@ class InserirTarefaUseCase:
         time.sleep(1)
         iframe.query_selector("#formDetalhesTarefa\\:data-final\\:datafinal_input").fill(f'{self.data_input.data} {self.data_input.hora}')
         time.sleep(3)
-        iframe.query_selector("#formDetalhesTarefa\\:ff-conteudo\\:conteudo").type(self.data_input.conteudo)
+        iframe.query_selector('[class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all"]').click()
+        time.sleep(1)
+        iframe.query_selector("#formDetalhesTarefa\\:ff-conteudo\\:conteudo").type(f'{self.localizador}: {self.data_input.conteudo}')
         time.sleep(3)
         iframe.query_selector("#form-adicionar-tarefa\\:btn-salvar").click()
         time.sleep(5)

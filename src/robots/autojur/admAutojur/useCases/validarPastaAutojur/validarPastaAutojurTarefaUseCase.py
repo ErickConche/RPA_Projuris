@@ -18,6 +18,8 @@ class ValidarPastaAutojurTarefaUseCase:
         self.classLogger = classLogger
 
     def execute(self)->CodigoModel:
+        message = 'Validando a existência da pasta a partir do Localizador informado'
+        self.classLogger.message(message=message)
         try:
             self.page.goto("https://baz.autojur.com.br/sistema/processos/processo.jsf")
             time.sleep(5)

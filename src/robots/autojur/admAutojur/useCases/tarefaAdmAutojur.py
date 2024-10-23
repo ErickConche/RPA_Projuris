@@ -71,8 +71,10 @@ class TarefaAdmAutoJur:
                         InserirTarefaUseCase(
                             page=page,
                             data_input=data_input,
+                            localizador=data_input.dados_busca,
                             classLogger=self.classLogger
                         ).execute()
+                        data.error = False
                         data.data_return = [
                             {
                                 "Protocolo":response.get('codigo'),
