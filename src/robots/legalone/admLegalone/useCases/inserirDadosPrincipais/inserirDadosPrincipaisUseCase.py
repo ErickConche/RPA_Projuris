@@ -72,9 +72,10 @@ class InserirDadosPrincipaisUseCase:
                 self.page.locator(f'tr[data-val-id="{info_cidade.get("Id")}"] td[data-val-field="Value"]:text("{info_cidade.get("Value")}")').click()
                 time.sleep(3)
             except Exception as error:
-                message = "Erro ao buscar cidade. Continuará a execução porém sem a informação da cidade"
+                message = "Erro ao buscar cidade."
                 self.classLogger.message(message)
+                raise Exception(message)
 
         except Exception as error:
-            raise Exception("Erro ao inserir dados principais no formulario de criação")
+            raise Exception(f"Erro ao inserir dados principais no formulario de criação: {error}")
         
