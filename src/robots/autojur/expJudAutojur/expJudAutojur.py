@@ -78,7 +78,7 @@ class ExpJudAutojur:
                     classLogger=classLogger,
                     cookies=data_input.cookie_session
                 ).execute()
-                data.error = False
+                data.error = True if 'Indício de tarefa já cadastrada' in response.codigo else False
                 data.data_return = [
                     {
                         "Protocolo":response.codigo
