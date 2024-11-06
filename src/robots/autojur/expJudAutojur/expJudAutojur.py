@@ -81,7 +81,8 @@ class ExpJudAutojur:
                 data.error = True if 'Indício de tarefa já cadastrada' in response.codigo else False
                 data.data_return = [
                     {
-                        "Protocolo":response.codigo
+                        "Protocolo":response.codigo,
+                        "DataCadastro":response.data_cadastro
                     }
                 ]
             except ExcecaoGeral as error:

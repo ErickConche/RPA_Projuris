@@ -1,6 +1,7 @@
 import re
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 from urllib.parse import urlencode
 from modules.logger.Logger import Logger
 from modules.excecoes.excecao import ExcecaoGeral
@@ -138,9 +139,11 @@ class IniciandoProcessoExpAutojurUseCase:
             if 'Operação efetuada com sucesso.  Foi cadastrado 1 registro' in response.text:
                 message = f"Tarefa inserida com sucesso para o processo {self.data_input.processo}"
                 self.classLogger.message(message)
+                data_atual = datetime.now().strftime("%d/%m/%Y")
                 data_codigo: CodigoModel = CodigoModel(
                     found=True,
-                    codigo=codigo_encontrado
+                    codigo=codigo_encontrado,
+                    data_cadastro=data_atual
                 )
                 return data_codigo
             message = "Erro ao inserir pasta"

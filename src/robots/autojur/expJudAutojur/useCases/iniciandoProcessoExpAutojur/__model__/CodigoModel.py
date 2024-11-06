@@ -14,3 +14,4 @@ class InfosRequisicaoModel(BaseModel):
 class CodigoModel(BaseModel):
     found: bool
     codigo: Optional[str] = None 
+    data_cadastro: Optional[str] = None
