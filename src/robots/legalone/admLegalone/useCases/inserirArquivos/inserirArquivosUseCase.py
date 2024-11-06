@@ -37,6 +37,7 @@ class InserirArquivosUseCase:
                 url_pasta=self.url_pasta,
                 classLogger=self.classLogger
             ).execute()
+
             if checked_files.get("file_main") or checked_files.get("files_secundary"):
                 self.url_insert_ged = AcessarPaginaUploadUseCase(
                     classLogger=self.classLogger,
@@ -44,27 +45,20 @@ class InserirArquivosUseCase:
                     context=self.context,
                     legalone_jud=False
                 ).execute()
-                if checked_files.get("file_main"):
+
+                prioritize_files=self.prioritize_files(checked_files)
+                
+                if prioritize_files:
                     UploadArquivoUseCase(
                         page=self.page,
-                        nome_arquivo=checked_files.get("file_main"),
+                        nome_arquivo=prioritize_files[0],
                         classLogger=self.classLogger,
-                        file_main=True,
-                        list_files=[],
+                        file_main=False,
+                        list_files=prioritize_files,
                         url_insert_ged=self.url_insert_ged,
                         context=self.context
                     ).execute()
 
-                if checked_files.get("files_secundary"):
-                    UploadArquivoUseCase(
-                        page=self.page,
-                        nome_arquivo=None,
-                        classLogger=self.classLogger,
-                        file_main=False,
-                        list_files=checked_files.get("files_secundary"),
-                        url_insert_ged = self.url_insert_ged,
-                        context=self.context
-                    ).execute()
                 checked_files = VerificandoExistenciaArquivosUseCase(
                     page=self.page,
                     arquivo_principal=self.arquivo_principal,
@@ -79,3 +73,21 @@ class InserirArquivosUseCase:
             error_ged_legalone.update_error_ged_legalone(False)
         except Exception as error:
             raise Exception("Erro ao realizar o upload dos arquivos")
+        
+    def prioritize_files(self, checked_files):
+        cip_files = []
+        other_files = []
+        tnf_files = []
+
+        concat_files = checked_files.get("file_main", []) + checked_files.get("files_secundary", [])
+
+        for file_name in concat_files:
+            if 'CIP' in file_name or 'reclamacao' in file_name or 'reclamação' in file_name:
+                cip_files.append(file_name)
+            elif 'TNF' in file_name: 
+                tnf_files.append(file_name)
+            else:
+                other_files.append(file_name)
+
+        sorted_files = cip_files + other_files + tnf_files
+        return sorted_files

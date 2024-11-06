@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+from modules.descompactarZip.descompactarZipUseCase import DescompactarZipUseCase
 from modules.logger.Logger import Logger
 from playwright.sync_api import Page, BrowserContext
 from robots.legalone.useCases.verificarExistenciaArquivoPrincipal.verificarExistenciaArquivoPrincipalUseCase import VerificarExistenciaArquivoPrincipal
@@ -14,7 +15,7 @@ class VerificandoExistenciaArquivosUseCase:
         arquivos_secundarios: str,
         context: BrowserContext,
         pasta: str,
-        url_pasta:str,
+        url_pasta: str,
         classLogger: Logger
     ) -> None:
         self.page = page
@@ -33,23 +34,23 @@ class VerificandoExistenciaArquivosUseCase:
                 cookies_str += f'{cookie.get("name")}={cookie.get("value")};'
 
             headers = {
-                "X-Requested-With":"XMLHttpRequest",
-                "Referer":self.url_pasta,
-                "Host":"booking.nextlegalone.com.br",
-                "Cookie":cookies_str
+                "X-Requested-With": "XMLHttpRequest",
+                "Referer": self.url_pasta,
+                "Host": "booking.nextlegalone.com.br",
+                "Cookie": cookies_str
             }
 
             id = self.url_pasta.split("/details/")[1].split("?")[0]
 
             url = f"https://booking.nextlegalone.com.br/servicos/servicos/detailsged/{str(id)}?renderOnlySection=True&ajaxnavigation=true"
 
-            response = requests.get(url=url,headers=headers)
+            response = requests.get(url=url, headers=headers)
 
             message = "Verificando se os arquivos foram salvos."
             self.classLogger.message(message)
 
             site_html = BeautifulSoup(response.text, 'html.parser')
-            
+
             list_files_legalone = []
 
             if len(site_html.select_one(".search-result-bar-compact").select("tbody")) > 0:
@@ -57,8 +58,10 @@ class VerificandoExistenciaArquivosUseCase:
                 for tr in trs:
                     list_files_legalone.append(tr.select("td")[2].select_one("a").text)
 
-            name_file_main_download = VerificarExistenciaArquivoPrincipal(
-                arquivo_principal=self.arquivo_principal,
+            name_file_main_download = VerificarExistenciaArquivoSecundario(
+                page=self.page,
+                arquivos_secundarios=self.arquivo_principal,
+                context=self.context,
                 classLogger=self.classLogger,
                 list_files_legalone=list_files_legalone
             ).execute()
@@ -70,10 +73,10 @@ class VerificandoExistenciaArquivosUseCase:
                 classLogger=self.classLogger,
                 list_files_legalone=list_files_legalone
             ).execute()
-
+            
             return {
-                "file_main":name_file_main_download,
-                "files_secundary":name_file_secundary_download
+                "file_main": name_file_main_download,
+                "files_secundary": name_file_secundary_download
             }
 
         except Exception as error:

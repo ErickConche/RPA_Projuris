@@ -88,14 +88,19 @@ class UploadArquivoUseCase:
                                 headers=headers
                             ).execute()
 
+                            if 'CIP' in file.upper() or 'reclamacao' in file.lower() or 'reclamação' in file.lower():
+                                self.file_main=True
+
                             ConcluirUploadArquivoUseCase(
                                 classLogger=self.classLogger,
                                 data_inicial_upload=data_inicial_upload,
                                 headers=headers,
                                 url_insert_ged=self.url_insert_ged,
-                                arquivo_principal=False
+                                arquivo_principal=self.file_main
                             ).execute()
                             attemp = max_attemp
+                            self.file_main=False
+
                             os.remove(data_inicial_upload.nome_arquivo)
                         except Exception as error:
                             attemp +=1
@@ -108,3 +113,4 @@ class UploadArquivoUseCase:
             message = f"Erro ao fazer o upload do arquivo {'principal' if self.file_main else 'secundario'}. Erro: {str(error)}"
             self.classLogger.message(message)
             raise error
+        

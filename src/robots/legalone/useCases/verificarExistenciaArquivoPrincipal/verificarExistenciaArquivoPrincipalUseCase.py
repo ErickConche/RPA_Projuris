@@ -1,4 +1,5 @@
 from typing import List
+from modules.descompactarZip.descompactarZipUseCase import DescompactarZipUseCase
 from modules.logger.Logger import Logger
 from modules.downloadS3.downloadS3 import DownloadS3
 from modules.formatacao.formatacao import Formatacao
@@ -38,6 +39,22 @@ class VerificarExistenciaArquivoPrincipal:
 
             if not file_main_found:
                 name_file_main_download = DownloadS3(url=self.arquivo_principal,complemento_nome=self.processo).execute()
+
+            if name_file_main_download.endswith('.zip'):
+                self.classLogger.message("Arquivo ZIP detectado. Enviando para o S3.")
+                list_files=DescompactarZipUseCase(name_file_main_download, classLogger=self.classLogger).execute()
+
+                list_updates = []
+                for downloads in list_files:
+                    file_found = False
+                    for files_legalone in list_files_legalone:
+                        if downloads.nome_original in files_legalone or \
+                        downloads.nome_original_sem_format in files_legalone:
+                            file_found = True
+                        break
+                    if not file_found:
+                        list_updates.append(downloads.novo_nome_arquivo)
+                name_file_main_download=list_updates    
             return name_file_main_download
         except Exception as error:
             message = "Erro ao verificar se o arquivo principal foi salvo"
