@@ -73,18 +73,22 @@ class InserirArquivosUseCase:
             error_ged_legalone.update_error_ged_legalone(False)
         except Exception as error:
             raise Exception("Erro ao realizar o upload dos arquivos")
-        
+
     def prioritize_files(self, checked_files):
         cip_files = []
         other_files = []
         tnf_files = []
+        concat_files = []
 
-        concat_files = checked_files.get("file_main", []) + checked_files.get("files_secundary", [])
+        if checked_files.get("file_main", []):
+            concat_files += checked_files.get("file_main", [])
+        if checked_files.get("files_secundary", []):
+            concat_files += checked_files.get("files_secundary", [])
 
         for file_name in concat_files:
-            if 'CIP' in file_name or 'reclamacao' in file_name or 'reclamação' in file_name:
+            if 'CIP' in file_name.upper() or 'RECLAMACAO' in file_name.upper() or 'RECLAMAÇÃO' in file_name.upper():
                 cip_files.append(file_name)
-            elif 'TNF' in file_name: 
+            elif 'TNF' in file_name.upper():
                 tnf_files.append(file_name)
             else:
                 other_files.append(file_name)
