@@ -14,11 +14,11 @@ def main():
         "app-jud-autojur",
         "app-exp-jud-autojur",
         "app-identificacao-exp-jud-autojur",
-        "app-civeis-espaider",
-        "app-trabalhista-espaider",
-        "app-autos-espaider",
-        "app-expediente-espaider",
-        "app-cadastro-espaider"
+        # "app-civeis-espaider",
+        # "app-trabalhista-espaider",
+        # "app-autos-espaider",
+        # "app-expediente-espaider",
+        # "app-cadastro-espaider"
     ]
     t = Thread(target=initServer, args=(list_queues,))
     t.start()
