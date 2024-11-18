@@ -1,12 +1,11 @@
 import json
 import time
-from threading import Thread
 from datetime import datetime
 from modules.logger.Logger import Logger
-from models.cliente.cliente import Cliente
 from modules.excecoes.excecao import ExcecaoGeral
 from models.cookies.cookiesUseCase import CookiesUseCase
-from modules.robotCore.__model__.RobotModel import RobotModelParalel
+from modules.robotCore.__model__.RobotModel import RobotModel
+from models.cliente.__model__.ClienteModel import ClienteModel
 from global_variables.login_exp_autojur import get_execution_login, update_execution_login
 from robots.autojur.expJudAutojur.useCases.novoLogin.novoLoginUseCase import NovoLoginUseCase
 from robots.autojur.expJudAutojur.useCases.buscarPessoa.buscarPessoaUseCase import BuscarPessoaUseCase
@@ -18,36 +17,35 @@ from robots.autojur.expJudAutojur.useCases.iniciandoProcessoExpAutojur.iniciando
 class ExpJudAutojur:
     def __init__(
         self,
-        queue,
         con_rd,
-        requisicoes: dict,
+        classLogger: Logger,
+        json_recebido: str,
+        task_id: str,
+        identifier_tenant: str,
+        cliente: ClienteModel,
+        id_queue: int
     ) -> None:
         self.con_rd = con_rd
-        self.requisicoes = requisicoes
-        self.queue = queue
-        self.class_cliente = Cliente(con=con_rd)
-        self.results = []
+        self.classLogger = classLogger
+        self.json_recebido = json_recebido
+        self.task_id = task_id
+        self.identifier_tenant = identifier_tenant
+        self.cliente = cliente
+        self.id_queue = id_queue
+        self.queue = 'app-exp-jud-autojur-yann_lima'
 
-    def thread(self, requisicao):
-        json_recebido = json.loads(requisicao['json_recebido'])
-        classLogger = Logger(hiring_id=json_recebido['TaskId'])
-        data: RobotModelParalel = RobotModelParalel(
+    def execute(self):
+        data: RobotModel = RobotModel(
             error=True,
-            data_return=[],
-            classLogger=classLogger,
-            identifier_tenant=json_recebido['IdentifierTentant'],
-            task_id=json_recebido['TaskId'],
-            id_requisicao=requisicao.get("id"),
-            json_recebido=json_recebido
+            data_return=[]
         )
-        message = f"Inicio da aplicação {str(datetime.now())} da tarefa {json_recebido['TaskId']}"
-        classLogger.message(message=message)
-        cliente = self.class_cliente.buscarCliente(tenant=json_recebido['IdentifierTentant'])
+        message = f"Inicio da aplicação {str(datetime.now())} da tarefa {json.loads(self.json_recebido)['TaskId']}"
+        self.classLogger.message(message=message)
         try:
             data_input = ValidarEFormatarEntradaUseCase(
-                classLogger=classLogger,
-                json_recebido=json_recebido,
-                cliente=cliente,
+                classLogger=self.classLogger,
+                json_recebido=self.json_recebido,
+                cliente=self.cliente,
                 con_rd=self.con_rd,
                 queue=self.queue
             ).execute()
@@ -55,34 +53,34 @@ class ExpJudAutojur:
                 cookies_validados = ValidarCookiesUseCase(data_input.cookie_session).execute()
                 if not cookies_validados:
                     data_input.cookie_session = self.__obter_novo_cookie(
-                        data_input, 
-                        classLogger,
-                        cliente.id
+                        data_input,
+                        self.classLogger,
+                        self.cliente.id
                     )
             else:
                 data_input.cookie_session = self.__obter_novo_cookie(
-                    data_input, 
-                    classLogger,
-                    cliente.id
+                    data_input,
+                    self.classLogger,
+                    self.cliente.id
                 )
             try:
                 data_input.id_responsavel = BuscarPessoaUseCase(
-                    classLogger=classLogger,
+                    classLogger=self.classLogger,
                     cookies=data_input.cookie_session,
                     nome=data_input.responsavel
                 ).execute()
                 if not data_input.id_responsavel:
-                    raise ExcecaoGeral("Não foi possivel encontrar o responsavel","Responsável inválido")
+                    raise ExcecaoGeral("Não foi possivel encontrar o responsavel", "Responsável inválido")
                 response = IniciandoProcessoExpAutojurUseCase(
                     data_input=data_input,
-                    classLogger=classLogger,
+                    classLogger=self.classLogger,
                     cookies=data_input.cookie_session
                 ).execute()
                 data.error = True if 'Indício de tarefa já cadastrada' in response.codigo else False
                 data.data_return = [
                     {
-                        "Protocolo":response.codigo,
-                        "DataCadastro":response.data_cadastro
+                        "Protocolo": response.codigo,
+                        "DataCadastro": response.data_cadastro
                     }
                 ]
             except ExcecaoGeral as error:
@@ -91,28 +89,14 @@ class ExpJudAutojur:
                 raise ExcecaoGeral(str(error))
         except ExcecaoGeral as error:
             message = f"Erro: {error.log_erro}"
-            classLogger.message(message)
+            self.classLogger.message(message)
             data_error = [{
-                "Protocolo":error.msg_erro
+                "Protocolo": error.msg_erro
             }]
             data.data_return = data_error
         finally:
-            self.results.append(data)
+            return data
 
-    def execute(self):
-        list_threads = []
-        for requisicao in self.requisicoes:
-            thread = Thread(target=self.thread, args=(
-                    requisicao,
-                )
-            )
-            thread.start()
-            list_threads.append(thread)
-            time.sleep(3)
-        for thread in list_threads:
-            thread.join()
-        return self.results
-        
     def __obter_novo_cookie(self, data_input, classLogger, cliente_id):
         if get_execution_login():
             while get_execution_login():
@@ -121,7 +105,7 @@ class ExpJudAutojur:
                 idcliente=cliente_id,
                 queue=self.queue
             ).session_cookie
-        
+
         update_execution_login(True)
 
         session_cookie = NovoLoginUseCase(

@@ -40,16 +40,23 @@ class LoginAutojurUseCase:
                 self.classLogger.message("Aguardando 45 segundos para o envio do código no email")
                 time.sleep(45)
                 self.classLogger.message("Buscando o código de autenticação no email")
-                mfa_code = self.codigoMfa.execute()
-                if not mfa_code:
+                mfa_code_list = self.codigoMfa.execute()
+                if not mfa_code_list:
                     raise ("Erro ao coletar o códiga mfa do email")
-                self.page.query_selector('[id="form-dupla-autenticacao:ff-token"]>div>input').type(mfa_code)
-                self.page.query_selector('[id="form-dupla-autenticacao"]>div>a>i').click()
-            if self.page.query_selector('[class="iziToast-message slideIn"]'):
+                for mfa in mfa_code_list:
+                    self.page.query_selector('[id="form-dupla-autenticacao:ff-token"]>div>input').type(mfa.get('codigo'))
+                    self.page.query_selector('[id="form-dupla-autenticacao"]>div>a>i').click()
+                    time.sleep(5)
+                    site_html = BeautifulSoup(self.page.content(), 'html.parser')
+                    if site_html.select("#user-header"):
+                        message = "Login finalizado"
+                        self.classLogger.message(message)
+                        self.codigoMfa.markAsRead(mfa.get('uid'))
+                        return
+                    else:
+                        self.page.query_selector('[id="form-dupla-autenticacao:ff-token"]>div>input').fill('')
                 raise Exception("Erro ao validar o código mfa")
-            time.sleep(10)
-            site_html = BeautifulSoup(self.page.content(), 'html.parser')
-            if site_html.select("#user-header"):
+            elif site_html.select("#user-header"):
                 message = "Login finalizado"
                 self.classLogger.message(message)
                 return

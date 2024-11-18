@@ -2,15 +2,16 @@ from logging import Logger
 from models.cliente.cliente import Cliente
 from robots.autojur.judAutojur.judAutojur import JudAutojur
 from robots.autojur.admAutojur.admAutojur import AdmAutoJur
-from robots.autojur.identCadastroAutojur.identCadastroAutojur import IdentCadastroAutojur
 from modules.robotCore.__model__.RobotModel import RobotModel
 from robots.legalone.judLegalone.judLegalone import judLegalone
 from robots.legalone.admLegalone.admLegalone import AdmLegalone
 from robots.espaider.civeis.civeisEspaider import CiveisEspaider
+from robots.autojur.expJudAutojur.expJudAutojur import ExpJudAutojur
 from robots.espaider.cadastro.CadastroEspaider import CadastroEspaider
-from robots.espaider.trabalhista.trabalhistaEspaider import TrabalhistaEspaider
 from robots.espaider.expediente.expedienteEspaider import ExpedienteEspaider
+from robots.espaider.trabalhista.trabalhistaEspaider import TrabalhistaEspaider
 from robots.autojur.admAutojur.useCases.tarefaAdmAutojur import TarefaAdmAutoJur
+from robots.autojur.identCadastroAutojur.identCadastroAutojur import IdentCadastroAutojur
 
 
 class RobotCore:
@@ -34,7 +35,7 @@ class RobotCore:
         self.queue = queue
         self.id_queue = id_queue
 
-    def execute(self)-> RobotModel:
+    def execute(self) -> RobotModel:
         if 'app-jud-legalone' in self.queue:
             return judLegalone(
                 con_rd=self.con_rd,
@@ -133,9 +134,20 @@ class RobotCore:
                 queue=self.queue,
                 client=self.cliente
             ).execute()
-        
+
         elif 'app-identificar-cadastro-autojur' in self.queue:
             return IdentCadastroAutojur(
+                con_rd=self.con_rd,
+                classLogger=self.classLogger,
+                json_recebido=self.json_recebido,
+                task_id=self.task_id,
+                identifier_tenant=self.identifier_tenant,
+                cliente=self.cliente,
+                id_queue=self.id_queue
+            ).execute()
+
+        elif 'app-exp-jud-autojur' in self.queue:
+            return ExpJudAutojur(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,

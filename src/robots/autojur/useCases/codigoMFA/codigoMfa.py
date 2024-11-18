@@ -16,6 +16,7 @@ class codigoMfa:
 
     def execute(self):
         try:
+            codes = []
             user_on_email = ''.join([i for i in self.username if not i.isdigit()]).upper() + " " + ''.join([i for i in self.username if i.isdigit()])
             with Imbox('imap.gmail.com', username=self.email, password=self.password_email) as imbox:
                 unread_messages = imbox.messages(unread=True, sent_from='noreply@perceptvision.com.br')
@@ -26,7 +27,20 @@ class codigoMfa:
                     if 'Tentativa de login em um novo dispositivo' in message.subject and user_on_email == user_email:
                         codigo = email_html.select_one('tr>td>div').text
                         if codigo:
-                            imbox.mark_seen(uid)
-                            return codigo.strip()
+                            codes.append({
+                                'codigo': codigo.strip(),
+                                'uid': uid
+                            })
+            return codes
         except Exception as error:
             raise Exception("Erro ao pegar o código MFA do email")
+
+    def markAsRead(
+        self,
+        uid
+    ):
+        try:
+            with Imbox('imap.gmail.com', username=self.email, password=self.password_email) as imbox:
+                imbox.mark_seen(uid)
+        except Exception as error:
+            raise error
