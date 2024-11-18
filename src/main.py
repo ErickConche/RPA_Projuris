@@ -13,7 +13,7 @@ def main():
         "app-jud-legalone",
         "app-jud-autojur",
         "app-exp-jud-autojur",
-        "app-identificacao-exp-jud-autojur",
+        "app-identificar-cadastro-autojur",
         # "app-civeis-espaider",
         # "app-trabalhista-espaider",
         # "app-autos-espaider",

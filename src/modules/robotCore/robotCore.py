@@ -2,7 +2,7 @@ from logging import Logger
 from models.cliente.cliente import Cliente
 from robots.autojur.judAutojur.judAutojur import JudAutojur
 from robots.autojur.admAutojur.admAutojur import AdmAutoJur
-from robots.autojur.identExpJudAutojur.identExpJudAutojur import IdentExpJudAutojur
+from robots.autojur.identCadastroAutojur.identCadastroAutojur import IdentCadastroAutojur
 from modules.robotCore.__model__.RobotModel import RobotModel
 from robots.legalone.judLegalone.judLegalone import judLegalone
 from robots.legalone.admLegalone.admLegalone import AdmLegalone
@@ -134,8 +134,8 @@ class RobotCore:
                 client=self.cliente
             ).execute()
         
-        elif 'app-identificacao-exp-jud-autojur' in self.queue:
-            return IdentExpJudAutojur(
+        elif 'app-identificar-cadastro-autojur' in self.queue:
+            return IdentCadastroAutojur(
                 con_rd=self.con_rd,
                 classLogger=self.classLogger,
                 json_recebido=self.json_recebido,

@@ -4,10 +4,11 @@ from playwright.sync_api import sync_playwright
 from modules.robotCore.__model__.RobotModel import RobotModel
 from models.cliente.__model__.ClienteModel import ClienteModel
 from robots.autojur.useCases.login.login import LoginAutojurUseCase
-from robots.autojur.identExpJudAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
-from robots.autojur.identExpJudAutojur.useCases.procurarProcessoAutojur.procurarProcessoAutojurUseCase import ProcurarProcessoAutojurUseCase
+from robots.autojur.identCadastroAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaUseCase import ValidarEFormatarEntradaUseCase
+from robots.autojur.identCadastroAutojur.useCases.procurarProcessoAutojur.procurarProcessoAutojurUseCase import ProcurarProcessoAutojurUseCase
+from robots.autojur.identCadastroAutojur.useCases.procurarProcessoAdmAutojur.procurarProcessoAdmAutojurUseCase import ProcurarProcessoAdmAutojur
 
-class IdentExpJudAutojur:
+class IdentCadastroAutojur:
 
     def __init__(
         self,
@@ -56,20 +57,34 @@ class IdentExpJudAutojur:
                     classLogger=self.classLogger
                 ).execute()
                 try:
-                    response = ProcurarProcessoAutojurUseCase(
-                        page=page,
-                        processo=data_input.processo,
-                        data_expediente=data_input.data_expediente,
-                        tipo_expediente=data_input.tipo_expediente,
-                        classLogger=self.classLogger,
-                        context=context
-                    ).execute()
-                    data.error = False
-                    data.data_return = [{
-                        "Processo":data_input.processo,
-                        "ProcessoCadastrado":response.processo_cadastrado,
-                        "DataExpediente":response.data_expediente,
-                        }]
+                    if data_input.processo:
+                        response = ProcurarProcessoAutojurUseCase(
+                            page=page,
+                            processo=data_input.processo,
+                            classLogger=self.classLogger,
+                            context=context
+                        ).execute()
+                        data.error = False
+                        data.data_return = [{
+                                "Status": response.status,
+                                "Protocolo": response.protocolo
+                            }]
+                    elif data_input.reclamacao:
+                        response = ProcurarProcessoAdmAutojur(
+                            page=page,
+                            reclamacao=data_input.reclamacao,
+                            pessoa=data_input.pessoa,
+                            classLogger=self.classLogger,
+                            context=context
+                        ).execute()
+                        if response.status == 'Parte contrária informada não corresponde a parte cadastrada na pasta':
+                            data.error = True
+                        else:
+                            data.error = False
+                        data.data_return = [{
+                                "Status": response.status,
+                                "Protocolo": response.protocolo,
+                            }]
                 except Exception as error:
                     raise error
                 browser.close()
@@ -78,9 +93,8 @@ class IdentExpJudAutojur:
             message = f"Erro: {error}"
             self.classLogger.message(message)
             data_error = [{
-                "Número do processo":data_input.processo,
-                "ProcessoCadastrado": '',
-                "DataExpediente": '',
+                "Status": "Dados insuficientes",
+                "Protocolo": ""
             }]
             data.data_return = data_error
 

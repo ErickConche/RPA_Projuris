@@ -1,38 +1,33 @@
 import requests
-from datetime import datetime
+from playwright.sync_api import Page, BrowserContext
 from bs4 import BeautifulSoup
-from unidecode import unidecode
 from urllib.parse import urlencode
 from modules.logger.Logger import Logger
-from playwright.sync_api import Page, BrowserContext
-from robots.autojur.identExpJudAutojur.useCases.validarEFormatarEntrada.__model__.codigoModel import CodigoModel
-from robots.autojur.identExpJudAutojur.useCases.verificarProximoDiaUtil.verificarProximoDiaUtilUseCase import VerificarProximoDiaUtilUseCase
-from robots.autojur.identExpJudAutojur.useCases.formatarData.formatarDatauseCase import formatarData
+from robots.autojur.identCadastroAutojur.useCases.validarEFormatarEntrada.__model__.codigoModel import CodigoModel
 
-class ProcurarProcessoAutojurUseCase:
+class ProcurarProcessoAdmAutojur:
     def __init__(
         self,
         page: Page,
-        processo: str,
-        data_expediente: str,
-        tipo_expediente: str,
+        reclamacao: str,
+        pessoa: str,
         classLogger: Logger,
         context: BrowserContext
     ) -> None:
         self.page = page
-        self.processo = processo.replace("-","").replace(".","")
-        self.data_expediente = data_expediente
-        self.tipo_expediente = tipo_expediente
+        self.reclamacao = reclamacao
+        self.pessoa = pessoa
         self.classLogger = classLogger
         self.context = context
 
     def execute(self)->CodigoModel:
         try:
-            data_atual=datetime.now()
-            dia=int(data_atual.strftime("%d"))
-            mes=int(data_atual.strftime("%m"))
-            ano=int(data_atual.strftime("%Y"))
-            processo_encontrado = False
+            if self.pessoa == '' or self.pessoa is None:
+                data_codigo = [{
+                    "Status":"Informe o nome da parte contrária!",
+                    "Protocolo":""
+                }]
+                return data_codigo
             cookies = self.context.cookies()
             cookies_str = ''
             for cookie in cookies:
@@ -70,8 +65,8 @@ class ProcurarProcessoAutojurUseCase:
                 "javax.faces.ViewState": view_state,
                 "form-pesquisa:componente-pesquisa:cmb-campo-pesquisa-rapida": "80",
                 "form-pesquisa:componente-pesquisa:j_idt301": "1",
-                "form-pesquisa:componente-pesquisa:txt-conteudo": self.processo,
-                "form-pesquisa:tipo-proc": "4",
+                "form-pesquisa:componente-pesquisa:txt-conteudo": self.reclamacao,
+                "form-pesquisa:tipo-proc": "3",
                 "form-pesquisa:cmb-ordenacao": "-",
                 "form-pesquisa:radio-status": "ATIVO"
             })
@@ -81,18 +76,27 @@ class ProcurarProcessoAutojurUseCase:
             try:
                 trs = site_html.select_one("#list-processos\:tabela_data").select("tr")
                 if trs[0].text != 'Nenhum registro encontrado':
-                    processo_encontrado = True
-                
-                data_expediente = formatarData(self.data_expediente) if "audiencia" in self.tipo_expediente.lower().replace('ê', 'e') else VerificarProximoDiaUtilUseCase(ano, mes, dia).exec()
-                data_codigo: CodigoModel = CodigoModel(
-                    processo=self.processo,
-                    data_expediente=data_expediente,
-                    processo_cadastrado='Sim' if processo_encontrado else 'Nao'
-                )
-
-                return data_codigo
+                    dados_processo = site_html.select_one("#list-processos\:tabela_data").select("span")
+                    pasta = dados_processo[3].text
+                    if self.pessoa.lower().strip() != dados_processo[21].text.lower().strip():
+                        data_codigo: CodigoModel = CodigoModel(
+                            status='Parte contrária informada não corresponde a parte cadastrada na pasta',
+                            protocolo=pasta
+                        )
+                        raise Exception("Parte contrária informada não corresponde a parte cadastrada na pasta")
+                    data_codigo: CodigoModel = CodigoModel(
+                        status='Processo cadastrado',
+                        protocolo=pasta
+                    )
+                else:
+                    data_codigo: CodigoModel = CodigoModel(
+                        status='Processo não encontrado',
+                        protocolo=''
+                    )
             except Exception as error:
-                raise Exception("Erro ao filtrar os processos através do campo do número do CNJ/Processo informado")
+                raise Exception("Erro ao filtrar os processos através dos dados fornecidos")
+            finally:
+                return data_codigo
             
         except Exception as e:
             raise ValueError("Erro ao tentar fazer a busca no sistema do Autojur!")

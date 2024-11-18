@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional
 from pydantic import BaseModel
 
 class DadosEntradaFormatadosModel(BaseModel):
@@ -6,6 +6,6 @@ class DadosEntradaFormatadosModel(BaseModel):
     password: str
     footprint: str
     url_cookie: str
-    processo: str
-    data_expediente: str
-    tipo_expediente: str
+    processo: Optional[str]
+    reclamacao: Optional[str]
+    pessoa: Optional[str]
