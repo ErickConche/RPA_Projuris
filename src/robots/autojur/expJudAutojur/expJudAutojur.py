@@ -32,7 +32,7 @@ class ExpJudAutojur:
         self.identifier_tenant = identifier_tenant
         self.cliente = cliente
         self.id_queue = id_queue
-        self.queue = 'app-exp-jud-autojur-yann_lima'
+        self.queue = 'app-exp-jud-autojur'
 
     def execute(self):
         data: RobotModel = RobotModel(
