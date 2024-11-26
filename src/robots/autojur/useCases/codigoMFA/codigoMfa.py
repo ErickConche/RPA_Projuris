@@ -24,7 +24,7 @@ class codigoMfa:
                     email_html = BeautifulSoup(message.raw_email, 'html.parser')
                     user_email = email_html.select_one('tr>td>p').text
                     user_email = user_email.split(' - ')[0]
-                    if 'Tentativa de login em um novo dispositivo' in message.subject and user_on_email == user_email:
+                    if 'Tentativa de login em um novo dispositivo' in message.subject and user_on_email.strip() == user_email:
                         codigo = email_html.select_one('tr>td>div').text
                         if codigo:
                             codes.append({

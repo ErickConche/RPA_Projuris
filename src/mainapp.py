@@ -1,28 +1,29 @@
-import json
+import os
 import time
 import warnings
-import global_variables.error_ged_legalone as error_ged_legalone
+from typing import List
+from psycopg2 import pool
+from threading import Thread
+from dotenv import load_dotenv
 from main_core_single import MainCoreSingle
 from main_core_paralel import MainCoreParalel
-from models.cliente.cliente import Cliente
-from models.log_execucao.log_execucao import LogExecucao
-from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
-from modules.logger.Logger import Logger
-
 from models.queues.queueExecucao import QueueExecucao
-from modules.robotCore.__model__.RobotModel import RobotModel
-from modules.robotCore.robotCore import RobotCore
-warnings.filterwarnings('ignore')
-import os
-from dotenv import load_dotenv
-load_dotenv()
 from database.Postgres import create_connect as create_con_pg
-from datetime import date, timedelta, datetime
-from typing import List
-from threading import Thread
+
+warnings.filterwarnings('ignore')
+load_dotenv()
+
+connection_pool = pool.ThreadedConnectionPool(
+    minconn=1,
+    maxconn=14,
+    user=os.getenv("USERRD"),
+    password=os.getenv("PASSRD"),
+    host=os.getenv("HOSTRD"),
+    database=os.getenv("DBRD")
+)
 
 
-def initApp(queue:str):
+def initApp(queue: str):
     try:
         while True:
             print(f"Rodando aplicativo da fila {queue}")
@@ -38,21 +39,30 @@ def initApp(queue:str):
                 virtual_host=os.getenv("VIRTUAL_HOST"),
                 queue=queue
             )
-            if len(requisicoes)>0:
-                MainCoreSingle(
-                    queue=queue,
-                    requisicao=requisicoes[0],
-                    class_queue_execucao=class_queue_execucao
-                ).init()
+            if len(requisicoes) > 0:
+                if queue == 'app-adm-autojur':
+                    MainCoreParalel(
+                        queue=queue,
+                        requisicoes=requisicoes,
+                        class_queue_execucao=class_queue_execucao
+                    ).init()
+                else:
+                    MainCoreSingle(
+                        queue=queue,
+                        requisicao=requisicoes[0],
+                        class_queue_execucao=class_queue_execucao
+                    ).init()
             else:
-                time.sleep(60)
+                time.sleep(30)
             con_rd.close()
     except Exception as error:
-        time.sleep(60)
+        print(f'Erro ao iniciar o aplicativo {queue.upper()} -> {error}')
+        time.sleep(30)
         initApp(queue)
+
 
 def initThreads(list_queues: List[str]):
     for queue in list_queues:
-        t = Thread(target=initApp,args=(queue,))
+        t = Thread(target=initApp, args=(queue,))
         t.start()
         time.sleep(1)

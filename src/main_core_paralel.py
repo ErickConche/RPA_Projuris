@@ -1,28 +1,22 @@
 import os
-import json
 import warnings
 from typing import List
-from datetime import datetime
 from dotenv import load_dotenv
-
-from modules.robotCore.robotCoreParalel import RobotCoreParalel
-warnings.filterwarnings('ignore')
-from modules.logger.Logger import Logger
-from models.cliente.cliente import Cliente
-from modules.robotCore.robotCore import RobotCore
 from models.queues.queueExecucao import QueueExecucao
 from models.log_execucao.log_execucao import LogExecucao
 from database.Postgres import create_connect as create_con_pg
+from modules.robotCore.robotCoreParalel import RobotCoreParalel
 from modules.robotCore.__model__.RobotModel import RobotModelParalel
-import global_variables.error_ged_legalone as error_ged_legalone
 from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
+warnings.filterwarnings('ignore')
 load_dotenv()
+
 
 class MainCoreParalel:
     def __init__(
         self,
         queue: str,
-        requisicoes: List[dict], 
+        requisicoes: List[dict],
         class_queue_execucao: QueueExecucao
     ) -> None:
         self.queue = queue
@@ -61,6 +55,7 @@ class MainCoreParalel:
                     )
                 self.class_queue_execucao.finalizarExecQueue(result.id_requisicao)
         except Exception as error:
+            print(f'Erro no Main Core Paralel -> {error}')
             pass
         finally:
             con_rd.close()

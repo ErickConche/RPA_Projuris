@@ -7,4 +7,4 @@ def queryBuscarQueue(virtual_host,
                  and virtual_host = '"""+str(virtual_host)+"""'
                  and queue = '"""+str(queue)+"""'
                order by 1 
-               limit 1"""
+               limit 2"""

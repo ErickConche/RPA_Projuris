@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -7,6 +7,7 @@ class DadosEntradaFormatadosModel(BaseModel):
     password: str
     footprint: str
     url_cookie: str
+    cookie_session: Optional[str]
     numero_reclamacao: str
     pasta: str
     data_solicitacao: str

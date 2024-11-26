@@ -1,17 +1,16 @@
-from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
-import global_variables.error_ged_legalone as error_ged_legalone
-from modules.robotCore.__model__.RobotModel import RobotModel
-from database.Postgres import create_connect as create_con_pg
-from models.log_execucao.log_execucao import LogExecucao
-from models.queues.queueExecucao import QueueExecucao
-from modules.robotCore.robotCore import RobotCore
-from models.cliente.cliente import Cliente
-from modules.logger.Logger import Logger
 import os
 import json
 import warnings
 from datetime import datetime
 from dotenv import load_dotenv
+from modules.logger.Logger import Logger
+from models.cliente.cliente import Cliente
+from modules.robotCore.robotCore import RobotCore
+from models.queues.queueExecucao import QueueExecucao
+from models.log_execucao.log_execucao import LogExecucao
+from database.Postgres import create_connect as create_con_pg
+from modules.robotCore.__model__.RobotModel import RobotModel
+from modules.enviarPlataforma.enviarPlataforma import EnviarPlataforma
 warnings.filterwarnings('ignore')
 load_dotenv()
 
@@ -92,6 +91,7 @@ class MainCoreSingle:
                 id_queue=self.requisicao.get("id")
             )
         except Exception as error:
+            print(f'Erro no Main Core Single -> {error}')
             pass
         finally:
             self.class_queue_execucao.finalizarExecQueue(self.requisicao['id'])
