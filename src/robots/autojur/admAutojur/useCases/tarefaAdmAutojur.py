@@ -68,19 +68,26 @@ class TarefaAdmAutoJur:
                         classLogger=self.classLogger
                     ).execute()
                     if response:
-                        InserirTarefaUseCase(
+                        data.error = InserirTarefaUseCase(
                             page=page,
                             data_input=data_input,
                             localizador=data_input.dados_busca,
                             classLogger=self.classLogger
                         ).execute()
-                        data.error = False
-                        data.data_return = [
-                            {
-                                "Protocolo":response.get('codigo'),
-                                "DataCadastro":data_input.data
-                            }
-                        ]
+                        if not data.error:
+                            data.data_return = [
+                                {
+                                    "Protocolo":response.get('codigo'),
+                                    "DataCadastro":data_input.data
+                                }
+                            ]
+                        else:
+                            data.data_return = [
+                                {
+                                    "Protocolo": "Erro ao cadastrar a tarefa",
+                                    "DataCadastro": ""
+                                }
+                            ]
                 except Exception as error:
                     raise error
                 browser.close()

@@ -35,8 +35,8 @@ class ValidarEFormatarEntradaTarefaUseCase:
         if not fields.get("Documento"):
             raise Exception("Informe o conteúdo")
         
-        usuario = "docato"
-        senha = "Docato1234"
+        usuario = "docato3"
+        senha = "Docatoexpedientes3"
 
         message = (f"Usando o usuário {usuario} para login")
         self.classLogger.message(message)

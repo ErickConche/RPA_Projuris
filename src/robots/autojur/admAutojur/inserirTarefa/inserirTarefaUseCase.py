@@ -1,12 +1,13 @@
 from playwright.sync_api import Page
 from modules.logger.Logger import Logger
+from robots.autojur.admAutojur.useCases.validarTarefaInserida.validarTarefaInseridaUseCase import ValidarTarefaInserida
 from robots.autojur.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaTarefaFormatadosModel import (
     DadosEntradaTarefaFormatadosModel)
 import time
 
 class InserirTarefaUseCase:
 
-    def __init__(self, page: Page, data_input: DadosEntradaTarefaFormatadosModel, localizador: str, classLogger: Logger) -> None:
+    def __init__(self, page: Page, data_input: DadosEntradaTarefaFormatadosModel, localizador: str, classLogger: Logger) -> bool:
         self.page = page
         self.data_input = data_input
         self.localizador = localizador
@@ -38,3 +39,9 @@ class InserirTarefaUseCase:
         time.sleep(3)
         iframe.query_selector("#form-adicionar-tarefa\\:btn-salvar").click()
         time.sleep(5)
+
+        error = ValidarTarefaInserida(page=self.page, data_input=self.data_input).execute()
+        message='Tarefa cadastrada com êxito' if not error else 'Ocorreu um erro ao cadastrar a tarefa, entre em contato com o time de desenvolvimento'
+        self.classLogger.message(message=message)
+        
+        return error
