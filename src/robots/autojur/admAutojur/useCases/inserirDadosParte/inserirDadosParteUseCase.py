@@ -5,6 +5,7 @@ from playwright.sync_api import Page
 from modules.logger.Logger import Logger
 from robots.autojur.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaFormatadosModel import DadosEntradaFormatadosModel
 
+
 class InserirDadosParteUseCase:
     def __init__(
         self,
@@ -17,7 +18,7 @@ class InserirDadosParteUseCase:
         self.classLogger = classLogger
 
     def esperar_iframe(self, retry: int = 0):
-        if retry > 30:
+        if retry > 75:
             message = "Erro ao abrir pagina das partes principais"
             self.classLogger.message(message)
             raise Exception(message)
@@ -125,6 +126,5 @@ class InserirDadosParteUseCase:
             if popup:
                 self.page.locator('#modal-litispendencia button:has-text("Fechar")').click()
                 time.sleep(5)
-                
         except Exception as error:
             raise Exception(f"Erro ao inserir dados da parte, erro: {str(error)}")

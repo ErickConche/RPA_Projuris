@@ -1,28 +1,30 @@
 
+import json
 import time
 from modules.logger.Logger import Logger
 from playwright.sync_api import sync_playwright
+from models.cookies.cookiesUseCase import CookiesUseCase
 from modules.robotCore.__model__.RobotModel import RobotModel
 from models.cliente.__model__.ClienteModel import ClienteModel
-from robots.autojur.useCases.login.login import LoginAutojurUseCase
-from robots.autojur.admAutojur.useCases.criarCodigo.criarCodigoUseCase import CriarCodigoUseCase
-from robots.autojur.admAutojur.useCases.validarPastaAutojur.validarPastaAutojurUseCase import ValidarPastaAutojurUseCase
-from robots.autojur.admAutojur.useCases.verificacaoEnvolvidos.verificacaoEnvolvidosUseCase import VerificacaoEnvolvidosAdmUseCase
+from global_variables.login_tarefa_adm_autojur import get_execution_login, update_execution_login
+from robots.autojur.admAutojur.useCases.novoLogin.novoLoginUseCase import NovoLoginUseCase
+from robots.autojur.admAutojur.useCases.validarCookies.validarCookiesUseCase import ValidarCookiesUseCase
 from robots.autojur.admAutojur.useCases.validarEFormatarEntrada.validarEFormatarEntradaTarefaUseCase import (
     ValidarEFormatarEntradaTarefaUseCase)
 from robots.autojur.admAutojur.useCases.validarPastaAutojur.validarPastaAutojurTarefaUseCase import (
     ValidarPastaAutojurTarefaUseCase)
 from robots.autojur.admAutojur.inserirTarefa.inserirTarefaUseCase import InserirTarefaUseCase
 
+
 class TarefaAdmAutoJur:
     def __init__(
         self,
         con_rd,
         classLogger: Logger,
-        json_recebido:str,
-        task_id:str,
-        identifier_tenant:str,
-        cliente:ClienteModel,
+        json_recebido: str,
+        task_id: str,
+        identifier_tenant: str,
+        cliente: ClienteModel,
         id_queue: int
     ) -> None:
         self.con_rd = con_rd
@@ -46,21 +48,30 @@ class TarefaAdmAutoJur:
                 con_rd=self.con_rd
             ).execute()
             response_data = []
+            session_cookies = ''
+            if data_input.cookie_session:
+                session_cookies = data_input.cookie_session
+                cookies_validados = ValidarCookiesUseCase(data_input.cookie_session).execute()
+                if not cookies_validados:
+                    session_cookies = self.__obter_novo_cookie(
+                        data_input,
+                        self.classLogger,
+                        self.cliente.id
+                    )
+            else:
+                session_cookies = self.__obter_novo_cookie(
+                    data_input,
+                    self.classLogger,
+                    self.cliente.id
+                )
+            session_cookies = json.loads(session_cookies)
             with sync_playwright() as playwright:
                 browser = playwright.chromium.launch(headless=True)
                 context = browser.new_context(ignore_https_errors=True)
                 page = context.new_page()
-                context.add_cookies([{"name":"footprint", "value": data_input.footprint, "url": data_input.url_cookie}])
+                context.add_cookies(session_cookies)
                 page.on("request", lambda response: response_data.append(response))
                 page.set_default_timeout(300000)
-                page.goto('https://baz.autojur.com.br/login.jsf')
-                time.sleep(8)      
-                LoginAutojurUseCase(
-                    page=page,
-                    username=data_input.username,
-                    password=data_input.password,
-                    classLogger=self.classLogger
-                ).execute()
                 try:
                     response = ValidarPastaAutojurTarefaUseCase(
                         page=page,
@@ -77,8 +88,8 @@ class TarefaAdmAutoJur:
                         if not data.error:
                             data.data_return = [
                                 {
-                                    "Protocolo":response.get('codigo'),
-                                    "DataCadastro":data_input.data
+                                    "Protocolo": response.get('codigo'),
+                                    "DataCadastro": data_input.data
                                 }
                             ]
                         else:
@@ -96,10 +107,33 @@ class TarefaAdmAutoJur:
             message = f"Erro: {error}"
             self.classLogger.message(message)
             data_error = [{
-                "Protocolo":"SITE INDISPONÍVEL",
-                "DataCadastro":""
+                "Protocolo": "SITE INDISPONÍVEL",
+                "DataCadastro": ""
             }]
             data.data_return = data_error
 
         finally:
             return data
+
+    def __obter_novo_cookie(self, data_input, classLogger, cliente_id):
+        if get_execution_login():
+            while get_execution_login():
+                time.sleep(3)
+                print('Aguardando a execução anterior finalizar o login')
+            return CookiesUseCase(con_rd=self.con_rd).buscarCookies(
+                idcliente=cliente_id,
+                queue=self.queue
+            ).session_cookie
+
+        update_execution_login(True)
+
+        session_cookie = NovoLoginUseCase(
+            classLogger=classLogger,
+            queue=self.queue,
+            data_input=data_input,
+            con_rd=self.con_rd,
+            idcliente=cliente_id
+        ).execute()
+
+        update_execution_login(False)
+        return session_cookie

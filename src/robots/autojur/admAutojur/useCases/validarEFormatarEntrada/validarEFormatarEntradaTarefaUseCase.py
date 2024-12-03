@@ -1,10 +1,9 @@
 
-from datetime import datetime
 import json
+from datetime import datetime
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
 from models.cookies.cookiesUseCase import CookiesUseCase
-from robots.autojur.admAutojur.useCases.correcaoErrosUsuario.correcaoErrosUsuarioUseCase import CorrecaoErrosUsuarioUseCase
 from robots.autojur.admAutojur.useCases.validarEFormatarEntrada.__model__.DadosEntradaTarefaFormatadosModel import (
     DadosEntradaTarefaFormatadosModel)
 
@@ -13,8 +12,8 @@ class ValidarEFormatarEntradaTarefaUseCase:
     def __init__(
         self,
         classLogger: Logger,
-        json_recebido:str,
-        cliente:Cliente,
+        json_recebido: str,
+        cliente: Cliente,
         con_rd,
     ) -> None:
         self.classLogger = classLogger
@@ -22,19 +21,19 @@ class ValidarEFormatarEntradaTarefaUseCase:
         self.cliente = cliente
         self.con_rd = con_rd
 
-    def execute(self)-> DadosEntradaTarefaFormatadosModel:
+    def execute(self) -> DadosEntradaTarefaFormatadosModel:
         message = "Iniciando validação dos campos de entrada"
         self.classLogger.message(message)
-        json_recebido:dict = json.loads(self.json_recebido)
-        fields:dict = json_recebido.get("Fields")
+        json_recebido: dict = json.loads(self.json_recebido)
+        fields: dict = json_recebido.get("Fields")
         current_time = datetime.now()
 
         if not fields.get("Localizador"):
             raise Exception("Informe o localizador")
-        
+
         if not fields.get("Documento"):
             raise Exception("Informe o conteúdo")
-        
+
         usuario = "docato3"
         senha = "Docatoexpedientes3"
 
@@ -50,10 +49,11 @@ class ValidarEFormatarEntradaTarefaUseCase:
 
         if not cookie:
             raise Exception("O sessão está expirada, favor entrar em contato do equipe de desenvolvimento para renovar sessão")
-        
+
         data_input: DadosEntradaTarefaFormatadosModel = DadosEntradaTarefaFormatadosModel(
             username=usuario,
             password=senha,
+            cookie_session=cookie.session_cookie,
             footprint=cookie.conteudo,
             url_cookie=cookie.url,
             conteudo=fields.get("Documento"),
@@ -63,8 +63,7 @@ class ValidarEFormatarEntradaTarefaUseCase:
             hora=current_time.strftime("%H:%M"),
             responsavel="Thayse Simeão"
         )
-        
+
         message = "Fim da validação dos campos de entrada"
         self.classLogger.message(message)
-
         return data_input

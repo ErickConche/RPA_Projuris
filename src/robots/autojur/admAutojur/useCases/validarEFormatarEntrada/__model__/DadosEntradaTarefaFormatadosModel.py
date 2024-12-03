@@ -1,4 +1,4 @@
-from typing import List
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -13,3 +13,4 @@ class DadosEntradaTarefaFormatadosModel(BaseModel):
     hora: str
     responsavel: str
     conteudo: str
+    cookie_session: Optional[str]

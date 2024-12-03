@@ -16,11 +16,11 @@ class BuscarPessoaUseCase:
         self.cookies = cookies
         self.nome = nome
 
-    def execute(self)->str:
+    def execute(self) -> str:
         url = "https://baz.autojur.com.br/sistema/pessoa/pessoa.jsf"
         headers = {
-            "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-            "Cookie":self.cookies
+            "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Cookie": self.cookies
         }
         response = requests.get(url=url, headers=headers)
         site_html = BeautifulSoup(response.text, 'html.parser')
@@ -71,11 +71,10 @@ class BuscarPessoaUseCase:
         site_html = BeautifulSoup(BeautifulSoup(response.text, 'html.parser').select("update")[4].next, 'html.parser')
         trs = site_html.select_one("#cadastro\\:tabela_data").select("tr")
         if trs[0].text == 'Nenhum registro encontrado':
-            message = f"Responsável não encontrado"
+            message = "Responsável não encontrado"
             self.classLogger.message(message)
         else:
             for tr in trs:
                 tds = tr.select("td")
-                    
                 if unidecode(tds[3].previous.upper()) == unidecode(self.nome.upper()):
                     return tds[0].text
