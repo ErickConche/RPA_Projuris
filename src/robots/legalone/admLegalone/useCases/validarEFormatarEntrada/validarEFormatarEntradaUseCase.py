@@ -72,12 +72,12 @@ class ValidarEFormatarEntradaUseCase:
 
         message = (f"Usando o usuário {usuario} para login")
         self.classLogger.message(message)
-        
+
         data_input: DadosEntradaFormatadosModel = DadosEntradaFormatadosModel(
             username=usuario,
             password=senha,
             tipo_sistema=fields.get("SistemaConsumidor"),
-            uf=fields.get("UF").replace("-"," "),
+            uf=fields.get("UF").replace("-", " "),
             cidade=' '.join(fields.get("Cidade").strip().split()),
             data_solicitacao=Formatacao().formatarData(fields.get("DataSolicitacao")),
             empresa='BOOKING.COM BRASIL SERVIÇOS DE RESERVA DE HOTÉIS LTDA',

@@ -14,7 +14,7 @@ class InserirTarefaUseCase:
         self.classLogger = classLogger
 
     def execute(self):
-        message='Cadastrando os dados da tarefa na pasta do processo.'
+        message = 'Cadastrando os dados da tarefa na pasta do processo.'
         self.classLogger.message(message=message)
         self.page.query_selector("#btnAcoes\\:btnAddTarefa").click()
         time.sleep(5)

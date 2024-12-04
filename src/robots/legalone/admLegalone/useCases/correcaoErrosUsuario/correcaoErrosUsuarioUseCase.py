@@ -9,10 +9,13 @@ class CorrecaoErrosUsuarioUseCase:
     ) -> None:
         self.data_input = data_input
 
-    def execute(self)->DadosEntradaFormatadosModel:
+    def execute(self) -> DadosEntradaFormatadosModel:
+        if self.data_input.cidade == 'Santa Bárbara dOeste':
+            self.data_input.cidade = "Santa Bárbara d'Oeste"
+
         if self.data_input.tipo_processo == 'C.I.P':
             self.data_input.tipo_processo = 'C.I.P.'
-        
+
         if self.data_input.tipo_sistema == 'PROCON-Consumidorgovbr':
             self.data_input.tipo_sistema = "PROCON / Consumidor.gov.br"
 
