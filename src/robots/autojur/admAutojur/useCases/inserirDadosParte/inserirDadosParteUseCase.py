@@ -18,7 +18,7 @@ class InserirDadosParteUseCase:
         self.classLogger = classLogger
 
     def esperar_iframe(self, retry: int = 0):
-        if retry > 75:
+        if retry > 30:
             message = "Erro ao abrir pagina das partes principais"
             self.classLogger.message(message)
             raise Exception(message)
@@ -31,7 +31,7 @@ class InserirDadosParteUseCase:
     def execute(self):
         try:
             self.page.locator('a[aria-label="Adicionar Parte Contrária"]').click()
-            time.sleep(5)
+            self.page.wait_for_selector('iframe', timeout=60000)
             self.classLogger.message("Aguadaremos 60 segundos até abertura do modal de partes")
             self.esperar_iframe()
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
