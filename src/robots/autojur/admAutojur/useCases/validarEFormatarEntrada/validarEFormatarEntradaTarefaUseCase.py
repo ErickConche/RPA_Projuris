@@ -43,7 +43,7 @@ class ValidarEFormatarEntradaTarefaUseCase:
         cookie = CookiesUseCase(
             con_rd=self.con_rd
         ).buscarCookies(
-            queue="app-adm-autojur",
+            queue="app-adm-tarefa-autojur",
             idcliente=self.cliente.id
         )
 
