@@ -34,6 +34,13 @@ class ValidarEFormatarEntradaTarefaUseCase:
         if not fields.get("Documento"):
             raise Exception("Informe o conteúdo")
 
+        # Atualizar após a migration subir pra produção
+        # if not fields.get("Evento"):
+        #     raise Exception("Informe o evento")
+        
+        # if not fields.get("Responsavel"):
+        #     raise Exception("Informe o responsável")
+
         usuario = "docato3"
         senha = "Docatoexpedientes3"
 
@@ -59,9 +66,11 @@ class ValidarEFormatarEntradaTarefaUseCase:
             conteudo=fields.get("Documento"),
             dados_busca=fields.get("Localizador"),
             evento=fields.get("Evento") or "DEFESA ADMINISTRATIVA",
+            # evento=fields.get("Evento") if fields.get("Evento") else "",
             data=current_time.strftime("%d/%m/%Y"),
             hora=current_time.strftime("%H:%M"),
-            responsavel="Thayse Simeão"
+            # responsavel=fields.get("Responsavel") if fields.get("Responsavel") else ""
+            responsavel="Bruno Medeiros Gonçalves da Silva"
         )
 
         message = "Fim da validação dos campos de entrada"
