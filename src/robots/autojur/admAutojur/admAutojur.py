@@ -1,10 +1,12 @@
+import os
 import json
 import time
-from threading import Thread
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
+from multiprocessing import Manager, Process
 from playwright.sync_api import sync_playwright
 from models.cookies.cookiesUseCase import CookiesUseCase
+from database.Postgres import create_connect as create_con_pg
 from modules.robotCore.__model__.RobotModel import RobotModelParalel
 from global_variables.login_exp_autojur import get_execution_login, update_execution_login
 from robots.autojur.admAutojur.useCases.novoLogin.novoLoginUseCase import NovoLoginUseCase
@@ -21,28 +23,37 @@ class AdmAutoJur:
         con_rd,
         requisicoes: list
     ) -> None:
-        self.con_rd = con_rd
-        self.class_cliente = Cliente(con=con_rd)
+        # self.con_rd = con_rd
+        # self.class_cliente = Cliente(con=con_rd)
         self.requisicoes = requisicoes
         self.queue = 'app-adm-autojur'
-        self.results = []
 
-    def threadPoolExecute(self,):
-        list_threads = []
+    def threadPoolExecute(self):
+        list_process = []
+        manager = Manager()
+        self.results = manager.list()
         for requisicao in self.requisicoes:
-            thread = Thread(target=self.execute, args=(requisicao,))
-            thread.start()
-            list_threads.append(thread)
+            process = Process(target=self.execute, args=(requisicao,))
+            process.start()
+            list_process.append(process)
             time.sleep(3)
-        for thread in list_threads:
-            thread.join()
+        for process in list_process:
+            process.join()
         return self.results
 
     def execute(self, execucao):
+        con_rd = create_con_pg(
+            host=os.getenv("HOSTRD"),
+            port=os.getenv("PORTRD"),
+            database=os.getenv("DBRD"),
+            user=os.getenv("USERRD"),
+            password=os.getenv("PASSRD")
+        ).get_connect()
+        class_cliente = Cliente(con=con_rd)
         json_recebido = execucao.get('json_recebido')
         json_obj = json.loads(json_recebido)
         classLogger = Logger(hiring_id=json_obj.get('TaskId'))
-        cliente = self.class_cliente.buscarCliente(tenant=json_obj.get('IdentifierTentant'))
+        cliente = class_cliente.buscarCliente(tenant=json_obj.get('IdentifierTentant'))
         data: RobotModelParalel = RobotModelParalel(
             error=True,
             data_return=[],
@@ -56,7 +67,7 @@ class AdmAutoJur:
             classLogger=classLogger,
             json_recebido=json_recebido,
             cliente=cliente,
-            con_rd=self.con_rd
+            con_rd=con_rd
         ).execute()
         response_data = []
         session_cookies = ''
@@ -67,13 +78,15 @@ class AdmAutoJur:
                 session_cookies = self.__obter_novo_cookie(
                     data_input,
                     classLogger,
-                    cliente.id
+                    cliente.id,
+                    con_rd
                 )
         else:
             session_cookies = self.__obter_novo_cookie(
                 data_input,
                 classLogger,
-                cliente.id
+                cliente.id,
+                con_rd
             )
         try:
             session_cookies = json.loads(session_cookies)
@@ -132,14 +145,15 @@ class AdmAutoJur:
             data.data_return = data_error
 
         finally:
+            con_rd.close()
             self.results.append(data)
 
-    def __obter_novo_cookie(self, data_input, classLogger, cliente_id):
+    def __obter_novo_cookie(self, data_input, classLogger, cliente_id, con_rd):
         if get_execution_login():
             while get_execution_login():
                 time.sleep(3)
                 print('Aguardando a execução anterior finalizar o login')
-            return CookiesUseCase(con_rd=self.con_rd).buscarCookies(
+            return CookiesUseCase(con_rd=con_rd).buscarCookies(
                 idcliente=cliente_id,
                 queue=self.queue
             ).session_cookie
@@ -150,7 +164,7 @@ class AdmAutoJur:
             classLogger=classLogger,
             queue=self.queue,
             data_input=data_input,
-            con_rd=self.con_rd,
+            con_rd=con_rd,
             idcliente=cliente_id
         ).execute()
 
