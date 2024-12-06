@@ -88,8 +88,8 @@ class UploadArquivoUseCase:
                                 headers=headers
                             ).execute()
 
-                            if 'CIP' in file.upper() or 'reclamacao' in file.lower() or 'reclamação' in file.lower():
-                                self.file_main=True
+                            if 'TNF' in file.upper():
+                                self.file_main = True
 
                             ConcluirUploadArquivoUseCase(
                                 classLogger=self.classLogger,
