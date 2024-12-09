@@ -34,6 +34,7 @@ class TarefaAdmAutoJur:
         self.identifier_tenant = identifier_tenant
         self.cliente = cliente
         self.id_queue = id_queue
+        self.queue = 'app-adm-tarefa-autojur'
 
     def execute(self):
         data: RobotModel = RobotModel(
