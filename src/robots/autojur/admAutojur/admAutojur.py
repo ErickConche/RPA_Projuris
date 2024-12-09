@@ -1,14 +1,11 @@
-import os
 import json
 import time
-from models.cliente.__model__.ClienteModel import ClienteModel
+from threading import Thread
 from modules.logger.Logger import Logger
 from models.cliente.cliente import Cliente
-from multiprocessing import Manager, Process
 from playwright.sync_api import sync_playwright
 from models.cookies.cookiesUseCase import CookiesUseCase
-from database.Postgres import create_connect as create_con_pg
-from modules.robotCore.__model__.RobotModel import RobotModel, RobotModelParalel
+from modules.robotCore.__model__.RobotModel import RobotModelParalel
 from global_variables.login_exp_autojur import get_execution_login, update_execution_login
 from robots.autojur.admAutojur.useCases.novoLogin.novoLoginUseCase import NovoLoginUseCase
 from robots.autojur.admAutojur.useCases.criarCodigo.criarCodigoUseCase import CriarCodigoUseCase
@@ -22,45 +19,43 @@ class AdmAutoJur:
     def __init__(
         self,
         con_rd,
-        classLogger: Logger,
-        json_recebido: str,
-        task_id: str,
-        identifier_tenant: str,
-        cliente: ClienteModel,
-        id_queue: int
+        requisicoes: list
     ) -> None:
         self.con_rd = con_rd
-        self.classLogger = classLogger
-        self.json_recebido = json_recebido
-        self.task_id = task_id
-        self.identifier_tenant = identifier_tenant
-        self.cliente = cliente
-        self.id_queue = id_queue
+        self.class_cliente = Cliente(con=con_rd)
+        self.requisicoes = requisicoes
         self.queue = 'app-adm-autojur'
         self.results = []
 
-    # def threadPoolExecute(self):
-    #     list_process = []
-    #     manager = Manager()
-    #     self.results = manager.list()
-    #     for requisicao in self.requisicoes:
-    #         process = Process(target=self.execute, args=(requisicao,))
-    #         process.start()
-    #         list_process.append(process)
-    #         time.sleep(3)
-    #     for process in list_process:
-    #         process.join()
-    #     return self.results
+    def threadPoolExecute(self,):
+        list_threads = []
+        for requisicao in self.requisicoes:
+            thread = Thread(target=self.execute, args=(requisicao,))
+            thread.start()
+            list_threads.append(thread)
+            time.sleep(3)
+        for thread in list_threads:
+            thread.join()
+        return self.results
 
-    def execute(self):
-        data: RobotModel = RobotModel(
+    def execute(self, execucao):
+        json_recebido = execucao.get('json_recebido')
+        json_obj = json.loads(json_recebido)
+        classLogger = Logger(hiring_id=json_obj.get('TaskId'))
+        cliente = self.class_cliente.buscarCliente(tenant=json_obj.get('IdentifierTentant'))
+        data: RobotModelParalel = RobotModelParalel(
             error=True,
-            data_return=[]
+            data_return=[],
+            identifier_tenant=json_obj.get('IdentifierTentant'),
+            classLogger=classLogger,
+            task_id=json_obj.get('TaskId'),
+            id_requisicao=execucao.get('id'),
+            json_recebido=json_obj
         )
         data_input = ValidarEFormatarEntradaUseCase(
-            classLogger=self.classLogger,
-            json_recebido=self.json_recebido,
-            cliente=self.cliente,
+            classLogger=classLogger,
+            json_recebido=json_recebido,
+            cliente=cliente,
             con_rd=self.con_rd
         ).execute()
         response_data = []
@@ -71,14 +66,14 @@ class AdmAutoJur:
             if not cookies_validados:
                 session_cookies = self.__obter_novo_cookie(
                     data_input,
-                    self.classLogger,
-                    self.cliente.id,
+                    classLogger,
+                    cliente.id
                 )
         else:
             session_cookies = self.__obter_novo_cookie(
                 data_input,
-                self.classLogger,
-                self.cliente.id,
+                classLogger,
+                cliente.id
             )
         try:
             session_cookies = json.loads(session_cookies)
@@ -94,7 +89,7 @@ class AdmAutoJur:
                         page=page,
                         pasta=data_input.pasta,
                         numero_reclamacao=data_input.numero_reclamacao,
-                        classLogger=self.classLogger
+                        classLogger=classLogger
                     ).execute()
                     if response.found:
                         data.error = False
@@ -106,14 +101,14 @@ class AdmAutoJur:
                         ]
                     else:
                         data_input = VerificacaoEnvolvidosAdmUseCase(
-                            classLogger=self.classLogger,
+                            classLogger=classLogger,
                             data_input=data_input,
                             context=context
                         ).execute()
                         response = CriarCodigoUseCase(
                             page=page,
                             data_input=data_input,
-                            classLogger=self.classLogger,
+                            classLogger=classLogger,
                             context=context
                         ).execute()
                         data.error = False
@@ -136,7 +131,7 @@ class AdmAutoJur:
             }]
             data.data_return = data_error
         finally:
-            return data
+            self.results.append(data)
 
     def __obter_novo_cookie(self, data_input, classLogger, cliente_id):
         if get_execution_login():

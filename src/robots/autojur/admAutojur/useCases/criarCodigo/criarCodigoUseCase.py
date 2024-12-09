@@ -1,6 +1,7 @@
 import time
 from modules.logger.Logger import Logger
 from playwright.sync_api import Page, BrowserContext
+from global_variables.open_modal_partes_autojur import get_opened_modal, update_opened_modal
 from robots.autojur.admAutojur.useCases.validarPastaAutojur.__model__.CodigoModel import CodigoModel
 from robots.autojur.admAutojur.useCases.inserirArquivos.inserirArquivosUseCase import InserirArquivosUseCase
 from robots.autojur.admAutojur.useCases.validarPastaAutojur.validarPastaAutojurUseCase import ValidarPastaAutojurUseCase
@@ -33,12 +34,22 @@ class CriarCodigoUseCase:
                 try:
                     self.page.goto("https://baz.autojur.com.br/sistema/processos/adicionar/novoProcesso.jsf?idTipoNovaPasta=3")
                     time.sleep(5)
-                
+                    if get_opened_modal():
+                        while get_opened_modal():
+                            time.sleep(3)
+                            print('Aguardando outra execução finalizar o cadastro das partes envolvidas')
+                        InserirDadosEnvolvidosUseCase(
+                            page=self.page,
+                            data_input=self.data_input,
+                            classLogger=self.classLogger
+                        ).execute()
+                    update_opened_modal(True)
                     InserirDadosEnvolvidosUseCase(
                         page=self.page,
                         data_input=self.data_input,
                         classLogger=self.classLogger
                     ).execute()
+                    update_opened_modal(False)
 
                     self.classLogger.message("Inserindo dados cadastrais")
                     InserirDadosCadastraisUseCase(
