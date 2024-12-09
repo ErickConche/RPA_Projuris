@@ -40,18 +40,18 @@ def initApp(queue: str):
                 queue=queue
             )
             if len(requisicoes) > 0:
-                if queue == 'app-adm-autojur':
-                    MainCoreParalel(
-                        queue=queue,
-                        requisicoes=requisicoes,
-                        class_queue_execucao=class_queue_execucao
-                    ).init()
-                else:
-                    MainCoreSingle(
-                        queue=queue,
-                        requisicao=requisicoes[0],
-                        class_queue_execucao=class_queue_execucao
-                    ).init()
+                # if queue == 'app-adm-autojur':
+                #     MainCoreParalel(
+                #         queue=queue,
+                #         requisicoes=requisicoes,
+                #         class_queue_execucao=class_queue_execucao
+                #     ).init()
+                # else:
+                MainCoreSingle(
+                    queue=queue,
+                    requisicao=requisicoes[0],
+                    class_queue_execucao=class_queue_execucao
+                ).init()
             else:
                 time.sleep(30)
             con_rd.close()
