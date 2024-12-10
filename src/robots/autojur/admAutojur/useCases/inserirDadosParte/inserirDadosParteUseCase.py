@@ -31,7 +31,7 @@ class InserirDadosParteUseCase:
     def execute(self):
         try:
             self.page.locator('a[aria-label="Adicionar Parte Contrária"]').click()
-            self.page.wait_for_selector('iframe', timeout=60000)
+            time.sleep(5)
             self.classLogger.message("Aguadaremos 60 segundos até abertura do modal de partes")
             self.esperar_iframe()
             site_html = BeautifulSoup(self.page.content(), 'html.parser')
