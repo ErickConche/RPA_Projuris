@@ -43,13 +43,14 @@ class CriarCodigoUseCase:
                             data_input=self.data_input,
                             classLogger=self.classLogger
                         ).execute()
-                    update_opened_modal(True)
-                    InserirDadosEnvolvidosUseCase(
-                        page=self.page,
-                        data_input=self.data_input,
-                        classLogger=self.classLogger
-                    ).execute()
-                    update_opened_modal(False)
+                    else:
+                        update_opened_modal(True)
+                        InserirDadosEnvolvidosUseCase(
+                            page=self.page,
+                            data_input=self.data_input,
+                            classLogger=self.classLogger
+                        ).execute()
+                        update_opened_modal(False)
 
                     self.classLogger.message("Inserindo dados cadastrais")
                     InserirDadosCadastraisUseCase(
