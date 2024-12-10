@@ -40,7 +40,7 @@ def initApp(queue: str):
                 queue=queue
             )
             if len(requisicoes) > 0:
-                if queue == 'app-adm-autojur-joao':
+                if queue == 'app-adm-autojur':
                     MainCoreParalel(
                         queue=queue,
                         requisicoes=requisicoes,
