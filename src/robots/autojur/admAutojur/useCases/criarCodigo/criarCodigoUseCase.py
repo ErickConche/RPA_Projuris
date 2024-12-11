@@ -101,4 +101,5 @@ class CriarCodigoUseCase:
             return response
 
         except Exception as error:
+            update_opened_modal(False)
             raise error
