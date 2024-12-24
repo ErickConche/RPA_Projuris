@@ -10,7 +10,7 @@ class CorrecaoErrosUsuarioUseCase:
         self.data_input = data_input
 
     def execute(self) -> DadosEntradaFormatadosModel:
-        if self.data_input.cidade == 'Santa Bárbara dOeste':
+        if self.data_input.cidade.lower() == 'santa bárbara doeste':
             self.data_input.cidade = "Santa Bárbara d'Oeste"
 
         if self.data_input.tipo_processo == 'C.I.P':
